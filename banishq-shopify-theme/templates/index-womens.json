@@ -1,0 +1,92 @@
+{
+  "sections": {
+    "womens-homepage": {
+      "type": "homepage-womens",
+      "settings": {
+        "show_hero": true,
+        "hero_eyebrow": "For Her",
+        "hero_heading": "Designed for women.",
+        "hero_text": "Silhouettes that flatter, fabrics that move, fits that actually work. ₹199 to ₹2,999.",
+        "hero_button_1_label": "Shop Women's",
+        "hero_button_2_label": "About fit",
+        "show_featured": true,
+        "featured_eyebrow": "Women's collection",
+        "featured_heading": "Worn and loved",
+        "featured_text": "Pieces that work harder, feel better, and look effortlessly right.",
+        "featured_limit": 8,
+        "featured_columns": 4,
+        "show_editorial": true,
+        "editorial_eyebrow": "The fit",
+        "editorial_heading": "Tailored for real bodies",
+        "editorial_text": "<p>We cut for curves, length, and grace. Tested on real women, in real life. Every piece is made to feel like it was always yours.</p>",
+        "editorial_button_label": "Read the story",
+        "editorial_reverse": false,
+        "show_promo": true,
+        "promo_eyebrow": "This season",
+        "promo_heading": "Co-ords season is here",
+        "promo_text": "Mix and match. Easy, coordinated, effortless. From separates to sets.",
+        "promo_button_label": "Explore",
+        "promo_color_1": "#A7A39C",
+        "promo_color_2": "#7B2330"
+      }
+    },
+    "value-props": {
+      "type": "value-props",
+      "blocks": {
+        "v1": {
+          "type": "prop",
+          "settings": {
+            "icon": "truck",
+            "title": "Free shipping over ₹999",
+            "text": "Dispatched within 24 hours"
+          }
+        },
+        "v2": {
+          "type": "prop",
+          "settings": {
+            "icon": "return",
+            "title": "7-day easy returns",
+            "text": "No questions, no runaround"
+          }
+        },
+        "v3": {
+          "type": "prop",
+          "settings": {
+            "icon": "ruler",
+            "title": "Flattering fit",
+            "text": "Designed for your silhouette"
+          }
+        },
+        "v4": {
+          "type": "prop",
+          "settings": {
+            "icon": "tag",
+            "title": "₹199 to ₹2,999",
+            "text": "Premium make, honest price"
+          }
+        }
+      },
+      "block_order": [
+        "v1",
+        "v2",
+        "v3",
+        "v4"
+      ],
+      "settings": {}
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "eyebrow": "Drop alerts",
+        "heading": "Know before the rest of the feed.",
+        "text": "New drops, restocks and early access. Roughly twice a month — never more.",
+        "note": "Unsubscribe any time. We do not sell your data."
+      }
+    }
+  },
+  "order": [
+    "womens-homepage",
+    "value-props",
+    "newsletter"
+  ]
+}

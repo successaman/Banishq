@@ -33,6 +33,48 @@
         "alignment": "left"
       }
     },
+    "category-gateway": {
+      "type": "category-tabs",
+      "blocks": {
+        "mens": {
+          "type": "category",
+          "settings": {
+            "title": "Men's",
+            "description": "Engineered for men",
+            "badge": "Shop",
+            "link": "/pages/mens"
+          }
+        },
+        "womens": {
+          "type": "category",
+          "settings": {
+            "title": "Women's",
+            "description": "Designed for women",
+            "badge": "Shop",
+            "link": "/pages/womens"
+          }
+        },
+        "unisex": {
+          "type": "category",
+          "settings": {
+            "title": "Unisex",
+            "description": "Gender-neutral styles",
+            "badge": "Shop",
+            "link": "/pages/unisex"
+          }
+        }
+      },
+      "block_order": [
+        "mens",
+        "womens",
+        "unisex"
+      ],
+      "settings": {
+        "eyebrow": "Shop by category",
+        "heading": "Find your fit",
+        "text": "Browse collections designed for you"
+      }
+    },
     "marquee": {
       "type": "marquee",
       "blocks": {
@@ -492,6 +534,7 @@
   },
   "order": [
     "hero",
+    "category-gateway",
     "marquee",
     "category-tiles",
     "new-in",

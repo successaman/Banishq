@@ -1,0 +1,92 @@
+{
+  "sections": {
+    "mens-homepage": {
+      "type": "homepage-mens",
+      "settings": {
+        "show_hero": true,
+        "hero_eyebrow": "For Him",
+        "hero_heading": "Engineered for men.",
+        "hero_text": "Cuts designed for the masculine form. Premium cotton, honest fit, ₹199 to ₹2,999.",
+        "hero_button_1_label": "Shop Men's",
+        "hero_button_2_label": "About fit",
+        "show_featured": true,
+        "featured_eyebrow": "Men's collection",
+        "featured_heading": "Built for performance",
+        "featured_text": "Our most-reordered styles, engineered for durability and comfort.",
+        "featured_limit": 8,
+        "featured_columns": 4,
+        "show_editorial": true,
+        "editorial_eyebrow": "The fit",
+        "editorial_heading": "True masculine tailoring",
+        "editorial_text": "<p>We cut for broad shoulders, defined waists and a silhouette that reads confident at any angle. Every piece is tested on real men, in real conditions.</p>",
+        "editorial_button_label": "Read the story",
+        "editorial_reverse": false,
+        "show_promo": true,
+        "promo_eyebrow": "Limited run",
+        "promo_heading": "New in: Lightweight shirts",
+        "promo_text": "Perfect for layering. Perfect for the season. In three classic colours.",
+        "promo_button_label": "Explore",
+        "promo_color_1": "#7B2330",
+        "promo_color_2": "#111111"
+      }
+    },
+    "value-props": {
+      "type": "value-props",
+      "blocks": {
+        "v1": {
+          "type": "prop",
+          "settings": {
+            "icon": "truck",
+            "title": "Free shipping over ₹999",
+            "text": "Dispatched within 24 hours"
+          }
+        },
+        "v2": {
+          "type": "prop",
+          "settings": {
+            "icon": "return",
+            "title": "7-day easy returns",
+            "text": "No questions, no runaround"
+          }
+        },
+        "v3": {
+          "type": "prop",
+          "settings": {
+            "icon": "ruler",
+            "title": "True masculine fit",
+            "text": "Tested on real men"
+          }
+        },
+        "v4": {
+          "type": "prop",
+          "settings": {
+            "icon": "tag",
+            "title": "₹199 to ₹2,999",
+            "text": "Premium make, honest price"
+          }
+        }
+      },
+      "block_order": [
+        "v1",
+        "v2",
+        "v3",
+        "v4"
+      ],
+      "settings": {}
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "eyebrow": "Drop alerts",
+        "heading": "Know before the rest of the feed.",
+        "text": "New drops, restocks and early access. Roughly twice a month — never more.",
+        "note": "Unsubscribe any time. We do not sell your data."
+      }
+    }
+  },
+  "order": [
+    "mens-homepage",
+    "value-props",
+    "newsletter"
+  ]
+}

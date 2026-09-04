@@ -1,0 +1,1561 @@
+<title>BANISHQ Storefront System</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  /* BANISHQ storefront handoff sheet.
+     Single visual world by decision: the brand's master colour application is
+     burgundy on warm bone. Every colour is painted explicitly so the page
+     holds on any host ground. */
+  :root {
+    --black: #111111;
+    --bone: #f4f1eb;
+    --burgundy: #7b2330;
+    --stone: #a7a39c;
+    --olive: #76765c;
+    --paper: #fbfaf7;
+    --ink-soft: #4a4642;
+    --line: rgba(17, 17, 17, 0.13);
+    --line-soft: rgba(17, 17, 17, 0.07);
+    --line-dark: rgba(244, 241, 235, 0.16);
+
+    --serif: 'Instrument Serif', 'Times New Roman', Georgia, serif;
+    --sans: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+    --mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+
+    --pad: clamp(20px, 4vw, 64px);
+    --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bone);
+    color: var(--black);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img { display: block; max-width: 100%; }
+
+  .wrap { max-width: 1360px; margin: 0 auto; padding-inline: var(--pad); }
+
+  .mono {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .serif { font-family: var(--serif); font-weight: 400; line-height: 1.02; letter-spacing: -0.01em; }
+
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--burgundy); outline-offset: 3px; }
+
+  /* ---------------------------------------------------------- masthead */
+  .masthead {
+    padding-block: clamp(46px, 7vw, 92px) clamp(34px, 5vw, 60px);
+    border-bottom: 1px solid var(--line);
+  }
+  .masthead__logo { width: min(320px, 62vw); margin-bottom: clamp(30px, 5vw, 52px); }
+  .masthead__grid { display: grid; gap: 28px; }
+  @media (min-width: 900px) { .masthead__grid { grid-template-columns: 1.35fr 1fr; gap: 60px; align-items: end; } }
+  .masthead h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.4rem, 5.6vw, 4.3rem); line-height: 0.98; margin: 0 0 16px; text-wrap: balance; }
+  .masthead p { margin: 0; max-width: 56ch; color: var(--ink-soft); font-size: 1.02rem; }
+  .masthead__meta { display: grid; gap: 12px; }
+  .metarow { display: grid; grid-template-columns: 8.5rem 1fr; gap: 14px; padding-block: 9px; border-top: 1px solid var(--line-soft); align-items: baseline; }
+  .metarow dt { color: var(--stone); font-family: var(--mono); font-size: 0.63rem; letter-spacing: 0.15em; text-transform: uppercase; }
+  .metarow dd { margin: 0; font-size: 0.88rem; font-weight: 600; }
+
+  /* ------------------------------------------------------- spec strip */
+  .spec { padding-block: clamp(40px, 6vw, 76px); border-bottom: 1px solid var(--line); }
+  .spec__grid { display: grid; gap: 40px; }
+  @media (min-width: 800px) { .spec__grid { grid-template-columns: repeat(3, 1fr); gap: 48px; } }
+  .spec h2 { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--stone); font-weight: 500; margin: 0 0 20px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+
+  .swatches { display: grid; gap: 2px; }
+  .swatch { display: grid; grid-template-columns: 46px 1fr auto; align-items: center; gap: 14px; padding: 9px 0; }
+  .swatch__chip { width: 46px; height: 34px; border: 1px solid var(--line); }
+  .swatch__name { font-size: 0.85rem; font-weight: 600; }
+  .swatch__hex { font-family: var(--mono); font-size: 0.7rem; color: var(--ink-soft); }
+  .swatch__share { font-family: var(--mono); font-size: 0.62rem; color: var(--stone); }
+
+  .typerow { padding-block: 14px; border-bottom: 1px solid var(--line-soft); }
+  .typerow:last-child { border-bottom: 0; }
+  .typerow__role { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--stone); }
+  .typerow__spec { font-size: 0.76rem; color: var(--ink-soft); margin-top: 2px; }
+  .sample-serif { font-family: var(--serif); font-size: 2.1rem; line-height: 1.05; margin: 4px 0 2px; }
+  .sample-sans { font-family: var(--sans); font-size: 1.15rem; font-weight: 600; margin: 4px 0 2px; }
+  .sample-mono { font-family: var(--mono); font-size: 0.95rem; font-weight: 500; margin: 6px 0 2px; letter-spacing: 0.04em; }
+
+  .ladder { display: grid; gap: 2px; }
+  .ladder__row { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--line-soft); }
+  .ladder__label { font-size: 0.85rem; font-weight: 600; }
+  .ladder__note { font-size: 0.75rem; color: var(--stone); }
+  .ladder__price { font-family: var(--mono); font-size: 0.82rem; font-variant-numeric: tabular-nums; }
+  .ladder__bar { grid-column: 1 / -1; height: 3px; background: var(--line); position: relative; }
+  .ladder__bar span { position: absolute; inset-block: 0; background: var(--burgundy); }
+
+  /* ------------------------------------------------------ screen block */
+  .screen { padding-block: clamp(46px, 7vw, 96px); border-bottom: 1px solid var(--line); }
+  .screen__head { display: grid; gap: 18px; margin-bottom: clamp(26px, 4vw, 44px); }
+  @media (min-width: 900px) { .screen__head { grid-template-columns: 5.5rem 1fr auto; align-items: baseline; gap: 34px; } }
+  .screen__num { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; color: var(--burgundy); font-weight: 600; }
+  .screen__title { font-family: var(--serif); font-weight: 400; font-size: clamp(1.8rem, 3.4vw, 2.7rem); line-height: 1.02; margin: 0 0 8px; }
+  .screen__desc { margin: 0; max-width: 62ch; color: var(--ink-soft); font-size: 0.94rem; }
+  .screen__files { display: flex; flex-wrap: wrap; gap: 6px; }
+  .file {
+    font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.06em;
+    padding: 5px 9px; border: 1px solid var(--line); color: var(--ink-soft);
+    white-space: nowrap;
+  }
+
+  /* --------------------------------------------------------- browser */
+  .browser { border: 1px solid var(--line); background: var(--paper); box-shadow: 0 30px 70px -50px rgba(17,17,17,0.55); }
+  .browser__bar { display: flex; align-items: center; gap: 14px; padding: 11px 16px; background: #e9e5dd; border-bottom: 1px solid var(--line); }
+  .browser__dots { display: flex; gap: 6px; }
+  .browser__dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--stone); display: block; }
+  .browser__url { flex: 1; background: var(--paper); border: 1px solid var(--line-soft); padding: 5px 12px; font-family: var(--mono); font-size: 0.63rem; color: var(--ink-soft); letter-spacing: 0.03em; }
+  .browser__view { overflow: hidden; }
+
+  /* ----------------------------------------------------- store chrome */
+  .st { font-size: 13px; color: var(--black); background: var(--bone); }
+  .st a { text-decoration: none; }
+  .st__pad { padding-inline: clamp(16px, 3vw, 34px); }
+
+  .st-announce { background: var(--black); color: var(--bone); font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.16em; text-transform: uppercase; }
+  .st-announce__in { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding-block: 9px; }
+  .st-announce__mid { flex: 1; text-align: center; }
+  .st-announce__utils { display: none; gap: 18px; color: rgba(244,241,235,0.72); }
+  @media (min-width: 700px) { .st-announce__utils { display: flex; } }
+
+  .st-header { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; padding-block: 15px; border-bottom: 1px solid var(--line-soft); }
+  .st-nav { display: flex; gap: 20px; }
+  .st-nav a { font-size: 0.63rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding-bottom: 3px; border-bottom: 1px solid transparent; }
+  .st-nav a.on { border-color: var(--burgundy); }
+  .st-nav a.hot { color: var(--burgundy); }
+  .st-logo { justify-self: center; width: 138px; }
+  .st-actions { display: flex; justify-content: flex-end; gap: 14px; align-items: center; }
+  .st-actions svg { width: 17px; height: 17px; stroke: var(--black); fill: none; stroke-width: 1.5; }
+  .st-bag { position: relative; }
+  .st-bag b { position: absolute; top: -5px; right: -7px; background: var(--burgundy); color: var(--bone); font-family: var(--mono); font-size: 0.5rem; width: 14px; height: 14px; border-radius: 50%; display: grid; place-items: center; font-weight: 600; }
+
+  /* -------------------------------------------------------- store hero */
+  .st-hero { position: relative; min-height: 340px; display: flex; align-items: flex-end; background: var(--black); overflow: hidden; }
+  .st-hero__img { position: absolute; inset: 0; }
+  .st-hero__body { position: relative; padding: 34px clamp(16px, 3vw, 34px); color: var(--bone); max-width: 30rem; }
+  .st-hero__eyebrow { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(244,241,235,0.72); margin: 0 0 10px; }
+  .st-hero__title { font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 4.4vw, 3.1rem); line-height: 0.98; margin: 0 0 10px; }
+  .st-hero__text { font-size: 0.8rem; color: rgba(244,241,235,0.8); margin: 0 0 20px; max-width: 34ch; }
+  .st-dots { position: absolute; bottom: 16px; left: 0; right: 0; display: flex; gap: 7px; justify-content: center; }
+  .st-dots i { width: 20px; height: 2px; background: rgba(244,241,235,0.35); display: block; }
+  .st-dots i.on { background: var(--bone); }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 20px; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; border: 1px solid transparent; }
+  .btn--bone { background: var(--bone); color: var(--black); border-color: var(--bone); }
+  .btn--ghost { background: transparent; color: var(--bone); border-color: rgba(244,241,235,0.55); }
+  .btn--dark { background: var(--black); color: var(--bone); border-color: var(--black); }
+  .btn--outline { background: transparent; color: var(--black); border-color: var(--black); }
+  .btn--full { width: 100%; }
+
+  /* ------------------------------------------------------ store marquee */
+  .st-marquee { background: var(--burgundy); color: var(--bone); overflow: hidden; padding-block: 10px; }
+  .st-marquee__track { display: flex; width: max-content; gap: 38px; animation: slide 30s linear infinite; }
+  .st-marquee span { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; white-space: nowrap; display: inline-flex; align-items: center; gap: 10px; }
+  .st-marquee .mdot { width: 5px; height: 5px; background: currentColor; opacity: 0.55; display: block; flex: none; }
+  @keyframes slide { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .st-marquee__track { animation: none; } }
+
+  /* -------------------------------------------------------- store bits */
+  .st-sec { padding-block: 40px; }
+  .st-sechead { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 22px; }
+  .st-eyebrow { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--burgundy); margin: 0 0 8px; }
+  .st-h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(1.4rem, 2.6vw, 2rem); line-height: 1.05; margin: 0; }
+  .st-viewall { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; border-bottom: 1px solid currentColor; padding-bottom: 3px; white-space: nowrap; }
+
+  .st-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .st-tile { position: relative; aspect-ratio: 3/4; overflow: hidden; background: var(--black); }
+  .st-tile__body { position: absolute; inset: auto 0 0 0; padding: 14px; background: linear-gradient(180deg, rgba(17,17,17,0) 0%, rgba(17,17,17,0.8) 100%); color: var(--bone); }
+  .st-tile__t { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+  .st-tile__m { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.8; margin-top: 3px; }
+
+  .st-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px 14px; }
+  .st-card { position: relative; }
+  .st-card__media { position: relative; aspect-ratio: 4/5; overflow: hidden; }
+  .st-card__badges { position: absolute; top: 8px; left: 8px; display: grid; gap: 4px; justify-items: start; }
+  .tagpill { font-family: var(--mono); font-size: 0.5rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 7px; background: var(--black); color: var(--bone); }
+  .tagpill--sale { background: var(--burgundy); }
+  .tagpill--new { background: var(--bone); color: var(--black); border: 1px solid var(--black); }
+  .tagpill--out { background: var(--stone); color: var(--black); }
+  .st-card__wish { position: absolute; top: 6px; right: 6px; width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,0.9); display: grid; place-items: center; }
+  .st-card__wish svg { width: 13px; height: 13px; stroke: var(--black); fill: none; stroke-width: 1.5; }
+  .st-card__sizes { position: absolute; inset: auto 0 0 0; display: flex; gap: 4px; padding: 8px; background: rgba(244,241,235,0.96); }
+  .st-card__sizes b { font-family: var(--mono); font-size: 0.52rem; font-weight: 500; padding: 4px 6px; border: 1px solid var(--line); min-width: 24px; text-align: center; }
+  .st-card__sizes b.off { opacity: 0.35; text-decoration: line-through; }
+  .st-card__body { padding-top: 10px; }
+  .st-kicker { font-family: var(--mono); font-size: 0.52rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--stone); }
+  .st-name { font-size: 0.76rem; font-weight: 600; margin: 3px 0 5px; line-height: 1.35; }
+  .st-price { display: flex; align-items: baseline; gap: 7px; font-family: var(--mono); font-size: 0.72rem; font-variant-numeric: tabular-nums; }
+  .st-price s { color: var(--stone); font-size: 0.64rem; }
+  .st-price em { font-style: normal; color: var(--burgundy); font-size: 0.6rem; font-weight: 600; }
+  .st-price .sale { color: var(--burgundy); }
+
+  .st-split { display: grid; grid-template-columns: 1fr 1fr; }
+  .st-split__media { position: relative; min-height: 260px; }
+  .st-split__body { background: var(--black); color: var(--bone); padding: clamp(24px, 4vw, 48px); display: flex; flex-direction: column; justify-content: center; }
+  .seam { width: 44px; height: 1px; background: var(--burgundy); margin-bottom: 16px; }
+  .st-split__body p { font-size: 0.82rem; color: rgba(244,241,235,0.78); max-width: 40ch; }
+
+  .st-props { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); }
+  .st-prop { background: var(--bone); padding: 22px 14px; text-align: center; }
+  .st-prop svg { width: 20px; height: 20px; margin: 0 auto 10px; stroke: var(--burgundy); fill: none; stroke-width: 1.4; }
+  .st-prop b { display: block; font-size: 0.63rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; }
+  .st-prop span { font-size: 0.68rem; color: var(--ink-soft); }
+
+  .st-footer { background: var(--black); color: var(--bone); padding: 40px clamp(16px, 3vw, 34px) 18px; }
+  .st-footer__grid { display: grid; grid-template-columns: 1.6fr repeat(3, 1fr); gap: 32px; padding-bottom: 30px; }
+  .st-footer img { width: 130px; margin-bottom: 14px; }
+  .st-footer h4 { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(244,241,235,0.5); margin: 0 0 12px; font-weight: 500; }
+  .st-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+  .st-footer li { font-size: 0.7rem; color: rgba(244,241,235,0.82); }
+  .st-footer__tag { font-family: var(--serif); font-size: 1.1rem; margin: 0 0 10px; }
+  .st-footer__about { font-size: 0.7rem; color: rgba(244,241,235,0.6); max-width: 34ch; margin: 0; }
+  .st-footer__bottom { display: flex; justify-content: space-between; gap: 16px; padding-top: 16px; border-top: 1px solid var(--line-dark); font-family: var(--mono); font-size: 0.53rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(244,241,235,0.5); }
+
+  /* ---------------------------------------------------------- imagery */
+  /* Photography slots. Woven stone-on-bone fill so a slot reads as a
+     deliberate placeholder, never as a stand-in photograph. */
+  .slot {
+    position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(90deg, rgba(167,163,156,0.34) 0 1px, transparent 1px 6px),
+      repeating-linear-gradient(0deg, rgba(167,163,156,0.34) 0 1px, transparent 1px 6px),
+      linear-gradient(148deg, #ded9d0 0%, #ece8e0 46%, #d6d1c7 100%);
+    display: grid; place-items: center;
+  }
+  .slot--dark {
+    background:
+      repeating-linear-gradient(90deg, rgba(244,241,235,0.09) 0 1px, transparent 1px 6px),
+      repeating-linear-gradient(0deg, rgba(244,241,235,0.09) 0 1px, transparent 1px 6px),
+      linear-gradient(148deg, #2b2724 0%, #171513 55%, #322c28 100%);
+  }
+  .slot__label {
+    font-family: var(--mono); font-size: 0.52rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(17,17,17,0.42); border: 1px solid rgba(17,17,17,0.16); padding: 4px 8px; background: rgba(251,250,247,0.55);
+  }
+  .slot--dark .slot__label { color: rgba(244,241,235,0.5); border-color: rgba(244,241,235,0.2); background: rgba(17,17,17,0.35); }
+
+  /* ------------------------------------------------------------- PLP */
+  .plp { display: grid; grid-template-columns: 190px 1fr; gap: 30px; }
+  .facet { border-bottom: 1px solid var(--line); padding-block: 13px; }
+  .facet__top { display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; }
+  .facet ul { list-style: none; margin: 11px 0 0; padding: 0; display: grid; gap: 8px; }
+  .facet li { display: flex; align-items: center; gap: 9px; font-size: 0.72rem; }
+  .facet i { width: 13px; height: 13px; border: 1px solid var(--stone); display: block; flex: none; }
+  .facet i.on { background: var(--burgundy); border-color: var(--burgundy); position: relative; }
+  .facet i.on::after { content: ''; position: absolute; left: 4px; top: 1px; width: 4px; height: 7px; border: solid var(--bone); border-width: 0 1.5px 1.5px 0; transform: rotate(42deg); }
+  .facet em { margin-left: auto; font-style: normal; font-family: var(--mono); font-size: 0.58rem; color: var(--stone); }
+  .plp__bar { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; margin-bottom: 16px; border-bottom: 1px solid var(--line); }
+  .plp__count { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--stone); }
+  .chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border: 1px solid var(--line); border-radius: 999px; font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .chip--on { background: var(--black); color: var(--bone); border-color: var(--black); }
+  .plp__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px 14px; }
+
+  /* ------------------------------------------------------------- PDP */
+  .pdp { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 34px; }
+  .pdp__gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .pdp__shot { position: relative; aspect-ratio: 4/5; }
+  .pdp__shot--full { grid-column: 1 / -1; aspect-ratio: 16/11; }
+  .pdp__vendor { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--stone); }
+  .pdp__title { font-family: var(--serif); font-weight: 400; font-size: 1.9rem; line-height: 1.05; margin: 8px 0 10px; }
+  .pdp__price { display: flex; align-items: baseline; gap: 10px; font-family: var(--mono); font-size: 1.05rem; font-variant-numeric: tabular-nums; }
+  .pdp__price s { font-size: 0.78rem; color: var(--stone); }
+  .pdp__price em { font-style: normal; font-size: 0.7rem; color: var(--burgundy); font-weight: 600; }
+  .pdp__tax { font-size: 0.66rem; color: var(--stone); margin: 5px 0 20px; }
+  .optgroup { margin-bottom: 18px; }
+  .optgroup__top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+  .optgroup__label { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; }
+  .optgroup__link { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: underline; text-underline-offset: 3px; }
+  .opts { display: flex; gap: 6px; flex-wrap: wrap; }
+  .opt { min-width: 40px; padding: 9px 12px; border: 1px solid var(--line); font-family: var(--mono); font-size: 0.63rem; text-align: center; }
+  .opt.on { background: var(--black); color: var(--bone); border-color: var(--black); }
+  .opt.off { opacity: 0.35; text-decoration: line-through; }
+  .opt--sw { width: 30px; height: 30px; min-width: 0; padding: 0; border-radius: 50%; }
+  .opt--sw.on { box-shadow: 0 0 0 2px var(--bone), 0 0 0 3px var(--black); }
+  .qty { display: inline-flex; align-items: center; border: 1px solid var(--line); font-family: var(--mono); font-size: 0.7rem; }
+  .qty span { width: 32px; height: 38px; display: grid; place-items: center; }
+  .buyrow { display: flex; gap: 8px; margin-bottom: 16px; }
+  .buyrow .btn { flex: 1; }
+  .reassure { display: grid; gap: 8px; padding-block: 16px; border-block: 1px solid var(--line); margin-bottom: 4px; }
+  .reassure div { display: flex; gap: 9px; align-items: flex-start; font-size: 0.73rem; }
+  .reassure svg { width: 14px; height: 14px; stroke: var(--burgundy); fill: none; stroke-width: 1.5; flex: none; margin-top: 2px; }
+  .acc { border-bottom: 1px solid var(--line); padding-block: 13px; display: flex; justify-content: space-between; align-items: center; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* ---------------------------------------------------------- mobile */
+  .phones { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+  .phone { border: 1px solid var(--line); background: var(--paper); box-shadow: 0 24px 60px -46px rgba(17,17,17,0.6); overflow: hidden; }
+  .phone__notch { height: 26px; background: var(--black); display: grid; place-items: center; }
+  .phone__notch i { width: 62px; height: 5px; border-radius: 3px; background: rgba(244,241,235,0.35); display: block; }
+  .phone__view { height: 520px; overflow: hidden; background: var(--bone); }
+  .phone__cap { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--stone); padding: 10px 2px 0; }
+
+  .mh { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-bottom: 1px solid var(--line-soft); }
+  .mh img { width: 96px; }
+  .mh svg { width: 16px; height: 16px; stroke: var(--black); fill: none; stroke-width: 1.5; }
+  .mgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 10px; padding: 14px; }
+  .mquick { display: flex; gap: 12px; padding: 14px; overflow: hidden; }
+  .mquick div { text-align: center; flex: none; }
+  .mquick .circle { width: 58px; height: 58px; border-radius: 50%; position: relative; overflow: hidden; }
+  .mquick span { display: block; font-size: 0.6rem; font-weight: 600; margin-top: 6px; }
+
+  .drawer { background: var(--bone); height: 100%; display: flex; flex-direction: column; }
+  .drawer__head { display: flex; justify-content: space-between; align-items: center; padding: 14px; border-bottom: 1px solid var(--line); }
+  .drawer__head h4 { font-family: var(--serif); font-weight: 400; font-size: 1.15rem; margin: 0; }
+  .ship { padding: 10px 14px; background: rgba(123,35,48,0.08); font-size: 0.66rem; text-align: center; }
+  .ship__track { height: 3px; background: var(--line); margin-top: 8px; }
+  .ship__track i { display: block; height: 100%; width: 72%; background: var(--burgundy); }
+  .line { display: grid; grid-template-columns: 56px 1fr; gap: 12px; padding: 14px; border-bottom: 1px solid var(--line-soft); }
+  .line__media { position: relative; aspect-ratio: 4/5; }
+  .line b { font-size: 0.72rem; display: block; }
+  .line small { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--stone); }
+  .drawer__foot { margin-top: auto; padding: 14px; border-top: 1px solid var(--line); background: var(--paper); }
+  .drawer__tot { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.8rem; font-weight: 600; margin-bottom: 12px; font-variant-numeric: tabular-nums; }
+
+  /* -------------------------------------------------------- components */
+  .comps { display: grid; gap: 34px; }
+  @media (min-width: 760px) { .comps { grid-template-columns: repeat(2, 1fr); gap: 44px; } }
+  @media (min-width: 1100px) { .comps { grid-template-columns: repeat(4, 1fr); } }
+  .comp h3 { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--stone); font-weight: 500; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+  .comp__row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+  .comp__note { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone); margin: 14px 0 0; }
+
+  /* ------------------------------------------------------------ index */
+  .index { padding-block: clamp(46px, 7vw, 90px); }
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); background: var(--paper); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; min-width: 640px; }
+  thead th { text-align: left; background: var(--black); color: var(--bone); font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 500; padding: 12px 16px; }
+  tbody td { padding: 12px 16px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.f { font-family: var(--mono); font-size: 0.72rem; color: var(--burgundy); white-space: nowrap; }
+  td.n { color: var(--ink-soft); }
+
+  /* ------------------------------------------------------- cart (Taneira) */
+  .mc { display: grid; grid-template-columns: 7fr 4fr; gap: 26px; align-items: start; }
+  .mc__head { display: flex; align-items: baseline; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--line); margin-bottom: 18px; }
+  .mc__head h3 { font-family: var(--serif); font-weight: 400; font-size: 1.7rem; margin: 0; line-height: 1; }
+  .mc__head span { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--stone); }
+
+  .mc-banner { display: flex; gap: 11px; align-items: center; padding: 12px 15px; margin-bottom: 14px; background: rgba(123,35,48,0.08); border: 1px solid rgba(123,35,48,0.16); font-size: 0.72rem; }
+  .mc-banner svg { width: 17px; height: 17px; stroke: var(--burgundy); fill: none; stroke-width: 1.4; flex: none; }
+  .mc-banner small { display: block; font-family: var(--mono); font-size: 0.52rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone); margin-top: 2px; }
+
+  .mc-pin { display: grid; grid-template-columns: 150px 1fr; gap: 16px; align-items: center; padding: 13px 15px; margin-bottom: 14px; background: var(--paper); border: 1px solid var(--line); }
+  .mc-pin__label { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; }
+  .mc-pin__label span { display: block; font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0; text-transform: none; color: var(--stone); margin-top: 2px; }
+  .mc-pin__form { display: flex; border: 1px solid var(--line); background: var(--bone); }
+  .mc-pin__cc { display: grid; place-items: center; padding-inline: 10px; font-family: var(--mono); font-size: 0.62rem; color: var(--stone); border-right: 1px solid var(--line); }
+  .mc-pin__val { flex: 1; padding: 9px 12px; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; }
+  .mc-pin__go { padding-inline: 15px; font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; border-left: 1px solid var(--line); display: grid; place-items: center; }
+  .mc-pin__ok { grid-column: 1 / -1; font-size: 0.7rem; color: var(--olive); }
+
+  .mc-selbar { display: flex; align-items: center; justify-content: space-between; padding-block: 10px; border-bottom: 1px solid var(--line); }
+  .mc-selbar__left { display: flex; align-items: center; gap: 9px; font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; }
+  .mc-selbar__acts { display: flex; gap: 16px; font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--stone); }
+  .mcheck { width: 14px; height: 14px; border: 1px solid var(--burgundy); background: var(--burgundy); position: relative; flex: none; display: block; }
+  .mcheck::after { content: ''; position: absolute; left: 4px; top: 1px; width: 4px; height: 8px; border: solid var(--bone); border-width: 0 1.5px 1.5px 0; transform: rotate(42deg); }
+
+  .mc-line { display: grid; grid-template-columns: auto 88px 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line-soft); }
+  .mc-line__media { position: relative; aspect-ratio: 4/5; }
+  .mc-line__body { display: grid; gap: 6px; align-content: start; }
+  .mc-line__top { display: flex; justify-content: space-between; gap: 12px; }
+  .mc-line__name { font-size: 0.8rem; font-weight: 600; margin: 0; }
+  .mc-line__x { font-size: 0.8rem; color: var(--stone); }
+  .mc-line__opts { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone); }
+  .mc-line__foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 3px; }
+  .mc-line__wish { font-family: var(--mono); font-size: 0.53rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--stone); text-decoration: underline; text-underline-offset: 3px; }
+  .mc-line__eta { display: flex; align-items: center; gap: 6px; font-size: 0.66rem; color: var(--ink-soft); }
+  .mc-line__eta svg { width: 12px; height: 12px; stroke: var(--burgundy); fill: none; stroke-width: 1.4; flex: none; }
+
+  .mc-panel { background: var(--paper); border: 1px solid var(--line); margin-bottom: 12px; }
+  .mc-panel__head { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--line-soft); font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; }
+  .mc-panel__link { font-size: 0.53rem; color: var(--burgundy); text-decoration: underline; text-underline-offset: 3px; }
+  .mc-panel__body { padding: 13px 15px; }
+  .mc-coupon { display: flex; border: 1px dashed var(--line); }
+  .mc-coupon span:first-child { flex: 1; padding: 9px 12px; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone); }
+  .mc-coupon span:last-child { padding: 9px 14px; font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--burgundy); font-weight: 600; }
+  .mc-offer { display: flex; justify-content: space-between; gap: 10px; padding: 9px 11px; margin-top: 10px; border: 1px dashed rgba(123,35,48,0.35); background: rgba(123,35,48,0.08); }
+  .mc-offer b { font-family: var(--mono); font-size: 0.63rem; letter-spacing: 0.14em; }
+  .mc-offer p { font-size: 0.65rem; color: var(--ink-soft); margin: 2px 0 0; }
+  .mc-offer span { font-family: var(--mono); font-size: 0.54rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--burgundy); font-weight: 600; flex: none; }
+
+  .mc-save { padding: 9px 12px; background: var(--black); color: var(--bone); text-align: center; font-family: var(--mono); font-size: 0.57rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .mc-save b { color: #e8c9ce; }
+  .mc-row { display: flex; justify-content: space-between; padding-block: 8px; font-size: 0.74rem; }
+  .mc-row span:last-child { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .mc-row--free span:last-child { color: var(--olive); text-transform: uppercase; font-size: 0.62rem; letter-spacing: 0.1em; }
+  .mc-row--dis span:last-child { color: var(--burgundy); }
+  .mc-row--link span:last-child { color: var(--burgundy); font-family: var(--sans); text-decoration: underline; text-underline-offset: 3px; }
+  .mc-total { display: flex; justify-content: space-between; margin-top: 7px; padding-top: 11px; border-top: 1px solid var(--line); font-size: 0.9rem; font-weight: 700; }
+  .mc-total span:last-child { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .mc-tax { font-size: 0.62rem; color: var(--stone); margin: 5px 0 0; }
+  .mc-intl { display: flex; align-items: center; justify-content: center; gap: 7px; font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--stone); margin-bottom: 12px; }
+  .mc-intl svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 1.3; }
+  .mc-cta { display: grid; gap: 7px; margin-bottom: 12px; }
+  .mc-cta .btn b { font-family: var(--mono); font-variant-numeric: tabular-nums; margin-left: 6px; }
+  .mc-wish { display: flex; align-items: center; justify-content: space-between; padding: 13px 15px; background: var(--paper); border: 1px solid var(--line); font-size: 0.74rem; font-weight: 600; }
+  .mc-wish__l { display: flex; align-items: center; gap: 9px; }
+  .mc-wish svg { width: 15px; height: 15px; stroke: var(--burgundy); fill: none; stroke-width: 1.4; }
+  .mc-trust { display: flex; justify-content: center; gap: 14px; margin-top: 12px; }
+  .mc-trust span { display: flex; align-items: center; gap: 5px; font-family: var(--mono); font-size: 0.5rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone); }
+  .mc-trust svg { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 1.3; }
+
+  /* --------------------------------------------------------- page set */
+  .pageset { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .pagecard { border: 1px solid var(--line); background: var(--paper); display: flex; flex-direction: column; }
+  .pagecard__bar { padding: 9px 14px; background: #e9e5dd; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.1em; color: var(--ink-soft); }
+  .pagecard__view { padding: 0; flex: 1; }
+  .pagecard__cap { display: flex; justify-content: space-between; gap: 10px; padding: 10px 2px 0; font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--stone); }
+  .pagecard__cap b { color: var(--burgundy); font-weight: 500; }
+
+  .mini-hero { position: relative; min-height: 118px; display: flex; align-items: flex-end; background: var(--black); }
+  .mini-hero__body { position: relative; padding: 14px; color: var(--bone); }
+  .mini-hero__body p { font-family: var(--mono); font-size: 0.5rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(244,241,235,0.68); margin: 0 0 5px; }
+  .mini-hero__body h4 { font-family: var(--serif); font-weight: 400; font-size: 1.3rem; margin: 0; line-height: 1; }
+  .mini-body { padding: 14px; display: grid; gap: 12px; }
+  .mini-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .mini-col svg { width: 15px; height: 15px; stroke: var(--burgundy); fill: none; stroke-width: 1.4; margin-bottom: 5px; }
+  .mini-col b { display: block; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .mini-col span { font-size: 0.62rem; color: var(--ink-soft); }
+  .mini-field { border: 1px solid var(--line); background: var(--bone); padding: 8px 10px; font-size: 0.65rem; color: var(--stone); }
+  .mini-label { font-family: var(--mono); font-size: 0.5rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--stone); margin-bottom: 4px; display: block; }
+  .mini-store { border: 1px solid var(--line-soft); padding: 11px; display: grid; gap: 4px; background: var(--bone); }
+  .mini-store b { font-size: 0.7rem; }
+  .mini-store em { font-style: normal; font-family: var(--mono); font-size: 0.5rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--burgundy); }
+  .mini-store span { font-size: 0.62rem; color: var(--ink-soft); }
+  .mini-timeline { display: grid; }
+  .mini-timeline div { border-left: 1px solid var(--line); padding: 9px 0 9px 14px; position: relative; }
+  .mini-timeline div::before { content: ''; position: absolute; left: -3px; top: 14px; width: 5px; height: 5px; background: var(--burgundy); }
+  .mini-timeline em { font-style: normal; font-family: var(--mono); font-size: 0.5rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--burgundy); }
+  .mini-timeline b { display: block; font-family: var(--serif); font-weight: 400; font-size: 0.95rem; }
+  .mini-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+  /* Desktop screens keep their real proportions on small viewports by
+     scrolling inside their own frame rather than collapsing to two columns. */
+  @media (max-width: 900px) {
+    .browser__view { overflow-x: auto; }
+    .browser__view > .st { width: 1020px; }
+  }
+
+  /* ----------------------------------------------------------- colophon */
+  .colophon { background: var(--black); color: var(--bone); padding-block: clamp(44px, 6vw, 76px); }
+  .colophon__grid { display: grid; gap: 32px; }
+  @media (min-width: 860px) { .colophon__grid { grid-template-columns: 1fr 1fr; gap: 60px; } }
+  .colophon img { width: 220px; margin-bottom: 24px; }
+  .colophon h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(1.6rem, 3vw, 2.3rem); line-height: 1.05; margin: 0 0 14px; }
+  .colophon p { color: rgba(244,241,235,0.72); margin: 0 0 12px; max-width: 52ch; font-size: 0.92rem; }
+  .rules { display: grid; gap: 0; }
+  .rule { display: grid; grid-template-columns: 2.2rem 1fr; gap: 14px; padding-block: 13px; border-top: 1px solid var(--line-dark); font-size: 0.85rem; color: rgba(244,241,235,0.86); }
+  .rule b { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; color: var(--stone); font-weight: 500; padding-top: 3px; }
+</style>
+
+<header class="masthead">
+  <div class="wrap">
+    <img class="masthead__logo" src="__LOGO__" alt="BANISHQ">
+    <div class="masthead__grid">
+      <div>
+        <h1>The storefront, built to the brand bible.</h1>
+        <p>A complete Shopify Online Store 2.0 theme in Liquid — homepage, collection, product, cart, search, account, and a full set of content and service pages — drawn from the locked BANISHQ identity. The cart follows taneira.com line for line. Everywhere else, structure borrows Taneira's editorial calm and The Souled Store's merchandising density; the surface is entirely BANISHQ.</p>
+      </div>
+      <dl class="masthead__meta">
+        <div class="metarow"><dt>Brand line</dt><dd>Wear Your Presence.</dd></div>
+        <div class="metarow"><dt>Category</dt><dd>Modern Indian unisex D2C apparel</dd></div>
+        <div class="metarow"><dt>Price ladder</dt><dd>₹199 &ndash; ₹2,999</dd></div>
+        <div class="metarow"><dt>Platform</dt><dd>Shopify OS 2.0 · Liquid · JSON templates</dd></div>
+        <div class="metarow"><dt>Audience</dt><dd>18&ndash;32 Gen Z · working professionals · families</dd></div>
+      </dl>
+    </div>
+  </div>
+</header>
+
+<section class="spec">
+  <div class="wrap">
+    <div class="spec__grid">
+      <div>
+        <h2>Master palette</h2>
+        <div class="swatches">
+          <div class="swatch"><span class="swatch__chip" style="background:#111111"></span><span><span class="swatch__name">BANISHQ Black</span><br><span class="swatch__hex">#111111</span></span><span class="swatch__share">40%</span></div>
+          <div class="swatch"><span class="swatch__chip" style="background:#f4f1eb"></span><span><span class="swatch__name">Warm Bone</span><br><span class="swatch__hex">#F4F1EB</span></span><span class="swatch__share">40%</span></div>
+          <div class="swatch"><span class="swatch__chip" style="background:#7b2330"></span><span><span class="swatch__name">Signature Burgundy</span><br><span class="swatch__hex">#7B2330</span></span><span class="swatch__share">10%</span></div>
+          <div class="swatch"><span class="swatch__chip" style="background:#a7a39c"></span><span><span class="swatch__name">Stone Grey</span><br><span class="swatch__hex">#A7A39C</span></span><span class="swatch__share">5&ndash;10%</span></div>
+          <div class="swatch"><span class="swatch__chip" style="background:#76765c"></span><span><span class="swatch__name">Seasonal Olive</span><br><span class="swatch__hex">#76765C</span></span><span class="swatch__share">Campaign</span></div>
+        </div>
+        <p class="comp__note">Burgundy never sits directly on black — contrast is insufficient.</p>
+      </div>
+
+      <div>
+        <h2>Type system</h2>
+        <div class="typerow">
+          <span class="typerow__role">Display</span>
+          <p class="sample-serif">Wear Your Presence.</p>
+          <p class="typerow__spec">Instrument Serif Regular — hero copy, section headings, campaign titles.</p>
+        </div>
+        <div class="typerow">
+          <span class="typerow__role">Interface</span>
+          <p class="sample-sans">Add to bag · Oversized cotton overshirt</p>
+          <p class="typerow__spec">Manrope Medium / SemiBold / Bold — navigation, product copy, body.</p>
+        </div>
+        <div class="typerow">
+          <span class="typerow__role">Utility &amp; numerals</span>
+          <p class="sample-mono">₹1,299 · DROP 01 · SS26 · SKU 00182</p>
+          <p class="typerow__spec">IBM Plex Mono Medium — prices, sizes, SKUs, dates, care codes.</p>
+        </div>
+      </div>
+
+      <div>
+        <h2>Price architecture on the storefront</h2>
+        <div class="ladder">
+          <div class="ladder__row"><span><span class="ladder__label">Entry</span><br><span class="ladder__note">Tees, socks, caps</span></span><span class="ladder__price">₹199 &ndash; ₹599</span></div>
+          <div class="ladder__row"><span><span class="ladder__label">Core</span><br><span class="ladder__note">Shirts, overshirts, sweats</span></span><span class="ladder__price">₹699 &ndash; ₹1,499</span></div>
+          <div class="ladder__row"><span><span class="ladder__label">Statement</span><br><span class="ladder__note">Co-ords, denim, outerwear</span></span><span class="ladder__price">₹1,599 &ndash; ₹2,999</span></div>
+          <div class="ladder__bar"><span style="left:0;right:80%"></span></div>
+        </div>
+        <p class="comp__note">Free shipping threshold ₹999 · COD across serviceable pin codes</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="screen">
+  <div class="wrap">
+    <div class="screen__head">
+      <span class="screen__num">Screen 01</span>
+      <div>
+        <h2 class="screen__title">Homepage</h2>
+        <p class="screen__desc">Opens on a full-bleed campaign frame, then routes fast: category tiles, a new-in rail, the label story, the drop, and the reassurances a first-time Indian D2C buyer looks for before they trust a new name.</p>
+      </div>
+      <div class="screen__files">
+        <span class="file">hero.liquid</span>
+        <span class="file">marquee.liquid</span>
+        <span class="file">category-tiles.liquid</span>
+        <span class="file">featured-collection.liquid</span>
+      </div>
+    </div>
+
+    <div class="browser">
+      <div class="browser__bar">
+        <div class="browser__dots"><i></i><i></i><i></i></div>
+        <div class="browser__url">banishq.com</div>
+      </div>
+      <div class="browser__view">
+        <div class="st">
+          <div class="st-announce st__pad">
+            <div class="st-announce__in">
+              <div class="st-announce__utils"><span>Free shipping over ₹999</span></div>
+              <div class="st-announce__mid">Drop 01 is live. Not staying around forever.</div>
+              <div class="st-announce__utils"><span>Track order</span><span>Size guide</span></div>
+            </div>
+          </div>
+
+          <div class="st__pad">
+            <div class="st-header">
+              <nav class="st-nav">
+                <a href="#" class="on">Men</a><a href="#">Women</a><a href="#">Unisex</a><a href="#">Drop 01</a><a href="#" class="hot">Under 999</a>
+              </nav>
+              <img class="st-logo" src="__LOGO__" alt="BANISHQ">
+              <div class="st-actions">
+                <svg viewBox="0 0 24 24" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.2 4.9 13.4a4.4 4.4 0 0 1 6.2-6.2l.9.9.9-.9a4.4 4.4 0 0 1 6.2 6.2Z"/></svg>
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/></svg>
+                <span class="st-bag"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16l-1.2 13.2a1 1 0 0 1-1 .8H6.2a1 1 0 0 1-1-.8Z"/><path d="M8.5 10V6.5a3.5 3.5 0 0 1 7 0V10"/></svg><b>3</b></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="st-hero">
+            <div class="st-hero__img"><div class="slot slot--dark"><span class="slot__label">Hero · 2200×1200 · directional daylight</span></div></div>
+            <div class="st-hero__body">
+              <p class="st-hero__eyebrow">Drop 01 · SS26</p>
+              <h3 class="st-hero__title">Wear Your Presence.</h3>
+              <p class="st-hero__text">Unisex essentials built for repeat wear. Premium make, honest pricing.</p>
+              <div style="display:flex;gap:8px"><span class="btn btn--bone">Shop Drop 01</span><span class="btn btn--ghost">New in</span></div>
+            </div>
+            <div class="st-dots"><i class="on"></i><i></i></div>
+          </div>
+
+          <div class="st-marquee">
+            <div class="st-marquee__track">
+              <span><i class="mdot"></i>Built for repeat wear</span>
+              <span><i class="mdot"></i>True unisex fits</span>
+              <span><i class="mdot"></i>₹199 to ₹2,999</span>
+              <span><i class="mdot"></i>Made in India</span>
+              <span><i class="mdot"></i>7-day easy returns</span>
+              <span><i class="mdot"></i>Built for repeat wear</span>
+              <span><i class="mdot"></i>True unisex fits</span>
+              <span><i class="mdot"></i>₹199 to ₹2,999</span>
+              <span><i class="mdot"></i>Made in India</span>
+              <span><i class="mdot"></i>7-day easy returns</span>
+            </div>
+          </div>
+
+          <div class="st-sec st__pad">
+            <div class="st-sechead">
+              <div><p class="st-eyebrow">Shop by category</p><h3 class="st-h2">Start where you live</h3></div>
+              <span class="st-viewall">View all</span>
+            </div>
+            <div class="st-tiles">
+              <a href="#" class="st-tile"><div class="slot slot--dark"><span class="slot__label">3:4</span></div><span class="st-tile__body"><span class="st-tile__t">Tees</span><span class="st-tile__m">From ₹199</span></span></a>
+              <a href="#" class="st-tile"><div class="slot slot--dark"><span class="slot__label">3:4</span></div><span class="st-tile__body"><span class="st-tile__t">Shirts &amp; Overshirts</span><span class="st-tile__m">From ₹899</span></span></a>
+              <a href="#" class="st-tile"><div class="slot slot--dark"><span class="slot__label">3:4</span></div><span class="st-tile__body"><span class="st-tile__t">Cargos &amp; Trousers</span><span class="st-tile__m">From ₹999</span></span></a>
+              <a href="#" class="st-tile"><div class="slot slot--dark"><span class="slot__label">3:4</span></div><span class="st-tile__body"><span class="st-tile__t">Co-ords</span><span class="st-tile__m">From ₹1,499</span></span></a>
+            </div>
+          </div>
+
+          <div class="st-sec st__pad" style="padding-top:0">
+            <div class="st-sechead">
+              <div><p class="st-eyebrow">New in</p><h3 class="st-h2">Your next rotation just arrived.</h3></div>
+              <span class="st-viewall">View all</span>
+            </div>
+            <div class="st-grid">
+              <div class="st-card">
+                <div class="st-card__media">
+                  <div class="slot"><span class="slot__label">4:5</span></div>
+                  <div class="st-card__badges"><span class="tagpill tagpill--new">Just in</span></div>
+                  <span class="st-card__wish"><svg viewBox="0 0 24 24" stroke-linejoin="round"><path d="M12 20.2 4.9 13.4a4.4 4.4 0 0 1 6.2-6.2l.9.9.9-.9a4.4 4.4 0 0 1 6.2 6.2Z"/></svg></span>
+                  <div class="st-card__sizes"><b>XS</b><b>S</b><b>M</b><b>L</b><b class="off">XL</b></div>
+                </div>
+                <div class="st-card__body">
+                  <span class="st-kicker">Heavyweight tee</span>
+                  <p class="st-name">Bone Structure Oversized Tee</p>
+                  <div class="st-price"><span>₹899</span></div>
+                </div>
+              </div>
+              <div class="st-card">
+                <div class="st-card__media">
+                  <div class="slot"><span class="slot__label">4:5</span></div>
+                  <div class="st-card__badges"><span class="tagpill tagpill--sale">30% off</span></div>
+                  <span class="st-card__wish"><svg viewBox="0 0 24 24" stroke-linejoin="round"><path d="M12 20.2 4.9 13.4a4.4 4.4 0 0 1 6.2-6.2l.9.9.9-.9a4.4 4.4 0 0 1 6.2 6.2Z"/></svg></span>
+                  <div class="st-card__sizes"><b>S</b><b>M</b><b>L</b><b>XL</b><b>XXL</b></div>
+                </div>
+                <div class="st-card__body">
+                  <span class="st-kicker">Overshirt</span>
+                  <p class="st-name">Seam Line Cotton Overshirt</p>
+                  <div class="st-price"><span class="sale">₹1,399</span><s>₹1,999</s><em>30% off</em></div>
+                </div>
+              </div>
+              <div class="st-card">
+                <div class="st-card__media">
+                  <div class="slot"><span class="slot__label">4:5</span></div>
+                  <span class="st-card__wish"><svg viewBox="0 0 24 24" stroke-linejoin="round"><path d="M12 20.2 4.9 13.4a4.4 4.4 0 0 1 6.2-6.2l.9.9.9-.9a4.4 4.4 0 0 1 6.2 6.2Z"/></svg></span>
+                  <div class="st-card__sizes"><b>28</b><b>30</b><b>32</b><b>34</b><b class="off">36</b></div>
+                </div>
+                <div class="st-card__body">
+                  <span class="st-kicker">Cargo</span>
+                  <p class="st-name">Utility Panel Cargo Trouser</p>
+                  <div class="st-price"><span>₹1,699</span></div>
+                </div>
+              </div>
+              <div class="st-card">
+                <div class="st-card__media">
+                  <div class="slot"><span class="slot__label">4:5</span></div>
+                  <div class="st-card__badges"><span class="tagpill tagpill--out">Sold out</span></div>
+                  <span class="st-card__wish"><svg viewBox="0 0 24 24" stroke-linejoin="round"><path d="M12 20.2 4.9 13.4a4.4 4.4 0 0 1 6.2-6.2l.9.9.9-.9a4.4 4.4 0 0 1 6.2 6.2Z"/></svg></span>
+                </div>
+                <div class="st-card__body">
+                  <span class="st-kicker">Co-ord set</span>
+                  <p class="st-name">Drop 01 Two-Piece Co-ord</p>
+                  <div class="st-price"><span>₹2,499</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="st-split">
+            <div class="st-split__media"><div class="slot"><span class="slot__label">Garment tactility · 1400px</span></div></div>
+            <div class="st-split__body">
+              <span class="seam"></span>
+              <p class="st-eyebrow" style="color:rgba(244,241,235,0.6)">The label</p>
+              <h3 class="st-h2" style="margin-bottom:12px">Premium make. Honest price.</h3>
+              <p>We manufacture what we sell. No middle layer, no marked-up story — just considered cuts, heavier fabric and a price that stays between ₹199 and ₹2,999.</p>
+              <div style="margin-top:20px"><span class="btn btn--bone">Read our story</span></div>
+            </div>
+          </div>
+
+          <div class="st-sec st__pad">
+            <div class="st-props">
+              <div class="st-prop">
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5h11v10h-11z"/><path d="M13.5 10h4l3 3v3.5h-7z"/><circle cx="6.5" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>
+                <b>Free shipping over ₹999</b><span>Dispatched within 24 hours</span>
+              </div>
+              <div class="st-prop">
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v4.5h-4.5"/></svg>
+                <b>7-day easy returns</b><span>One free size exchange</span>
+              </div>
+              <div class="st-prop">
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5h18v5H3z"/><path d="M7 9.5v2.5M11 9.5v3.5M15 9.5v2.5M19 9.5v3.5"/></svg>
+                <b>True unisex fits</b><span>One size system, every body</span>
+              </div>
+              <div class="st-prop">
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3H3v8l10 10 8-8Z"/><circle cx="7" cy="7" r="1.4"/></svg>
+                <b>₹199 to ₹2,999</b><span>Premium make, honest price</span>
+              </div>
+            </div>
+          </div>
+
+          <footer class="st-footer">
+            <div class="st-footer__grid">
+              <div>
+                <img src="__WORDMARK__" alt="BANISHQ">
+                <p class="st-footer__tag">Wear Your Presence.</p>
+                <p class="st-footer__about">A modern Indian unisex label. Designed in India, made to be worn on repeat — from ₹199 to ₹2,999.</p>
+              </div>
+              <div><h4>Shop</h4><ul><li>Men</li><li>Women</li><li>Unisex</li><li>Drop 01</li><li>Under 999</li></ul></div>
+              <div><h4>The label</h4><ul><li>Our story</li><li>Fabric &amp; make</li><li>Franchise with us</li><li>Careers</li></ul></div>
+              <div><h4>Help</h4><ul><li>Track order</li><li>Size guide</li><li>Returns &amp; exchange</li><li>care@banishq.com</li></ul></div>
+            </div>
+            <div class="st-footer__bottom"><span>© 2026 BANISHQ. All rights reserved.</span><span>India</span></div>
+          </footer>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="screen">
+  <div class="wrap">
+    <div class="screen__head">
+      <span class="screen__num">Screen 02</span>
+      <div>
+        <h2 class="screen__title">Collection</h2>
+        <p class="screen__desc">Sidebar facets on desktop, a slide-over sheet on mobile. Filters and sort work as a plain GET form when JavaScript fails, then upgrade to fetch-and-swap so the grid never reloads the page.</p>
+      </div>
+      <div class="screen__files">
+        <span class="file">main-collection.liquid</span>
+        <span class="file">product-card.liquid</span>
+      </div>
+    </div>
+
+    <div class="browser">
+      <div class="browser__bar">
+        <div class="browser__dots"><i></i><i></i><i></i></div>
+        <div class="browser__url">banishq.com/collections/drop-01</div>
+      </div>
+      <div class="browser__view">
+        <div class="st">
+          <div class="st__pad">
+            <div class="st-header">
+              <nav class="st-nav"><a href="#">Men</a><a href="#">Women</a><a href="#">Unisex</a><a href="#" class="on">Drop 01</a><a href="#" class="hot">Under 999</a></nav>
+              <img class="st-logo" src="__LOGO__" alt="BANISHQ">
+              <div class="st-actions">
+                <svg viewBox="0 0 24 24" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                <span class="st-bag"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16l-1.2 13.2a1 1 0 0 1-1 .8H6.2a1 1 0 0 1-1-.8Z"/><path d="M8.5 10V6.5a3.5 3.5 0 0 1 7 0V10"/></svg><b>3</b></span>
+              </div>
+            </div>
+          </div>
+
+          <div style="position:relative;background:var(--black);color:var(--bone)">
+            <div class="slot slot--dark" style="opacity:0.55"><span class="slot__label">Collection banner · 2000×600</span></div>
+            <div class="st__pad" style="position:relative;padding-block:34px">
+              <p class="st-hero__eyebrow">Collection</p>
+              <h2 class="st-hero__title" style="font-size:2rem;margin-bottom:6px">Drop 01 — The Everyday Edit</h2>
+              <p class="st-hero__text" style="margin:0">Twelve pieces. One rotation. Made to be worn until they are yours.</p>
+            </div>
+          </div>
+
+          <div class="st__pad" style="padding-block:22px">
+            <p class="plp__count" style="margin:0 0 16px">Home / Shop / Drop 01</p>
+            <div class="plp">
+              <aside>
+                <div class="facet">
+                  <div class="facet__top">Size <span>–</span></div>
+                  <ul>
+                    <li><i></i>XS <em>4</em></li>
+                    <li><i class="on"></i>S <em>11</em></li>
+                    <li><i class="on"></i>M <em>12</em></li>
+                    <li><i></i>L <em>12</em></li>
+                    <li><i></i>XL <em>9</em></li>
+                  </ul>
+                </div>
+                <div class="facet">
+                  <div class="facet__top">Colour <span>–</span></div>
+                  <ul>
+                    <li><i></i>Bone <em>6</em></li>
+                    <li><i></i>Black <em>8</em></li>
+                    <li><i class="on"></i>Burgundy <em>3</em></li>
+                    <li><i></i>Olive <em>4</em></li>
+                  </ul>
+                </div>
+                <div class="facet">
+                  <div class="facet__top">Price <span>–</span></div>
+                  <ul>
+                    <li><i></i>Under ₹599 <em>5</em></li>
+                    <li><i></i>₹599 – ₹1,199 <em>9</em></li>
+                    <li><i></i>₹1,199 – ₹1,999 <em>6</em></li>
+                    <li><i></i>₹1,999 and above <em>4</em></li>
+                  </ul>
+                </div>
+                <div class="facet" style="border-bottom:0">
+                  <div class="facet__top">Fabric <span>–</span></div>
+                  <ul>
+                    <li><i></i>240 GSM cotton <em>7</em></li>
+                    <li><i></i>Cotton twill <em>5</em></li>
+                    <li><i></i>Fleece-back knit <em>3</em></li>
+                  </ul>
+                </div>
+              </aside>
+
+              <div>
+                <div class="plp__bar">
+                  <span class="plp__count">24 products</span>
+                  <span class="chip">Sort: Newest ▾</span>
+                </div>
+                <div style="display:flex;gap:7px;margin-bottom:16px">
+                  <span class="chip chip--on">S ×</span>
+                  <span class="chip chip--on">M ×</span>
+                  <span class="chip chip--on">Burgundy ×</span>
+                  <span class="chip">Clear all</span>
+                </div>
+                <div class="plp__grid">
+                  <div class="st-card">
+                    <div class="st-card__media"><div class="slot"><span class="slot__label">4:5</span></div><div class="st-card__sizes"><b>S</b><b>M</b><b>L</b><b class="off">XL</b></div></div>
+                    <div class="st-card__body"><span class="st-kicker">Overshirt</span><p class="st-name">Seam Line Cotton Overshirt</p><div class="st-price"><span class="sale">₹1,399</span><s>₹1,999</s><em>30% off</em></div></div>
+                  </div>
+                  <div class="st-card">
+                    <div class="st-card__media"><div class="slot"><span class="slot__label">4:5</span></div><div class="st-card__sizes"><b>S</b><b>M</b><b>L</b><b>XL</b></div></div>
+                    <div class="st-card__body"><span class="st-kicker">Heavyweight tee</span><p class="st-name">Presence 240 GSM Tee</p><div class="st-price"><span>₹799</span></div></div>
+                  </div>
+                  <div class="st-card">
+                    <div class="st-card__media"><div class="slot"><span class="slot__label">4:5</span></div><div class="st-card__badges"><span class="tagpill">Low stock</span></div></div>
+                    <div class="st-card__body"><span class="st-kicker">Co-ord set</span><p class="st-name">Drop 01 Two-Piece Co-ord</p><div class="st-price"><span>₹2,499</span></div></div>
+                  </div>
+                  <div class="st-card">
+                    <div class="st-card__media"><div class="slot"><span class="slot__label">4:5</span></div></div>
+                    <div class="st-card__body"><span class="st-kicker">Sweatshirt</span><p class="st-name">Feather Mark Crewneck</p><div class="st-price"><span>₹1,599</span></div></div>
+                  </div>
+                  <div class="st-card">
+                    <div class="st-card__media"><div class="slot"><span class="slot__label">4:5</span></div></div>
+                    <div class="st-card__body"><span class="st-kicker">Cargo</span><p class="st-name">Utility Panel Cargo Trouser</p><div class="st-price"><span>₹1,699</span></div></div>
+                  </div>
+                  <div class="st-card">
+                    <div class="st-card__media"><div class="slot"><span class="slot__label">4:5</span></div><div class="st-card__badges"><span class="tagpill tagpill--new">Just in</span></div></div>
+                    <div class="st-card__body"><span class="st-kicker">Polo</span><p class="st-name">Bone Knit Polo</p><div class="st-price"><span>₹1,099</span></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="screen">
+  <div class="wrap">
+    <div class="screen__head">
+      <span class="screen__num">Screen 03</span>
+      <div>
+        <h2 class="screen__title">Product</h2>
+        <p class="screen__desc">Editorial gallery left, information-led buy column right. Every option is a radio inside the product form, so the page adds to bag with JavaScript switched off — and swaps price, availability and URL instantly when it is on.</p>
+      </div>
+      <div class="screen__files">
+        <span class="file">main-product.liquid</span>
+        <span class="file">price.liquid</span>
+        <span class="file">quantity-selector.liquid</span>
+      </div>
+    </div>
+
+    <div class="browser">
+      <div class="browser__bar">
+        <div class="browser__dots"><i></i><i></i><i></i></div>
+        <div class="browser__url">banishq.com/products/seam-line-cotton-overshirt</div>
+      </div>
+      <div class="browser__view">
+        <div class="st">
+          <div class="st__pad">
+            <div class="st-header">
+              <nav class="st-nav"><a href="#">Men</a><a href="#">Women</a><a href="#">Unisex</a><a href="#">Drop 01</a><a href="#" class="hot">Under 999</a></nav>
+              <img class="st-logo" src="__LOGO__" alt="BANISHQ">
+              <div class="st-actions">
+                <svg viewBox="0 0 24 24" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                <span class="st-bag"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16l-1.2 13.2a1 1 0 0 1-1 .8H6.2a1 1 0 0 1-1-.8Z"/><path d="M8.5 10V6.5a3.5 3.5 0 0 1 7 0V10"/></svg><b>3</b></span>
+              </div>
+            </div>
+            <p class="plp__count" style="padding-block:14px 20px">Home / Drop 01 / Seam Line Cotton Overshirt</p>
+
+            <div class="pdp" style="padding-bottom:40px">
+              <div class="pdp__gallery">
+                <div class="pdp__shot pdp__shot--full"><div class="slot"><span class="slot__label">Look · 1400×963</span></div></div>
+                <div class="pdp__shot"><div class="slot"><span class="slot__label">Detail · seam</span></div></div>
+                <div class="pdp__shot"><div class="slot"><span class="slot__label">Detail · label</span></div></div>
+              </div>
+
+              <div>
+                <p class="pdp__vendor">Overshirt · SKU 00182</p>
+                <h2 class="pdp__title">Seam Line Cotton Overshirt</h2>
+                <div class="pdp__price"><span style="color:var(--burgundy)">₹1,399</span><s>₹1,999</s><em>30% off</em></div>
+                <p class="pdp__tax">Inclusive of all taxes. Shipping calculated at checkout.</p>
+
+                <div class="optgroup">
+                  <div class="optgroup__top"><span class="optgroup__label">Colour: <strong>Burgundy</strong></span></div>
+                  <div class="opts">
+                    <span class="opt opt--sw" style="background:#f4f1eb;border-color:var(--stone)"></span>
+                    <span class="opt opt--sw on" style="background:#7b2330"></span>
+                    <span class="opt opt--sw" style="background:#111111"></span>
+                    <span class="opt opt--sw" style="background:#76765c"></span>
+                  </div>
+                </div>
+
+                <div class="optgroup">
+                  <div class="optgroup__top">
+                    <span class="optgroup__label">Size: <strong>M</strong></span>
+                    <a href="#" class="optgroup__link">Size guide</a>
+                  </div>
+                  <div class="opts">
+                    <span class="opt">XS</span><span class="opt">S</span><span class="opt on">M</span><span class="opt">L</span><span class="opt off">XL</span><span class="opt">XXL</span>
+                  </div>
+                </div>
+
+                <div class="buyrow">
+                  <span class="qty"><span>−</span><span>1</span><span>+</span></span>
+                  <span class="btn btn--dark btn--full">Add to bag</span>
+                </div>
+                <div class="buyrow"><span class="btn btn--outline btn--full">Buy it now</span></div>
+
+                <div class="reassure">
+                  <div><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5h11v10h-11z"/><path d="M13.5 10h4l3 3v3.5h-7z"/><circle cx="6.5" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg><span>Free shipping over ₹999 · Dispatched in 24 hours</span></div>
+                  <div><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v4.5h-4.5"/></svg><span>7-day easy returns and size exchange</span></div>
+                  <div><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 19.5C4 13 8 7.5 19.5 5c1 10.5-4.5 14.5-11 14"/><path d="M4.5 19.5 12 12"/></svg><span>Cut and stitched in India · 240 GSM cotton twill</span></div>
+                </div>
+
+                <div class="acc">Description <span>+</span></div>
+                <div class="acc">Fabric &amp; care <span>+</span></div>
+                <div class="acc">Shipping &amp; returns <span>+</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="screen">
+  <div class="wrap">
+    <div class="screen__head">
+      <span class="screen__num">Screen 04</span>
+      <div>
+        <h2 class="screen__title">Mobile</h2>
+        <p class="screen__desc">Where most of the traffic will land. The mobile header carries the utility wordmark, not the horizontal lockup — the allocation rule from the brand bible, applied in code rather than left to judgement.</p>
+      </div>
+      <div class="screen__files">
+        <span class="file">header.liquid</span>
+        <span class="file">cart-drawer.liquid</span>
+      </div>
+    </div>
+
+    <div class="phones">
+      <div>
+        <div class="phone">
+          <div class="phone__notch"><i></i></div>
+          <div class="phone__view">
+            <div class="st">
+              <div class="st-announce" style="padding-inline:14px"><div class="st-announce__in"><div class="st-announce__mid">Everyday essentials from ₹199</div></div></div>
+              <div class="mh">
+                <svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M3.5 7h17M3.5 12h17M3.5 17h11"/></svg>
+                <img src="__WORDMARK-BLACK__" alt="BANISHQ">
+                <span class="st-bag"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16l-1.2 13.2a1 1 0 0 1-1 .8H6.2a1 1 0 0 1-1-.8Z"/><path d="M8.5 10V6.5a3.5 3.5 0 0 1 7 0V10"/></svg><b>3</b></span>
+              </div>
+              <div style="position:relative;height:230px"><div class="slot slot--dark"><span class="slot__label">Hero</span></div>
+                <div style="position:absolute;inset:auto 0 0 0;padding:16px;color:var(--bone)">
+                  <p class="st-hero__eyebrow" style="margin-bottom:6px">Drop 01 · SS26</p>
+                  <h3 style="font-family:var(--serif);font-weight:400;font-size:1.75rem;margin:0 0 12px;line-height:1">Wear Your Presence.</h3>
+                  <span class="btn btn--bone">Shop Drop 01</span>
+                </div>
+              </div>
+              <div class="mquick">
+                <div><span class="circle"><span class="slot"></span></span><span>Tees</span></div>
+                <div><span class="circle"><span class="slot"></span></span><span>Shirts</span></div>
+                <div><span class="circle"><span class="slot"></span></span><span>Cargos</span></div>
+                <div><span class="circle"><span class="slot"></span></span><span>Co-ords</span></div>
+              </div>
+              <div class="mgrid">
+                <div class="st-card">
+                  <div class="st-card__media"><div class="slot"><span class="slot__label">4:5</span></div><div class="st-card__badges"><span class="tagpill tagpill--sale">30% off</span></div></div>
+                  <div class="st-card__body"><p class="st-name">Seam Line Overshirt</p><div class="st-price"><span class="sale">₹1,399</span><s>₹1,999</s></div></div>
+                </div>
+                <div class="st-card">
+                  <div class="st-card__media"><div class="slot"><span class="slot__label">4:5</span></div></div>
+                  <div class="st-card__body"><p class="st-name">Presence 240 GSM Tee</p><div class="st-price"><span>₹799</span></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="phone__cap">Home · 375pt</p>
+      </div>
+
+      <div>
+        <div class="phone">
+          <div class="phone__notch"><i></i></div>
+          <div class="phone__view">
+            <div class="st">
+              <div class="mh">
+                <svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M3.5 7h17M3.5 12h17M3.5 17h11"/></svg>
+                <img src="__WORDMARK-BLACK__" alt="BANISHQ">
+                <span class="st-bag"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16l-1.2 13.2a1 1 0 0 1-1 .8H6.2a1 1 0 0 1-1-.8Z"/><path d="M8.5 10V6.5a3.5 3.5 0 0 1 7 0V10"/></svg><b>3</b></span>
+              </div>
+              <div style="padding:14px 14px 0">
+                <h3 style="font-family:var(--serif);font-weight:400;font-size:1.5rem;margin:0 0 10px">Drop 01</h3>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px solid var(--line)">
+                  <span class="plp__count">24 products</span>
+                  <span style="display:flex;gap:6px"><span class="chip">Sort ▾</span><span class="chip chip--on">Filter · 3</span></span>
+                </div>
+              </div>
+              <div class="mgrid">
+                <div class="st-card">
+                  <div class="st-card__media"><div class="slot"><span class="slot__label">4:5</span></div></div>
+                  <div class="st-card__body"><p class="st-name">Presence 240 GSM Tee</p><div class="st-price"><span>₹799</span></div></div>
+                </div>
+                <div class="st-card">
+                  <div class="st-card__media"><div class="slot"><span class="slot__label">4:5</span></div><div class="st-card__badges"><span class="tagpill">Low stock</span></div></div>
+                  <div class="st-card__body"><p class="st-name">Drop 01 Co-ord</p><div class="st-price"><span>₹2,499</span></div></div>
+                </div>
+                <div class="st-card">
+                  <div class="st-card__media"><div class="slot"><span class="slot__label">4:5</span></div></div>
+                  <div class="st-card__body"><p class="st-name">Feather Mark Crewneck</p><div class="st-price"><span>₹1,599</span></div></div>
+                </div>
+                <div class="st-card">
+                  <div class="st-card__media"><div class="slot"><span class="slot__label">4:5</span></div></div>
+                  <div class="st-card__body"><p class="st-name">Bone Knit Polo</p><div class="st-price"><span>₹1,099</span></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="phone__cap">Collection · filters applied</p>
+      </div>
+
+      <div>
+        <div class="phone">
+          <div class="phone__notch"><i></i></div>
+          <div class="phone__view">
+            <div class="drawer">
+              <div class="drawer__head">
+                <h4>Bag</h4>
+                <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--black);fill:none;stroke-width:1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+              </div>
+              <div class="ship">
+                Add ₹280 more for free shipping
+                <div class="ship__track"><i></i></div>
+              </div>
+              <div class="line">
+                <div class="line__media"><div class="slot"></div></div>
+                <div>
+                  <b>Seam Line Cotton Overshirt</b>
+                  <small>Burgundy / M</small>
+                  <div class="st-price" style="margin-top:6px"><span class="sale">₹1,399</span><s>₹1,999</s></div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+                    <span class="qty" style="font-size:0.62rem"><span style="width:26px;height:28px">−</span><span style="width:26px;height:28px">1</span><span style="width:26px;height:28px">+</span></span>
+                    <small style="text-decoration:underline">Remove</small>
+                  </div>
+                </div>
+              </div>
+              <div class="line">
+                <div class="line__media"><div class="slot"></div></div>
+                <div>
+                  <b>Presence 240 GSM Tee</b>
+                  <small>Bone / L</small>
+                  <div class="st-price" style="margin-top:6px"><span>₹799</span></div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+                    <span class="qty" style="font-size:0.62rem"><span style="width:26px;height:28px">−</span><span style="width:26px;height:28px">2</span><span style="width:26px;height:28px">+</span></span>
+                    <small style="text-decoration:underline">Remove</small>
+                  </div>
+                </div>
+              </div>
+              <div class="drawer__foot">
+                <div class="drawer__tot"><span>Subtotal</span><span>₹2,997</span></div>
+                <span class="btn btn--dark btn--full">Checkout</span>
+                <div style="height:8px"></div>
+                <span class="btn btn--outline btn--full">View bag</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="phone__cap">Cart drawer · free-shipping bar</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="screen">
+  <div class="wrap">
+    <div class="screen__head">
+      <span class="screen__num">Screen 05</span>
+      <div>
+        <h2 class="screen__title">Cart</h2>
+        <p class="screen__desc">Laid out to taneira.com: line items at 7/12, a sticky order summary at 4/12. Left rail runs offer banner, delivery check, selection row, item cards. Right rail runs coupons, savings band, order details, taxes, international line, checkout with the total inside the button, then add-from-wishlist.</p>
+      </div>
+      <div class="screen__files">
+        <span class="file">main-cart.liquid</span>
+        <span class="file">quantity-selector.liquid</span>
+      </div>
+    </div>
+
+    <div class="browser">
+      <div class="browser__bar">
+        <div class="browser__dots"><i></i><i></i><i></i></div>
+        <div class="browser__url">banishq.com/cart</div>
+      </div>
+      <div class="browser__view">
+        <div class="st">
+          <div class="st__pad">
+            <div class="st-header">
+              <nav class="st-nav"><a href="#">Men</a><a href="#">Women</a><a href="#">Unisex</a><a href="#">Drop 01</a><a href="#" class="hot">Under 999</a></nav>
+              <img class="st-logo" src="__LOGO__" alt="BANISHQ">
+              <div class="st-actions">
+                <svg viewBox="0 0 24 24" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                <span class="st-bag"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16l-1.2 13.2a1 1 0 0 1-1 .8H6.2a1 1 0 0 1-1-.8Z"/><path d="M8.5 10V6.5a3.5 3.5 0 0 1 7 0V10"/></svg><b>2</b></span>
+              </div>
+            </div>
+
+            <div style="padding-block: 18px 30px">
+              <div class="mc__head"><h3>Bag</h3><span>(2)</span></div>
+
+              <div class="mc">
+                <div>
+                  <div class="mc-banner">
+                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3H3v8l10 10 8-8Z"/><circle cx="7" cy="7" r="1.4"/></svg>
+                    <div>
+                      <b>Spend ₹999 and shipping is on us.</b>
+                      <small>Applies to all prepaid and COD orders in India</small>
+                    </div>
+                  </div>
+
+                  <div class="mc-pin">
+                    <div class="mc-pin__label">Delivery details<span>Check serviceability and the arrival date</span></div>
+                    <div class="mc-pin__form">
+                      <span class="mc-pin__cc">IN</span>
+                      <span class="mc-pin__val">560038</span>
+                      <span class="mc-pin__go">Check</span>
+                    </div>
+                    <p class="mc-pin__ok" style="margin:0">We deliver to 560038 · Arrives by Mon, 9 Sep</p>
+                  </div>
+
+                  <div class="mc-selbar">
+                    <span class="mc-selbar__left"><i class="mcheck"></i> 2/2 Items selected</span>
+                    <span class="mc-selbar__acts"><span>Move to wishlist</span><span>Remove</span></span>
+                  </div>
+
+                  <div class="mc-line">
+                    <i class="mcheck"></i>
+                    <div class="mc-line__media"><div class="slot"><span class="slot__label">4:5</span></div></div>
+                    <div class="mc-line__body">
+                      <div class="mc-line__top">
+                        <p class="mc-line__name">Seam Line Cotton Overshirt</p>
+                        <span class="mc-line__x">×</span>
+                      </div>
+                      <p class="mc-line__opts" style="margin:0">Burgundy / M</p>
+                      <p class="mc-line__opts" style="margin:0">SKU 00182</p>
+                      <div class="st-price" style="font-size:0.8rem"><span class="sale">₹1,399</span><s>₹1,999</s><em>30% off</em></div>
+                      <div class="mc-line__foot">
+                        <span class="qty" style="font-size:0.62rem"><span style="width:26px;height:30px">−</span><span style="width:28px;height:30px">1</span><span style="width:26px;height:30px">+</span></span>
+                        <span class="mc-line__wish">Move to wishlist</span>
+                      </div>
+                      <p class="mc-line__eta" style="margin:0">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5h11v10h-11z"/><path d="M13.5 10h4l3 3v3.5h-7z"/><circle cx="6.5" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>
+                        Arrives by Mon, 9 Sep
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="mc-line">
+                    <i class="mcheck"></i>
+                    <div class="mc-line__media"><div class="slot"><span class="slot__label">4:5</span></div></div>
+                    <div class="mc-line__body">
+                      <div class="mc-line__top">
+                        <p class="mc-line__name">Presence 240 GSM Tee</p>
+                        <span class="mc-line__x">×</span>
+                      </div>
+                      <p class="mc-line__opts" style="margin:0">Warm Bone / L</p>
+                      <p class="mc-line__opts" style="margin:0">SKU 00104</p>
+                      <div class="st-price" style="font-size:0.8rem"><span>₹1,598</span><s>₹1,998</s><em>20% off</em></div>
+                      <div class="mc-line__foot">
+                        <span class="qty" style="font-size:0.62rem"><span style="width:26px;height:30px">−</span><span style="width:28px;height:30px">2</span><span style="width:26px;height:30px">+</span></span>
+                        <span class="mc-line__wish">Move to wishlist</span>
+                      </div>
+                      <p class="mc-line__eta" style="margin:0">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5h11v10h-11z"/><path d="M13.5 10h4l3 3v3.5h-7z"/><circle cx="6.5" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>
+                        Arrives by Mon, 9 Sep
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <aside>
+                  <div class="mc-panel">
+                    <div class="mc-panel__head"><span>Apply coupons</span><span class="mc-panel__link">View all coupons</span></div>
+                    <div class="mc-panel__body">
+                      <div class="mc-coupon"><span>Enter code</span><span>Apply</span></div>
+                      <div class="mc-offer">
+                        <div><b>FIRST10</b><p>10% off your first order. One use per customer.</p></div>
+                        <span>Apply</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mc-panel">
+                    <p class="mc-save" style="margin:0">You are saving <b>₹997</b> on this order</p>
+                    <div class="mc-panel__head" style="border-top:1px solid var(--line-soft)"><span>Order details</span></div>
+                    <div class="mc-panel__body">
+                      <div class="mc-row"><span>Total MRP</span><span>₹3,997</span></div>
+                      <div class="mc-row mc-row--dis"><span>Discount on MRP</span><span>−₹997</span></div>
+                      <div class="mc-row mc-row--free"><span>Shipping</span><span>Free</span></div>
+                      <div class="mc-row mc-row--link"><span>Coupon discount</span><span>+ Apply coupons</span></div>
+                      <div class="mc-total"><span>Total</span><span>₹3,000</span></div>
+                      <p class="mc-tax">Inclusive of all taxes</p>
+                    </div>
+                  </div>
+
+                  <p class="mc-intl">
+                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5h11v10h-11z"/><path d="M13.5 10h4l3 3v3.5h-7z"/><circle cx="6.5" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>
+                    Shipping internationally
+                  </p>
+
+                  <div class="mc-cta">
+                    <span class="btn btn--dark btn--full">Checkout <b>₹3,000</b></span>
+                    <span class="btn btn--outline btn--full">Continue shopping</span>
+                  </div>
+
+                  <div class="mc-wish">
+                    <span class="mc-wish__l">
+                      <svg viewBox="0 0 24 24" stroke-linejoin="round"><path d="M12 20.2 4.9 13.4a4.4 4.4 0 0 1 6.2-6.2l.9.9.9-.9a4.4 4.4 0 0 1 6.2 6.2Z"/></svg>
+                      Add from wishlist
+                    </span>
+                    <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:var(--black);fill:none;stroke-width:1.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9.5 6 6 6-6 6"/></svg>
+                  </div>
+
+                  <div class="mc-trust">
+                    <span><svg viewBox="0 0 24 24" stroke-linejoin="round"><path d="M12 3 5 6v6c0 4.4 3 7.6 7 9 4-1.4 7-4.6 7-9V6Z"/><path d="m9 12 2 2 4-4"/></svg> Secure payments</span>
+                    <span><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v4.5h-4.5"/></svg> 7-day returns</span>
+                    <span><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5h11v10h-11z"/><path d="M13.5 10h4l3 3v3.5h-7z"/><circle cx="6.5" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg> COD available</span>
+                  </div>
+                </aside>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="screen">
+  <div class="wrap">
+    <div class="screen__head">
+      <span class="screen__num">Screen 06</span>
+      <div>
+        <h2 class="screen__title">The rest of the store</h2>
+        <p class="screen__desc">Seven more templates, each assembled from schema sections so the merchandiser can rewrite them without a developer. Every page carries the same banner unit, so the store reads as one system rather than a homepage plus a pile of legal text.</p>
+      </div>
+      <div class="screen__files">
+        <span class="file">page-hero.liquid</span>
+        <span class="file">store-locator.liquid</span>
+        <span class="file">franchise-form.liquid</span>
+        <span class="file">track-order.liquid</span>
+      </div>
+    </div>
+
+    <div class="pageset">
+      <div>
+        <div class="pagecard">
+          <div class="pagecard__bar">banishq.com/pages/about</div>
+          <div class="pagecard__view">
+            <div class="mini-hero">
+              <div class="slot slot--dark"></div>
+              <div class="mini-hero__body"><p>The label</p><h4>Wear Your Presence.</h4></div>
+            </div>
+            <div class="mini-body">
+              <div class="mini-timeline">
+                <div><em>2025</em><b>The question</b></div>
+                <div><em>2026</em><b>Drop 01</b></div>
+                <div><em>Next</em><b>Stores</b></div>
+              </div>
+              <div class="mini-cols">
+                <div class="mini-col"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 19.5C4 13 8 7.5 19.5 5c1 10.5-4.5 14.5-11 14"/><path d="M4.5 19.5 12 12"/></svg><b>We make it</b></div>
+                <div class="mini-col"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5h18v5H3z"/><path d="M7 9.5v2.5M11 9.5v3.5M15 9.5v2.5M19 9.5v3.5"/></svg><b>One size system</b></div>
+                <div class="mini-col"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3H3v8l10 10 8-8Z"/><circle cx="7" cy="7" r="1.4"/></svg><b>₹199–₹2,999</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="pagecard__cap"><span>About</span><b>page.about.json</b></p>
+      </div>
+
+      <div>
+        <div class="pagecard">
+          <div class="pagecard__bar">banishq.com/pages/stores</div>
+          <div class="pagecard__view">
+            <div class="mini-hero" style="min-height:96px">
+              <div class="slot slot--dark"></div>
+              <div class="mini-hero__body"><p>Find us</p><h4>Stores</h4></div>
+            </div>
+            <div class="mini-body">
+              <span class="mini-field" style="display:flex;justify-content:space-between">All cities <span>▾</span></span>
+              <div class="mini-store"><em>Bengaluru</em><b>BANISHQ Indiranagar</b><span>100 Feet Road, Indiranagar 560038</span></div>
+              <div class="mini-store"><em>Mumbai</em><b>BANISHQ Bandra</b><span>Linking Road, Bandra West 400050</span></div>
+              <div class="mini-store"><em>Pune · Opening soon</em><b>BANISHQ Koregaon Park</b><span>North Main Road 411001</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="pagecard__cap"><span>Store locator</span><b>page.stores.json</b></p>
+      </div>
+
+      <div>
+        <div class="pagecard">
+          <div class="pagecard__bar">banishq.com/pages/franchise</div>
+          <div class="pagecard__view">
+            <div class="mini-hero" style="min-height:96px">
+              <div class="slot slot--dark"></div>
+              <div class="mini-hero__body"><p>Partner with us</p><h4>Open a store</h4></div>
+            </div>
+            <div class="mini-body">
+              <div class="mini-grid2">
+                <div><span class="mini-label">Name</span><div class="mini-field">Full name</div></div>
+                <div><span class="mini-label">Phone</span><div class="mini-field">+91</div></div>
+              </div>
+              <div class="mini-grid2">
+                <div><span class="mini-label">City</span><div class="mini-field">City</div></div>
+                <div><span class="mini-label">Investment</span><div class="mini-field">₹15L – ₹25L ▾</div></div>
+              </div>
+              <span class="btn btn--dark btn--full">Send enquiry</span>
+            </div>
+          </div>
+        </div>
+        <p class="pagecard__cap"><span>Franchise</span><b>page.franchise.json</b></p>
+      </div>
+
+      <div>
+        <div class="pagecard">
+          <div class="pagecard__bar">banishq.com/pages/track-order</div>
+          <div class="pagecard__view">
+            <div class="mini-hero" style="min-height:96px">
+              <div class="slot slot--dark"></div>
+              <div class="mini-hero__body"><p>Order help</p><h4>Track your order</h4></div>
+            </div>
+            <div class="mini-body">
+              <div><span class="mini-label">Tracking or AWB number</span><div class="mini-field">Paste the number from your shipping email</div></div>
+              <span class="btn btn--dark btn--full">Track it</span>
+              <div class="mini-cols">
+                <div class="mini-col"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3H3v8l10 10 8-8Z"/><circle cx="7" cy="7" r="1.4"/></svg><b>Confirmed</b></div>
+                <div class="mini-col"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5h11v10h-11z"/><path d="M13.5 10h4l3 3v3.5h-7z"/><circle cx="6.5" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg><b>Shipped</b></div>
+                <div class="mini-col"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v4.5h-4.5"/></svg><b>Returns</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="pagecard__cap"><span>Track order</span><b>page.track-order.json</b></p>
+      </div>
+
+      <div>
+        <div class="pagecard">
+          <div class="pagecard__bar">banishq.com/pages/wishlist</div>
+          <div class="pagecard__view">
+            <div class="mini-body">
+              <div><span class="mini-label">Saved</span><h4 style="font-family:var(--serif);font-weight:400;font-size:1.3rem;margin:0">Your wishlist</h4></div>
+              <div class="mini-grid2">
+                <div class="st-card">
+                  <div class="st-card__media"><div class="slot"><span class="slot__label">4:5</span></div></div>
+                  <div class="st-card__body"><p class="st-name">Seam Line Overshirt</p><div class="st-price"><span class="sale">₹1,399</span></div></div>
+                </div>
+                <div class="st-card">
+                  <div class="st-card__media"><div class="slot"><span class="slot__label">4:5</span></div></div>
+                  <div class="st-card__body"><p class="st-name">Presence 240 GSM Tee</p><div class="st-price"><span>₹799</span></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="pagecard__cap"><span>Wishlist</span><b>page.wishlist.json</b></p>
+      </div>
+
+      <div>
+        <div class="pagecard">
+          <div class="pagecard__bar">banishq.com/pages/returns</div>
+          <div class="pagecard__view">
+            <div class="mini-hero" style="min-height:96px">
+              <div class="slot slot--dark"></div>
+              <div class="mini-hero__body"><p>Order help</p><h4>Returns</h4></div>
+            </div>
+            <div class="mini-body">
+              <div class="mini-cols">
+                <div class="mini-col"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v4.5h-4.5"/></svg><b>1 · Raise it</b><span>Within 7 days</span></div>
+                <div class="mini-col"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5h11v10h-11z"/><path d="M13.5 10h4l3 3v3.5h-7z"/><circle cx="6.5" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg><b>2 · We collect</b><span>Pickup in 48 hrs</span></div>
+                <div class="mini-col"><svg viewBox="0 0 24 24" stroke-linejoin="round"><path d="M12 3 5 6v6c0 4.4 3 7.6 7 9 4-1.4 7-4.6 7-9V6Z"/><path d="m9 12 2 2 4-4"/></svg><b>3 · Money back</b><span>5–7 working days</span></div>
+              </div>
+              <div class="acc" style="border-top:1px solid var(--line)">What cannot be returned? <span>+</span></div>
+              <div class="acc">Is the exchange really free? <span>+</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="pagecard__cap"><span>Returns</span><b>page.returns.json</b></p>
+      </div>
+
+      <div>
+        <div class="pagecard">
+          <div class="pagecard__bar">banishq.com/pages/lookbook</div>
+          <div class="pagecard__view">
+            <div class="mini-hero" style="min-height:96px">
+              <div class="slot slot--dark"></div>
+              <div class="mini-hero__body" style="text-align:center;width:100%"><p>Drop 01 · SS26</p><h4>The Everyday Edit</h4></div>
+            </div>
+            <div class="mini-body">
+              <div class="lookbook" style="gap:6px">
+                <div class="lookbook__item lookbook__item--wide" style="aspect-ratio:1/1"><div class="slot"><span class="slot__label">Look</span></div></div>
+                <div class="lookbook__item" style="aspect-ratio:1/1"><div class="slot"></div></div>
+                <div class="lookbook__item" style="aspect-ratio:1/1"><div class="slot"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="pagecard__cap"><span>Lookbook</span><b>page.lookbook.json</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="screen">
+  <div class="wrap">
+    <div class="screen__head">
+      <span class="screen__num">Kit</span>
+      <div>
+        <h2 class="screen__title">Component set</h2>
+        <p class="screen__desc">Every state the merchandiser will hit in the theme editor. Burgundy appears only where it carries meaning — a discount, an active filter, a signature rule — and never as decoration.</p>
+      </div>
+      <div class="screen__files"><span class="file">base.css</span><span class="file">icon.liquid</span></div>
+    </div>
+
+    <div class="comps">
+      <div class="comp">
+        <h3>Buttons</h3>
+        <div class="comp__row"><span class="btn btn--dark">Add to bag</span></div>
+        <div class="comp__row"><span class="btn btn--outline">Read our story</span></div>
+        <div class="comp__row"><span class="btn btn--dark" style="background:var(--burgundy);border-color:var(--burgundy)">Shop the drop</span></div>
+        <div class="comp__row"><span class="btn btn--dark" style="opacity:0.45">Sold out</span></div>
+        <p class="comp__note">48px min height · 0.14em tracking</p>
+      </div>
+
+      <div class="comp">
+        <h3>Badges &amp; price</h3>
+        <div class="comp__row">
+          <span class="tagpill tagpill--sale">30% off</span>
+          <span class="tagpill tagpill--new">Just in</span>
+          <span class="tagpill">Low stock</span>
+          <span class="tagpill tagpill--out">Sold out</span>
+        </div>
+        <div class="comp__row"><span class="st-price" style="font-size:0.9rem"><span class="sale">₹1,399</span><s>₹1,999</s><em>30% off</em></span></div>
+        <div class="comp__row"><span class="st-price" style="font-size:0.9rem"><span>₹899</span></span></div>
+        <p class="comp__note">Discount badge hidden below 10% off</p>
+      </div>
+
+      <div class="comp">
+        <h3>Options</h3>
+        <div class="comp__row"><span class="opt on">M</span><span class="opt">L</span><span class="opt off">XL</span></div>
+        <div class="comp__row">
+          <span class="opt opt--sw" style="background:#f4f1eb;border-color:var(--stone)"></span>
+          <span class="opt opt--sw on" style="background:#7b2330"></span>
+          <span class="opt opt--sw" style="background:#111111"></span>
+        </div>
+        <div class="comp__row"><span class="qty"><span>−</span><span>1</span><span>+</span></span></div>
+        <p class="comp__note">Unavailable options stay visible, struck through</p>
+      </div>
+
+      <div class="comp">
+        <h3>Filters &amp; chips</h3>
+        <div class="comp__row"><span class="chip chip--on">Burgundy ×</span><span class="chip">Clear all</span></div>
+        <div class="comp__row"><span class="chip">Sort: Newest ▾</span></div>
+        <div class="comp__row" style="display:block">
+          <ul style="list-style:none;margin:0;padding:0;display:grid;gap:8px">
+            <li style="display:flex;align-items:center;gap:9px;font-size:0.75rem"><i style="width:13px;height:13px;border:1px solid var(--stone);display:block"></i>240 GSM cotton <em style="margin-left:auto;font-style:normal;font-family:var(--mono);font-size:0.6rem;color:var(--stone)">7</em></li>
+            <li style="display:flex;align-items:center;gap:9px;font-size:0.75rem"><i class="on" style="width:13px;height:13px;background:var(--burgundy);border:1px solid var(--burgundy);display:block"></i>Cotton twill <em style="margin-left:auto;font-style:normal;font-family:var(--mono);font-size:0.6rem;color:var(--stone)">5</em></li>
+          </ul>
+        </div>
+        <p class="comp__note">Counts in mono, never bold</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="index">
+  <div class="wrap">
+    <div class="screen__head">
+      <span class="screen__num">Index</span>
+      <div>
+        <h2 class="screen__title">What renders what</h2>
+        <p class="screen__desc">Every region above maps to a file in the theme. Sections carry a schema, so the merchandiser reorders and rewrites them from the Shopify theme editor without touching Liquid.</p>
+      </div>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Region</th><th>File</th><th>Editable in theme editor</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Rotating utility strip</td><td class="f">sections/announcement-bar.liquid</td><td class="n">Messages, rotation speed, side links</td></tr>
+          <tr><td>Header, mega menu, search, mobile drawer</td><td class="f">sections/header.liquid</td><td class="n">Menu, promo tiles, popular searches</td></tr>
+          <tr><td>Campaign hero</td><td class="f">sections/hero.liquid</td><td class="n">Slides, alignment, interval</td></tr>
+          <tr><td>Running strip with bird mark</td><td class="f">sections/marquee.liquid</td><td class="n">Items, colour, loop duration</td></tr>
+          <tr><td>Shop-by tiles / circular quick links</td><td class="f">sections/category-tiles.liquid</td><td class="n">Collections, layout, ratio, columns</td></tr>
+          <tr><td>Product rails</td><td class="f">sections/featured-collection.liquid</td><td class="n">Collection, count, columns, swipe row</td></tr>
+          <tr><td>Half-image brand story</td><td class="f">sections/editorial-split.liquid</td><td class="n">Image side, panel colour, copy</td></tr>
+          <tr><td>Drop banner with countdown</td><td class="f">sections/drop-banner.liquid</td><td class="n">Image, copy, countdown date</td></tr>
+          <tr><td>Delivery and returns row</td><td class="f">sections/value-props.liquid</td><td class="n">Icon, title, text per block</td></tr>
+          <tr><td>Campaign grid</td><td class="f">sections/lookbook.liquid</td><td class="n">Images, tags, double-width tiles</td></tr>
+          <tr><td>Collection page with facets</td><td class="f">sections/main-collection.liquid</td><td class="n">Banner, sort, columns, page size</td></tr>
+          <tr><td>Product page</td><td class="f">sections/main-product.liquid</td><td class="n">Block order, accordions, reassurance lines</td></tr>
+          <tr><td>Cart page, Taneira layout</td><td class="f">sections/main-cart.liquid</td><td class="n">Offer banner, PIN check, coupon list, empty-state rails</td></tr>
+          <tr><td>Slide-out bag</td><td class="f">snippets/cart-drawer.liquid</td><td class="n">Free-shipping threshold in theme settings</td></tr>
+          <tr><td>Tabbed rails — Men / Women / Unisex</td><td class="f">sections/collection-tabs.liquid</td><td class="n">One collection per tab, count and columns</td></tr>
+          <tr><td>Shop the look with hotspots</td><td class="f">sections/shop-the-look.liquid</td><td class="n">Image, product per hotspot, x/y position</td></tr>
+          <tr><td>Journal rail</td><td class="f">sections/blog-posts.liquid</td><td class="n">Blog, article count, excerpt on or off</td></tr>
+          <tr><td>Instagram / UGC grid</td><td class="f">sections/instagram-feed.liquid</td><td class="n">Uploaded images and links — no API token</td></tr>
+          <tr><td>Recently viewed</td><td class="f">sections/recently-viewed.liquid</td><td class="n">Heading and count; handles come from the browser</td></tr>
+          <tr><td>Wishlist page</td><td class="f">sections/wishlist.liquid</td><td class="n">Headings; cards fetched live so prices stay current</td></tr>
+          <tr><td>Store and franchise locator</td><td class="f">sections/store-locator.liquid</td><td class="n">One block per store, city filter is automatic</td></tr>
+          <tr><td>Franchise enquiry form</td><td class="f">sections/franchise-form.liquid</td><td class="n">Investment ranges, criteria blocks</td></tr>
+          <tr><td>Order tracking</td><td class="f">sections/track-order.liquid</td><td class="n">Carrier URL and query parameter, status explainers</td></tr>
+          <tr><td>Brand story milestones</td><td class="f">sections/timeline.liquid</td><td class="n">Year, title and text per milestone</td></tr>
+          <tr><td>Icon and text columns</td><td class="f">sections/text-columns.liquid</td><td class="n">Carries the policy and service pages</td></tr>
+          <tr><td>Page banner</td><td class="f">sections/page-hero.liquid</td><td class="n">Image, eyebrow, heading, alignment</td></tr>
+          <tr><td>Press strip</td><td class="f">sections/press-logos.liquid</td><td class="n">Logo or name per publication</td></tr>
+          <tr><td>First-visit signup</td><td class="f">sections/newsletter-popup.liquid</td><td class="n">Off by default; delay and copy</td></tr>
+          <tr><td>Unisex size tables</td><td class="f">sections/size-guide.liquid</td><td class="n">Headers and rows as plain text</td></tr>
+          <tr><td>Product card used everywhere</td><td class="f">snippets/product-card.liquid</td><td class="n">Ratio, hover image, size chips, quick add</td></tr>
+          <tr><td>Design tokens and every component</td><td class="f">assets/base.css</td><td class="n">Colours, type scale, page width, radius</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<footer class="colophon">
+  <div class="wrap">
+    <div class="colophon__grid">
+      <div>
+        <img src="__WORDMARK__" alt="BANISHQ">
+        <h2>Locked artwork. Everything else is yours to move.</h2>
+        <p>The four official marks ship inside the theme as image assets and are referenced, never redrawn. Swap them for the traced vector exports when those land — the theme picks up whatever is uploaded in Settings.</p>
+        <p>Franchise expansion is already accounted for: the footer carries a store-locator slot and the value-prop row swaps to in-store pickup copy without a code change.</p>
+      </div>
+      <div class="rules">
+        <div class="rule"><b>01</b><span>Primary horizontal lockup on the desktop header and footer. Minimum 120px.</span></div>
+        <div class="rule"><b>02</b><span>Utility wordmark on the mobile header. Minimum 80px.</span></div>
+        <div class="rule"><b>03</b><span>Bird icon as the favicon and the marquee repeat mark. Minimum 16px.</span></div>
+        <div class="rule"><b>04</b><span>BQ monogram reserved for social, app icon and packaging seals — not the storefront.</span></div>
+        <div class="rule"><b>05</b><span>Clear space equals the width of the B stem, held by the trimmed asset files.</span></div>
+        <div class="rule"><b>06</b><span>The brand line sits near the logo, never locked to the artwork.</span></div>
+      </div>
+    </div>
+  </div>
+</footer>

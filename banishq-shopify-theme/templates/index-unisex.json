@@ -1,0 +1,92 @@
+{
+  "sections": {
+    "unisex-homepage": {
+      "type": "homepage-unisex",
+      "settings": {
+        "show_hero": true,
+        "hero_eyebrow": "For Everyone",
+        "hero_heading": "Wear Your Presence.",
+        "hero_text": "Unisex essentials built for repeat wear. True fits, premium make, ₹199 to ₹2,999.",
+        "hero_button_1_label": "Shop Unisex",
+        "hero_button_2_label": "About the fit",
+        "show_featured": true,
+        "featured_eyebrow": "The essentials",
+        "featured_heading": "Built for repeat wear",
+        "featured_text": "Pieces that work for every body, every style, every day.",
+        "featured_limit": 8,
+        "featured_columns": 4,
+        "show_editorial": true,
+        "editorial_eyebrow": "The philosophy",
+        "editorial_heading": "One label, every wardrobe",
+        "editorial_text": "<p>We don't make for a size or silhouette. We make for comfort, durability, and presence. Gender-neutral tailoring means clothes that work for everyone.</p>",
+        "editorial_button_label": "Read our story",
+        "editorial_reverse": false,
+        "show_promo": true,
+        "promo_eyebrow": "Now available",
+        "promo_heading": "The new drop",
+        "promo_text": "Twelve pieces. One rotation. Made for anyone, everyone, you.",
+        "promo_button_label": "Explore",
+        "promo_color_1": "#111111",
+        "promo_color_2": "#7B2330"
+      }
+    },
+    "value-props": {
+      "type": "value-props",
+      "blocks": {
+        "v1": {
+          "type": "prop",
+          "settings": {
+            "icon": "truck",
+            "title": "Free shipping over ₹999",
+            "text": "Dispatched within 24 hours"
+          }
+        },
+        "v2": {
+          "type": "prop",
+          "settings": {
+            "icon": "return",
+            "title": "7-day easy returns",
+            "text": "No questions, no runaround"
+          }
+        },
+        "v3": {
+          "type": "prop",
+          "settings": {
+            "icon": "ruler",
+            "title": "True unisex fits",
+            "text": "One size system, every body"
+          }
+        },
+        "v4": {
+          "type": "prop",
+          "settings": {
+            "icon": "tag",
+            "title": "₹199 to ₹2,999",
+            "text": "Premium make, honest price"
+          }
+        }
+      },
+      "block_order": [
+        "v1",
+        "v2",
+        "v3",
+        "v4"
+      ],
+      "settings": {}
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "eyebrow": "Drop alerts",
+        "heading": "Know before the rest of the feed.",
+        "text": "New drops, restocks and early access. Roughly twice a month — never more.",
+        "note": "Unsubscribe any time. We do not sell your data."
+      }
+    }
+  },
+  "order": [
+    "unisex-homepage",
+    "value-props",
+    "newsletter"
+  ]
+}

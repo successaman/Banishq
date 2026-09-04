@@ -332,5 +332,37 @@
     "message_placeholder": "Location, size, floor, and whether you have it already",
     "submit": "Send enquiry",
     "success": "Thanks. We reply to every serious enquiry within three working days."
+  },
+  "categories": {
+    "mens": {
+      "title": "Men's",
+      "badge": "Shop Now",
+      "description": "Curated for the modern man",
+      "heading": "Engineered for men",
+      "tagline": "Cuts designed for the masculine form. Premium cotton, honest fit, ₹199 to ₹2,999.",
+      "shop": "Shop Men's",
+      "featured": "Built for performance",
+      "featured_desc": "Our most-reordered styles, engineered for durability and comfort."
+    },
+    "womens": {
+      "title": "Women's",
+      "badge": "Shop Now",
+      "description": "Designed for women",
+      "heading": "Designed for women",
+      "tagline": "Silhouettes that flatter, fabrics that move, fits that actually work. ₹199 to ₹2,999.",
+      "shop": "Shop Women's",
+      "featured": "Worn and loved",
+      "featured_desc": "Pieces that work harder, feel better, and look effortlessly right."
+    },
+    "unisex": {
+      "title": "Unisex",
+      "badge": "Explore",
+      "description": "Gender-neutral styles",
+      "heading": "Wear Your Presence",
+      "tagline": "Unisex essentials built for repeat wear. True fits, premium make, ₹199 to ₹2,999.",
+      "shop": "Shop Unisex",
+      "featured": "Built for repeat wear",
+      "featured_desc": "Pieces that work for every body, every style, every day."
+    }
   }
 }

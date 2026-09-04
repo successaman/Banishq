@@ -1,0 +1,362 @@
+{%- comment -%}
+  Women's category homepage section. Combines hero, featured products, editorial
+  and promotional content specifically for women's collections. Full customization.
+{%- endcomment -%}
+
+<section class="homepage-category homepage-category--womens" data-category="womens">
+  {%- if section.settings.show_hero -%}
+    <div class="hc-hero">
+      <div class="hc-hero__media">
+        {%- if section.settings.hero_image -%}
+          <picture>
+            {%- if section.settings.hero_image_mobile -%}
+              <source
+                media="(max-width: 749px)"
+                srcset="{{ section.settings.hero_image_mobile | image_url: width: 750 }} 750w,
+                        {{ section.settings.hero_image_mobile | image_url: width: 1100 }} 1100w"
+                sizes="100vw">
+            {%- endif -%}
+            <img
+              src="{{ section.settings.hero_image | image_url: width: 2200 }}"
+              srcset="{{ section.settings.hero_image | image_url: width: 750 }} 750w,
+                      {{ section.settings.hero_image | image_url: width: 1100 }} 1100w,
+                      {{ section.settings.hero_image | image_url: width: 1600 }} 1600w,
+                      {{ section.settings.hero_image | image_url: width: 2200 }} 2200w"
+              sizes="100vw"
+              alt="{{ section.settings.hero_image.alt | escape }}"
+              width="{{ section.settings.hero_image.width }}"
+              height="{{ section.settings.hero_image.height }}"
+              loading="lazy">
+          </picture>
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+        <div class="hc-hero__scrim" style="background: linear-gradient(180deg, rgba(17,17,17,0.45) 0%, rgba(17,17,17,0.15) 45%, rgba(17,17,17,0.73) 100%);"></div>
+      </div>
+
+      <div class="page-width">
+        <div class="hc-hero__content">
+          {%- if section.settings.hero_eyebrow != blank -%}
+            <p class="eyebrow" style="color: rgba(244,241,235,0.72)">{{ section.settings.hero_eyebrow }}</p>
+          {%- endif -%}
+          {%- if section.settings.hero_heading != blank -%}
+            <h1 class="hc-hero__title">{{ section.settings.hero_heading }}</h1>
+          {%- endif -%}
+          {%- if section.settings.hero_text != blank -%}
+            <p class="hc-hero__text">{{ section.settings.hero_text }}</p>
+          {%- endif -%}
+          <div class="hc-hero__buttons">
+            {%- if section.settings.hero_button_1_label != blank -%}
+              <a href="{{ section.settings.hero_button_1_link }}" class="button button--bone">{{ section.settings.hero_button_1_label }}</a>
+            {%- endif -%}
+            {%- if section.settings.hero_button_2_label != blank -%}
+              <a href="{{ section.settings.hero_button_2_link }}" class="button button--ghost">{{ section.settings.hero_button_2_label }}</a>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.show_featured -%}
+    <div class="hc-featured" style="padding-block: clamp(50px, 7vw, 100px)">
+      <div class="page-width">
+        {%- if section.settings.featured_eyebrow != blank -%}
+          <p class="eyebrow text-center">{{ section.settings.featured_eyebrow }}</p>
+        {%- endif -%}
+
+        <div class="section-head section-head--center" style="margin-bottom: 40px">
+          <div class="section-head__text">
+            <h2 class="section-head__title {% if settings.heading_style == 'serif' %}h-serif{% endif %} h2">{{ section.settings.featured_heading }}</h2>
+            {%- if section.settings.featured_text != blank -%}
+              <p class="section-head__sub">{{ section.settings.featured_text }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+
+        {%- if section.settings.featured_collection != blank -%}
+          {%- assign featured_products = section.settings.featured_collection.products | slice: 0, section.settings.featured_limit -%}
+          <div class="product-grid" style="--columns: {{ section.settings.featured_columns }}">
+            {%- for product in featured_products -%}
+              {%- render 'product-card', product: product, ratio: settings.card_image_ratio -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.show_editorial -%}
+    <div class="hc-editorial">
+      <div class="page-width">
+        <div class="editorial-split{% if section.settings.editorial_reverse %} editorial-split--reverse{% endif %}">
+          <div class="editorial-split__media">
+            {%- if section.settings.editorial_image -%}
+              <img
+                src="{{ section.settings.editorial_image | image_url: width: 800 }}"
+                alt="{{ section.settings.editorial_image.alt | escape }}"
+                loading="lazy"
+                width="600" height="600">
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+          </div>
+
+          <div class="editorial-split__content">
+            {%- if section.settings.editorial_eyebrow != blank -%}
+              <p class="eyebrow">{{ section.settings.editorial_eyebrow }}</p>
+            {%- endif -%}
+            <h2 class="h2">{{ section.settings.editorial_heading }}</h2>
+            <div class="rte">{{ section.settings.editorial_text }}</div>
+            {%- if section.settings.editorial_button_label != blank -%}
+              <a href="{{ section.settings.editorial_button_link }}" class="button button--primary">{{ section.settings.editorial_button_label }}</a>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.show_promo -%}
+    <div class="hc-promo" style="padding-block: clamp(50px, 7vw, 100px)">
+      <div class="page-width">
+        <div class="banner-frame" style="background: linear-gradient(135deg, {{ section.settings.promo_color_1 }} 0%, {{ section.settings.promo_color_2 }} 100%)">
+          <div class="banner-frame__content">
+            {%- if section.settings.promo_eyebrow != blank -%}
+              <p class="eyebrow">{{ section.settings.promo_eyebrow }}</p>
+            {%- endif -%}
+            <h2 class="banner-frame__title">{{ section.settings.promo_heading }}</h2>
+            {%- if section.settings.promo_text != blank -%}
+              <p class="banner-frame__text">{{ section.settings.promo_text }}</p>
+            {%- endif -%}
+            {%- if section.settings.promo_button_label != blank -%}
+              <a href="{{ section.settings.promo_button_link }}" class="button button--ghost">{{ section.settings.promo_button_label }}</a>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+<style>
+.homepage-category {
+  --category-color: var(--bq-burgundy);
+}
+
+.hc-hero {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.hc-hero__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hc-hero__media img,
+.hc-hero__media svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hc-hero__scrim {
+  position: absolute;
+  inset: 0;
+}
+
+.hc-hero__content {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+  padding: clamp(20px, 5vw, 60px);
+  color: var(--bq-bone);
+  text-align: left;
+}
+
+.hc-hero__title {
+  font-family: var(--bq-font-display);
+  font-size: clamp(2rem, 7vw, 4rem);
+  font-weight: 400;
+  line-height: 1.1;
+  margin: 16px 0;
+}
+
+.hc-hero__text {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 16px 0;
+  color: rgba(244, 241, 235, 0.88);
+}
+
+.hc-hero__buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+
+.hc-featured {
+  background: var(--bq-page);
+}
+
+.hc-editorial {
+  padding-block: clamp(50px, 7vw, 100px);
+}
+
+.editorial-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(30px, 5vw, 60px);
+  align-items: center;
+}
+
+.editorial-split--reverse {
+  direction: rtl;
+}
+
+.editorial-split--reverse > * {
+  direction: ltr;
+}
+
+.editorial-split__media {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.editorial-split__media img,
+.editorial-split__media svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.editorial-split__content h2 {
+  margin-top: 0;
+}
+
+.banner-frame {
+  padding: clamp(40px, 7vw, 80px);
+  border-radius: 2px;
+  text-align: center;
+  color: var(--bq-bone);
+}
+
+.banner-frame__title {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-family: var(--bq-font-display);
+  margin: 16px 0;
+  font-weight: 400;
+}
+
+.banner-frame__text {
+  font-size: 1rem;
+  max-width: 600px;
+  margin: 16px auto;
+}
+
+.banner-frame__content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+@media (max-width: 749px) {
+  .hc-hero {
+    aspect-ratio: 4 / 5;
+  }
+
+  .hc-hero__content {
+    text-align: center;
+    max-width: none;
+  }
+
+  .hc-hero__buttons {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .editorial-split {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .editorial-split__media {
+    aspect-ratio: 4 / 5;
+  }
+
+  .banner-frame {
+    padding: 30px 20px;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Women's homepage",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero section"
+    },
+    { "type": "checkbox", "id": "show_hero", "label": "Show hero", "default": true },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
+    { "type": "image_picker", "id": "hero_image_mobile", "label": "Hero image (mobile)" },
+    { "type": "text", "id": "hero_eyebrow", "label": "Eyebrow", "default": "For Her" },
+    { "type": "text", "id": "hero_heading", "label": "Heading", "default": "Designed for women." },
+    { "type": "textarea", "id": "hero_text", "label": "Text", "default": "Silhouettes that flatter, fabrics that move, fits that actually work. ₹199 to ₹2,999." },
+    { "type": "text", "id": "hero_button_1_label", "label": "Button 1 label", "default": "Shop Women's" },
+    { "type": "url", "id": "hero_button_1_link", "label": "Button 1 link" },
+    { "type": "text", "id": "hero_button_2_label", "label": "Button 2 label", "default": "About fit" },
+    { "type": "url", "id": "hero_button_2_link", "label": "Button 2 link" },
+
+    {
+      "type": "header",
+      "content": "Featured products"
+    },
+    { "type": "checkbox", "id": "show_featured", "label": "Show featured", "default": true },
+    { "type": "collection", "id": "featured_collection", "label": "Collection" },
+    { "type": "range", "id": "featured_limit", "min": 4, "max": 12, "step": 4, "label": "Products to show", "default": 8 },
+    { "type": "range", "id": "featured_columns", "min": 2, "max": 4, "step": 1, "label": "Columns", "default": 4 },
+    { "type": "text", "id": "featured_eyebrow", "label": "Eyebrow", "default": "Women's collection" },
+    { "type": "text", "id": "featured_heading", "label": "Heading", "default": "Worn and loved" },
+    { "type": "textarea", "id": "featured_text", "label": "Description", "default": "Pieces that work harder, feel better, and look effortlessly right." },
+
+    {
+      "type": "header",
+      "content": "Editorial section"
+    },
+    { "type": "checkbox", "id": "show_editorial", "label": "Show editorial", "default": true },
+    { "type": "image_picker", "id": "editorial_image", "label": "Image" },
+    { "type": "checkbox", "id": "editorial_reverse", "label": "Reverse layout", "default": false },
+    { "type": "text", "id": "editorial_eyebrow", "label": "Eyebrow", "default": "The fit" },
+    { "type": "text", "id": "editorial_heading", "label": "Heading", "default": "Tailored for real bodies" },
+    { "type": "richtext", "id": "editorial_text", "label": "Text", "default": "<p>We cut for curves, length, and grace. Tested on real women, in real life. Every piece is made to feel like it was always yours.</p>" },
+    { "type": "text", "id": "editorial_button_label", "label": "Button label", "default": "Read the story" },
+    { "type": "url", "id": "editorial_button_link", "label": "Button link" },
+
+    {
+      "type": "header",
+      "content": "Promo banner"
+    },
+    { "type": "checkbox", "id": "show_promo", "label": "Show banner", "default": true },
+    { "type": "color", "id": "promo_color_1", "label": "Color 1", "default": "#A7A39C" },
+    { "type": "color", "id": "promo_color_2", "label": "Color 2", "default": "#7B2330" },
+    { "type": "text", "id": "promo_eyebrow", "label": "Eyebrow", "default": "This season" },
+    { "type": "text", "id": "promo_heading", "label": "Heading", "default": "Co-ords season is here" },
+    { "type": "textarea", "id": "promo_text", "label": "Text", "default": "Mix and match. Easy, coordinated, effortless. From separates to sets." },
+    { "type": "text", "id": "promo_button_label", "label": "Button label", "default": "Explore" },
+    { "type": "url", "id": "promo_button_link", "label": "Button link" }
+  ],
+  "presets": [
+    {
+      "name": "Women's homepage"
+    }
+  ]
+}
+{% endschema %}
