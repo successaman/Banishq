@@ -1,0 +1,448 @@
+{%- comment -%}
+  Cart page, laid out to the taneira.com structure.
+
+  Left rail  (7/12): offer banner → delivery check → selection row → item cards
+  Right rail (4/12): coupons → savings band → order details → taxes note →
+                     international line → checkout + continue → add from wishlist
+
+  Three notes on how this differs from Taneira's platform, which is Salesforce
+  Commerce Cloud rather than Shopify:
+
+  1. Selection checkboxes drive BULK ACTIONS (remove, move to wishlist), not
+     partial checkout. Shopify always checks out the whole cart, so totals
+     always describe the whole cart — no line can be silently excluded.
+  2. Discount codes cannot be validated from the cart on Shopify. Applying one
+     stores it and sends the shopper through /discount/CODE?redirect=/checkout,
+     where Shopify validates and applies it.
+  3. The PIN check is a serviceability and ETA estimate from the merchant's own
+     list of prefixes. It never quotes a rate; shipping is priced at checkout.
+{%- endcomment -%}
+
+{%- liquid
+  assign mrp_total = 0
+  for item in cart.items
+    if item.variant.compare_at_price > item.variant.price
+      assign line_mrp = item.variant.compare_at_price | times: item.quantity
+    else
+      assign line_mrp = item.original_line_price
+    endif
+    assign mrp_total = mrp_total | plus: line_mrp
+  endfor
+
+  assign mrp_discount = mrp_total | minus: cart.original_total_price
+  assign total_saving = mrp_total | minus: cart.total_price
+  assign free_ship_threshold = settings.free_shipping_threshold | times: 100
+-%}
+
+<div class="page-width tcart">
+  {% render 'breadcrumbs' %}
+
+  <div class="tcart__head">
+    <h1 class="tcart__title">{{ 'cart.general.title' | t }}</h1>
+    <span class="tcart__count">({{ cart.item_count }})</span>
+  </div>
+
+  {%- if cart.item_count > 0 -%}
+    <div class="tcart__grid">
+
+      {%- comment -%} ======================================== LEFT RAIL {%- endcomment -%}
+      <div>
+        {%- if section.settings.banner_text != blank -%}
+          <div class="tcart__banner">
+            {% render 'icon', name: 'tag' %}
+            <div>
+              <b>{{ section.settings.banner_text }}</b>
+              {%- if section.settings.banner_terms != blank -%}
+                <small>{{ section.settings.banner_terms }}</small>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.show_pincode -%}
+          <div class="tcart__pin" data-pincode data-serviceable="{{ section.settings.serviceable_prefixes | escape }}" data-days="{{ section.settings.delivery_days }}" data-metro-days="{{ section.settings.metro_delivery_days }}" data-metro="{{ section.settings.metro_prefixes | escape }}">
+            <div class="tcart__pin-label">
+              {{ 'cart.delivery.title' | t }}
+              <span>{{ 'cart.delivery.subtitle' | t }}</span>
+            </div>
+            <form class="tcart__pin-form" data-pincode-form>
+              <span class="tcart__pin-cc">IN</span>
+              <label class="visually-hidden" for="CartPincode">{{ 'cart.delivery.placeholder' | t }}</label>
+              <input
+                id="CartPincode"
+                class="tcart__pin-input"
+                type="text"
+                inputmode="numeric"
+                pattern="[0-9]{6}"
+                maxlength="6"
+                placeholder="{{ 'cart.delivery.placeholder' | t }}"
+                data-pincode-input>
+              <button type="submit" class="tcart__pin-submit">{{ 'cart.delivery.check' | t }}</button>
+            </form>
+            <p class="tcart__pin-result" data-pincode-result hidden></p>
+          </div>
+        {%- endif -%}
+
+        <div class="tcart__selectbar">
+          <label class="tcart__selected">
+            <input type="checkbox" class="tcheck" data-select-all checked>
+            <span data-selected-count>{{ cart.item_count }}</span>/{{ cart.item_count }}&nbsp;{{ 'cart.selection.selected' | t }}
+          </label>
+          <div class="tcart__bulk">
+            <button type="button" data-bulk="wishlist">{{ 'cart.selection.move_to_wishlist' | t }}</button>
+            <button type="button" data-bulk="remove">{{ 'cart.selection.remove' | t }}</button>
+          </div>
+        </div>
+
+        <form action="{{ routes.cart_url }}" method="post" novalidate data-cart-form>
+          {%- for item in cart.items -%}
+            {%- liquid
+              assign line_off = 0
+              if item.variant.compare_at_price > item.variant.price
+                assign diff = item.variant.compare_at_price | minus: item.variant.price | times: 100.0
+                assign line_off = diff | divided_by: item.variant.compare_at_price | round
+              endif
+            -%}
+            <div class="tline" data-line data-key="{{ item.key }}" data-handle="{{ item.product.handle }}">
+              <div>
+                <input type="checkbox" class="tcheck" data-line-check checked aria-label="{{ 'cart.selection.select_item' | t: title: item.product.title | escape }}">
+              </div>
+
+              <a class="tline__media" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
+                {%- if item.image -%}
+                  <img src="{{ item.image | image_url: width: 260 }}" alt="{{ item.image.alt | escape }}" width="112" height="140" loading="lazy">
+                {%- endif -%}
+              </a>
+
+              <div class="tline__body">
+                <div class="tline__top">
+                  <h2 class="tline__name"><a href="{{ item.url }}">{{ item.product.title }}</a></h2>
+                  <button type="button" class="tline__delete" data-cart-remove="{{ item.key }}" aria-label="{{ 'cart.general.remove' | t }}">
+                    {% render 'icon', name: 'close' %}
+                  </button>
+                </div>
+
+                {%- unless item.product.has_only_default_variant -%}
+                  <p class="tline__opts">{{ item.variant.title }}</p>
+                {%- endunless -%}
+                {%- if item.variant.sku != blank -%}
+                  <p class="tline__opts">{{ 'cart.label.sku' | t }} {{ item.variant.sku }}</p>
+                {%- endif -%}
+
+                <div class="tline__price">
+                  <span>{{ item.final_line_price | money }}</span>
+                  {%- if item.variant.compare_at_price > item.variant.price -%}
+                    {%- assign line_mrp = item.variant.compare_at_price | times: item.quantity -%}
+                    <s>{{ line_mrp | money }}</s>
+                    <span class="tline__off">{{ line_off }}% {{ 'products.product.off' | t }}</span>
+                  {%- elsif item.original_line_price > item.final_line_price -%}
+                    <s>{{ item.original_line_price | money }}</s>
+                  {%- endif -%}
+                </div>
+
+                {%- for discount in item.line_level_discount_allocations -%}
+                  <p class="tline__opts" style="color: var(--bq-burgundy)">{{ discount.discount_application.title }} (&minus;{{ discount.amount | money }})</p>
+                {%- endfor -%}
+
+                <div class="tline__foot">
+                  {% render 'quantity-selector', value: item.quantity, key: item.key %}
+                  <button type="button" class="tline__wish" data-move-to-wishlist="{{ item.key }}" data-wish-handle="{{ item.product.handle }}">
+                    {{ 'cart.selection.move_to_wishlist' | t }}
+                  </button>
+                </div>
+
+                {%- if section.settings.show_line_eta -%}
+                  <p class="tline__eta" data-line-eta>
+                    {% render 'icon', name: 'truck' %}
+                    <span>{{ 'cart.delivery.line_default' | t }}</span>
+                  </p>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+
+          {%- if settings.cart_notes -%}
+            <div class="field" style="margin-top: 24px; max-width: 520px">
+              <label class="field__label" for="CartNote">{{ 'cart.general.note' | t }}</label>
+              <textarea id="CartNote" name="note" class="field__input" style="min-height: 90px">{{ cart.note }}</textarea>
+            </div>
+          {%- endif -%}
+
+          <noscript>
+            <button type="submit" name="update" class="button button--outline" style="margin-top: 16px">{{ 'cart.general.update' | t }}</button>
+          </noscript>
+        </form>
+      </div>
+
+      {%- comment -%} ======================================= RIGHT RAIL {%- endcomment -%}
+      <aside class="tsum" data-cart-summary>
+        {%- if section.settings.show_coupons -%}
+          <div class="tpanel">
+            <div class="tpanel__head">
+              <span>{{ 'cart.coupons.title' | t }}</span>
+              {%- if section.blocks.size > 0 -%}
+                <button type="button" class="tpanel__link" data-coupon-toggle>{{ 'cart.coupons.view_all' | t }}</button>
+              {%- endif -%}
+            </div>
+            <div class="tpanel__body">
+              <form class="tcoupon" data-coupon-form>
+                <label class="visually-hidden" for="CartCoupon">{{ 'cart.coupons.placeholder' | t }}</label>
+                <input id="CartCoupon" type="text" placeholder="{{ 'cart.coupons.placeholder' | t }}" autocomplete="off" data-coupon-input>
+                <button type="submit">{{ 'cart.coupons.apply' | t }}</button>
+              </form>
+
+              <p class="tcoupon-applied" data-coupon-applied hidden>
+                <span></span>
+                <button type="button" data-coupon-clear>{{ 'cart.coupons.remove' | t }}</button>
+              </p>
+
+              {%- if section.blocks.size > 0 -%}
+                <div class="tcoupon-list" data-coupon-list hidden>
+                  {%- for block in section.blocks -%}
+                    {%- if block.type == 'coupon' -%}
+                      <div class="tcoupon-offer" {{ block.shopify_attributes }}>
+                        <div>
+                          <div class="tcoupon-offer__code">{{ block.settings.code }}</div>
+                          <p class="tcoupon-offer__text">{{ block.settings.text }}</p>
+                        </div>
+                        <button type="button" class="tcoupon-offer__apply" data-coupon-pick="{{ block.settings.code | escape }}">{{ 'cart.coupons.apply' | t }}</button>
+                      </div>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+
+        <div class="tpanel">
+          {%- if total_saving > 0 -%}
+            <p class="tsave" style="margin: 0">
+              {{ 'cart.summary.saving_html' | t: amount: total_saving | money }}
+            </p>
+          {%- endif -%}
+
+          <div class="tpanel__head" style="border-top: 1px solid var(--bq-line-soft)">
+            <span>{{ 'cart.summary.title' | t }}</span>
+          </div>
+
+          <div class="tpanel__body">
+            <div class="tdetails">
+              <div class="tdetails__row">
+                <span>{{ 'cart.summary.mrp' | t }}</span>
+                <span>{{ mrp_total | money }}</span>
+              </div>
+
+              {%- if mrp_discount > 0 -%}
+                <div class="tdetails__row tdetails__row--discount">
+                  <span>{{ 'cart.summary.mrp_discount' | t }}</span>
+                  <span>&minus;{{ mrp_discount | money }}</span>
+                </div>
+              {%- endif -%}
+
+              {%- if free_ship_threshold > 0 and cart.total_price >= free_ship_threshold -%}
+                <div class="tdetails__row tdetails__row--free">
+                  <span>{{ 'cart.summary.shipping' | t }}</span>
+                  <span>{{ 'cart.summary.free' | t }}</span>
+                </div>
+              {%- else -%}
+                <div class="tdetails__row">
+                  <span>{{ 'cart.summary.shipping' | t }}</span>
+                  <span>{{ 'cart.summary.at_checkout' | t }}</span>
+                </div>
+              {%- endif -%}
+
+              {%- if cart.total_discount > 0 -%}
+                <div class="tdetails__row tdetails__row--discount">
+                  <span>{{ 'cart.summary.promo' | t }}</span>
+                  <span>&minus;{{ cart.total_discount | money }}</span>
+                </div>
+              {%- endif -%}
+
+              {%- if section.settings.show_coupons -%}
+                <div class="tdetails__row tdetails__row--link" data-coupon-row>
+                  <span>{{ 'cart.summary.coupon' | t }}</span>
+                  <span data-coupon-summary>+ {{ 'cart.coupons.title' | t }}</span>
+                </div>
+              {%- endif -%}
+            </div>
+
+            <div class="tdetails__total">
+              <span>{{ 'cart.summary.total' | t }}</span>
+              <span>{{ cart.total_price | money }}</span>
+            </div>
+            <p class="tdetails__tax">{{ 'cart.summary.tax_note' | t }}</p>
+          </div>
+        </div>
+
+        {%- if section.settings.show_international -%}
+          <p class="tsum__intl" style="margin: 0">
+            {% render 'icon', name: 'truck' %}
+            {{ 'cart.summary.international' | t }}
+          </p>
+        {%- endif -%}
+
+        <div class="tsum__actions">
+          <form action="{{ routes.cart_url }}" method="post" data-checkout-form>
+            <button type="submit" name="checkout" class="button button--full tsum__checkout" data-checkout-button>
+              {{ 'cart.general.checkout' | t }} <b>{{ cart.total_price | money }}</b>
+            </button>
+          </form>
+          <a href="{{ section.settings.continue_url | default: routes.all_products_collection_url }}" class="button button--outline button--full">
+            {{ 'cart.general.continue_shopping' | t }}
+          </a>
+        </div>
+
+        {%- if section.settings.show_wishlist_link -%}
+          <a class="twish" href="{{ section.settings.wishlist_url | default: routes.root_url }}">
+            <span class="twish__left">
+              {% render 'icon', name: 'heart' %}
+              {{ 'cart.general.add_from_wishlist' | t }}
+            </span>
+            {% render 'icon', name: 'chevron-right' %}
+          </a>
+        {%- endif -%}
+
+        <div class="tsecure">
+          <span>{% render 'icon', name: 'shield' %} {{ 'cart.trust.secure' | t }}</span>
+          <span>{% render 'icon', name: 'return' %} {{ 'cart.trust.returns' | t }}</span>
+          <span>{% render 'icon', name: 'truck' %} {{ 'cart.trust.cod' | t }}</span>
+        </div>
+      </aside>
+    </div>
+
+  {%- else -%}
+    {%- comment -%} ================================== EMPTY CART STATE {%- endcomment -%}
+    <div class="tempty">
+      <h2 class="tempty__title">{{ 'cart.general.empty' | t }}</h2>
+      <p class="tempty__text">{{ section.settings.empty_text | default: 'Nothing in here yet. Start with the essentials.' }}</p>
+      <a href="{{ routes.all_products_collection_url }}" class="button">{{ 'cart.general.continue_shopping' | t }}</a>
+    </div>
+
+    {%- if section.settings.trending_searches != blank -%}
+      <div class="tempty__block">
+        <p class="tempty__label text-center">{{ 'cart.empty.trending_searches' | t }}</p>
+        <div class="tempty__chips">
+          {%- assign terms = section.settings.trending_searches | split: ',' -%}
+          {%- for term in terms -%}
+            {%- assign t = term | strip -%}
+            <a href="{{ routes.search_url }}?q={{ t | url_encode }}" class="chip">{{ t }}</a>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- assign tile_blocks = section.blocks | where: 'type', 'trending_category' -%}
+    {%- if tile_blocks.size > 0 -%}
+      <div class="tempty__block">
+        <p class="tempty__label text-center">{{ 'cart.empty.trending_categories' | t }}</p>
+        <div class="tiles" style="--tiles-desktop: {{ tile_blocks.size }}">
+          {%- for block in tile_blocks -%}
+            {%- assign coll = collections[block.settings.collection] -%}
+            <a href="{{ block.settings.link | default: coll.url }}" class="tile media media--square" {{ block.shopify_attributes }}>
+              {%- if block.settings.image -%}
+                <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.title | escape }}" loading="lazy">
+              {%- elsif coll.featured_image -%}
+                <img src="{{ coll.featured_image | image_url: width: 600 }}" alt="{{ coll.title | escape }}" loading="lazy">
+              {%- else -%}
+                {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
+              <span class="tile__body">
+                <span class="tile__title">{{ block.settings.title | default: coll.title }}</span>
+              </span>
+            </a>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- assign top_sellers = collections[section.settings.empty_collection] -%}
+    {%- if top_sellers.products.size > 0 -%}
+      <div class="tempty__block">
+        <p class="tempty__label text-center">{{ section.settings.empty_collection_heading }}</p>
+        <ul class="product-grid" style="--grid-desktop: 4" role="list">
+          {%- for product in top_sellers.products limit: 4 -%}
+            <li>{% render 'product-card', card_product: product, index: forloop.index0 %}</li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": [
+    { "type": "header", "content": "Offer banner" },
+    {
+      "type": "text",
+      "id": "banner_text",
+      "label": "Banner text",
+      "default": "Spend ₹999 and shipping is on us."
+    },
+    { "type": "text", "id": "banner_terms", "label": "Terms line", "default": "Applies to all prepaid and COD orders in India" },
+
+    { "type": "header", "content": "Delivery check" },
+    { "type": "checkbox", "id": "show_pincode", "label": "Show PIN code check", "default": true },
+    {
+      "type": "textarea",
+      "id": "serviceable_prefixes",
+      "label": "Serviceable PIN prefixes",
+      "info": "Comma separated first 2 or 3 digits, e.g. 11,40,56,60,70. Leave blank to accept every valid PIN.",
+      "default": "11,12,20,21,30,36,38,39,40,41,42,44,50,51,52,53,56,57,58,60,62,68,70,71,73,75,76,78,80"
+    },
+    {
+      "type": "textarea",
+      "id": "metro_prefixes",
+      "label": "Metro PIN prefixes",
+      "info": "These get the faster estimate.",
+      "default": "11,40,56,60,70,50,38,41"
+    },
+    { "type": "range", "id": "metro_delivery_days", "min": 1, "max": 7, "step": 1, "label": "Metro delivery days", "default": 3 },
+    { "type": "range", "id": "delivery_days", "min": 2, "max": 14, "step": 1, "label": "Rest of India delivery days", "default": 6 },
+    { "type": "checkbox", "id": "show_line_eta", "label": "Show delivery estimate on each item", "default": true },
+
+    { "type": "header", "content": "Coupons" },
+    { "type": "checkbox", "id": "show_coupons", "label": "Show coupon panel", "default": true },
+
+    { "type": "header", "content": "Summary" },
+    { "type": "checkbox", "id": "show_international", "label": "Show international shipping line", "default": true },
+    { "type": "checkbox", "id": "show_wishlist_link", "label": "Show add-from-wishlist panel", "default": true },
+    { "type": "url", "id": "wishlist_url", "label": "Wishlist page" },
+    { "type": "url", "id": "continue_url", "label": "Continue shopping link" },
+
+    { "type": "header", "content": "Empty cart" },
+    { "type": "text", "id": "empty_text", "label": "Empty message", "default": "Nothing in here yet. Start with the essentials." },
+    {
+      "type": "text",
+      "id": "trending_searches",
+      "label": "Trending searches",
+      "info": "Comma separated.",
+      "default": "Oversized tees, Cargos, Co-ords, Overshirts, Under 999"
+    },
+    { "type": "collection", "id": "empty_collection", "label": "Product rail collection" },
+    { "type": "text", "id": "empty_collection_heading", "label": "Rail heading", "default": "Our top sellers" }
+  ],
+  "blocks": [
+    {
+      "type": "coupon",
+      "name": "Coupon",
+      "settings": [
+        { "type": "text", "id": "code", "label": "Code", "default": "FIRST10" },
+        { "type": "text", "id": "text", "label": "Description", "default": "10% off your first order. Not valid with other offers." }
+      ]
+    },
+    {
+      "type": "trending_category",
+      "name": "Trending category",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "image_picker", "id": "image", "label": "Image override" },
+        { "type": "text", "id": "title", "label": "Title override" },
+        { "type": "url", "id": "link", "label": "Link override" }
+      ]
+    }
+  ]
+}
+{% endschema %}

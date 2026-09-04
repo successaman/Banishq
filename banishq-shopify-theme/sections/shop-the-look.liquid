@@ -1,0 +1,88 @@
+{%- comment -%}
+  One campaign frame, the pieces in it listed underneath. Hotspots are
+  positioned as percentages so they hold at every width; the list below is the
+  accessible route to the same products.
+{%- endcomment -%}
+<section class="section">
+  <div class="page-width">
+    <div class="section-head">
+      <div class="section-head__text">
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        <h2 class="section-head__title {% if settings.heading_style == 'serif' %}h-serif{% endif %} h2">{{ section.settings.heading }}</h2>
+      </div>
+      {%- if section.settings.link_label != blank -%}
+        <a href="{{ section.settings.link }}" class="link-underline">{{ section.settings.link_label }} {% render 'icon', name: 'arrow-right' %}</a>
+      {%- endif -%}
+    </div>
+
+    <div class="look">
+      <div class="look__img media">
+        {%- if section.settings.image -%}
+          <img src="{{ section.settings.image | image_url: width: 1800 }}"
+               srcset="{{ section.settings.image | image_url: width: 900 }} 900w, {{ section.settings.image | image_url: width: 1800 }} 1800w"
+               sizes="100vw" alt="{{ section.settings.image.alt | escape }}" loading="lazy">
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+      </div>
+
+      {%- for block in section.blocks -%}
+        {%- assign hot_product = all_products[block.settings.product] -%}
+        <a
+          class="hotspot"
+          href="{{ hot_product.url | default: '#' }}"
+          style="left: {{ block.settings.x }}%; top: {{ block.settings.y }}%"
+          aria-label="{{ hot_product.title | default: block.settings.label | escape }}"
+          {{ block.shopify_attributes }}>{{ forloop.index }}</a>
+      {%- endfor -%}
+    </div>
+
+    <ul class="look__list product-grid" style="--grid-desktop: 4" role="list">
+      {%- for block in section.blocks -%}
+        {%- assign hot_product = all_products[block.settings.product] -%}
+        <li>
+          {%- if hot_product != blank -%}
+            {% render 'product-card', card_product: hot_product, index: forloop.index0 %}
+          {%- else -%}
+            {% render 'product-card' %}
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Shop the look",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The full look" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Everything in frame" },
+    { "type": "image_picker", "id": "image", "label": "Look image" },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "See the lookbook" },
+    { "type": "url", "id": "link", "label": "Link" }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Hotspot",
+      "limit": 6,
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "text", "id": "label", "label": "Fallback label", "default": "Piece" },
+        { "type": "range", "id": "x", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Horizontal position", "default": 40 },
+        { "type": "range", "id": "y", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Vertical position", "default": 45 }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop the look",
+      "blocks": [
+        { "type": "hotspot", "settings": { "x": 38, "y": 32 } },
+        { "type": "hotspot", "settings": { "x": 44, "y": 62 } },
+        { "type": "hotspot", "settings": { "x": 62, "y": 44 } }
+      ]
+    }
+  ]
+}
+{% endschema %}

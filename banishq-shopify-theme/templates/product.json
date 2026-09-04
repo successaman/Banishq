@@ -1,0 +1,58 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor": { "type": "vendor", "settings": {} },
+        "title": { "type": "title", "settings": {} },
+        "price": { "type": "price", "settings": {} },
+        "variants": { "type": "variant_picker", "settings": {} },
+        "buy": { "type": "buy_buttons", "settings": { "show_quantity": true, "show_dynamic_checkout": true } },
+        "delivery": { "type": "delivery", "settings": { "metro_delivery_days": 3, "delivery_days": 6 } },
+        "meta": { "type": "meta", "settings": {} },
+        "complementary": { "type": "complementary", "settings": { "heading": "Pairs well with", "limit": 4 } },
+        "description": { "type": "description", "settings": {} },
+        "fabric": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Fabric & care",
+            "content": "<p>Machine wash cold, inside out. Do not bleach. Line dry in shade. Warm iron on reverse.</p>"
+          }
+        },
+        "sizechart": { "type": "size_chart", "settings": { "heading": "Size chart" } },
+        "shipping": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Shipping & returns",
+            "content": "<p>Free shipping over ₹999. Dispatched within 24 hours. 7-day easy returns and one free size exchange per order.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "vendor", "title", "price", "variants", "buy", "delivery", "meta",
+        "complementary", "description", "fabric", "sizechart", "shipping"
+      ],
+      "settings": {}
+    },
+    "related": {
+      "type": "related-products",
+      "settings": { "heading": "Completes the rotation", "columns": 4 }
+    },
+    "recently-viewed": {
+      "type": "recently-viewed",
+      "settings": { "eyebrow": "Picked up again", "heading": "Where you left off", "limit": 4 }
+    },
+    "value-props": {
+      "type": "value-props",
+      "blocks": {
+        "v1": { "type": "prop", "settings": { "icon": "truck", "title": "Free shipping over ₹999", "text": "Dispatched within 24 hours" } },
+        "v2": { "type": "prop", "settings": { "icon": "return", "title": "7-day easy returns", "text": "One free size exchange" } },
+        "v3": { "type": "prop", "settings": { "icon": "shield", "title": "Secure checkout", "text": "UPI, cards, netbanking, COD" } },
+        "v4": { "type": "prop", "settings": { "icon": "leaf", "title": "Made in India", "text": "Cut and stitched in-house" } }
+      },
+      "block_order": ["v1", "v2", "v3", "v4"],
+      "settings": {}
+    }
+  },
+  "order": ["main", "related", "recently-viewed", "value-props"]
+}

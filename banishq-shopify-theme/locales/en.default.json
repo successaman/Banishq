@@ -1,0 +1,336 @@
+{
+  "general": {
+    "404": {
+      "title": "This page moved on.",
+      "text": "The link is broken or the piece has sold through. The rest of the range is still here.",
+      "home": "Back home",
+      "shop": "Shop everything"
+    },
+    "meta": {
+      "tags": "Tagged {{ tags }}",
+      "page": "Page {{ page }}"
+    },
+    "navigation": {
+      "primary": "Primary navigation",
+      "menu": "Menu",
+      "open_menu": "Open menu",
+      "view_all": "All {{ title }}"
+    },
+    "breadcrumbs": {
+      "label": "Breadcrumbs",
+      "home": "Home",
+      "shop": "Shop"
+    },
+    "search": {
+      "title": "Search",
+      "placeholder": "Search tees, cargos, co-ords",
+      "submit": "Search",
+      "popular": "Popular",
+      "products": "Products",
+      "results_for": "Results for {{ terms }}",
+      "results_count": {
+        "one": "{{ count }} result",
+        "other": "{{ count }} results"
+      },
+      "no_results_title": "Nothing matched",
+      "no_results": "We could not find anything for {{ terms }}. Try a shorter word, or browse the full range.",
+      "browse_all": "Browse everything"
+    },
+    "newsletter": {
+      "email": "Email",
+      "placeholder": "Your email",
+      "submit": "Join",
+      "success": "You are on the list."
+    },
+    "pagination": {
+      "label": "Pagination",
+      "previous": "Previous page",
+      "next": "Next page"
+    },
+    "footer": {
+      "rights": "All rights reserved."
+    },
+    "password_page": {
+      "opening_soon": "Opening soon",
+      "password_label": "Store password",
+      "enter": "Enter"
+    }
+  },
+  "accessibility": {
+    "skip_to_text": "Skip to content",
+    "close": "Close",
+    "refresh_page": "Choosing a selection results in a full page refresh.",
+    "link_messages": {
+      "new_window": "Opens in a new window."
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to bag",
+      "added": "Added to bag",
+      "sold_out": "Sold out",
+      "unavailable": "Unavailable",
+      "choose_variant": "Choose an option",
+      "from": "From",
+      "off": "off",
+      "just_in": "Just in",
+      "description": "Description",
+      "size_guide": "Size guide",
+      "share": "Share",
+      "wishlist": "Wishlist",
+      "save_to_wishlist": "Save to wishlist",
+      "add_size": "Add size {{ size }} to bag",
+      "tax_note": "Inclusive of all taxes. Shipping calculated at checkout.",
+      "saved_to_wishlist": "Saved to wishlist",
+      "removed_from_wishlist": "Removed from wishlist"
+    }
+  },
+  "onboarding": {
+    "product_title": "Heavyweight cotton tee"
+  },
+  "collections": {
+    "general": {
+      "collection": "Collection",
+      "all": "All collections",
+      "count": {
+        "one": "{{ count }} product",
+        "other": "{{ count }} products"
+      },
+      "no_matches": "Nothing here yet",
+      "no_matches_text": "No products match these filters. Clear a few and try again."
+    },
+    "sorting": {
+      "title": "Sort by"
+    },
+    "filters": {
+      "title": "Filter",
+      "apply": "Apply filters",
+      "clear_all": "Clear all",
+      "from": "From",
+      "to": "To",
+      "none": "No filters available for this collection."
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Bag",
+      "empty": "Your bag is empty",
+      "empty_text": "Nothing in here yet. Start with the essentials.",
+      "continue_shopping": "Start shopping",
+      "subtotal": "Subtotal",
+      "taxes_note": "Taxes included. Shipping calculated at checkout.",
+      "checkout": "Checkout",
+      "view_cart": "View bag",
+      "update": "Update bag",
+      "remove": "Remove",
+      "note": "Order note",
+      "add_from_wishlist": "Add from wishlist"
+    },
+    "label": {
+      "product": "Product",
+      "quantity": "Quantity",
+      "total": "Total",
+      "increase": "Increase quantity",
+      "decrease": "Decrease quantity",
+      "sku": "SKU"
+    },
+    "shipping": {
+      "add_more_html": "Add {{ amount }} more for free shipping",
+      "unlocked": "Free shipping unlocked"
+    },
+    "coupons": {
+      "title": "Apply coupons",
+      "view_all": "View all coupons",
+      "placeholder": "Enter code",
+      "apply": "Apply",
+      "remove": "Remove",
+      "applied": "{{ code }} will be applied at checkout",
+      "note": "Saved. We apply it as you enter checkout."
+    },
+    "delivery": {
+      "title": "Delivery details",
+      "subtitle": "Check serviceability and the arrival date",
+      "placeholder": "6-digit PIN code",
+      "check": "Check",
+      "invalid": "Enter a valid 6-digit Indian PIN code.",
+      "serviceable": "We deliver to {{ pincode }}",
+      "not_serviceable": "We do not reach {{ pincode }} yet. Try another PIN code.",
+      "eta": "Arrives by {{ date }}",
+      "line_default": "Enter a PIN code above for the arrival date"
+    },
+    "selection": {
+      "selected": "items selected",
+      "select_item": "Select {{ title }}",
+      "remove": "Remove",
+      "move_to_wishlist": "Move to wishlist",
+      "none": "Select at least one item first"
+    },
+    "summary": {
+      "title": "Order details",
+      "mrp": "Total MRP",
+      "mrp_discount": "Discount on MRP",
+      "shipping": "Shipping",
+      "free": "Free",
+      "at_checkout": "At checkout",
+      "promo": "Promo discount",
+      "coupon": "Coupon discount",
+      "total": "Total",
+      "tax_note": "Inclusive of all taxes",
+      "saving_html": "You are saving <b>{{ amount }}</b> on this order",
+      "international": "Shipping internationally"
+    },
+    "empty": {
+      "trending_searches": "Trending searches",
+      "trending_categories": "Trending categories"
+    },
+    "trust": {
+      "secure": "Secure payments",
+      "returns": "7-day returns",
+      "cod": "COD available"
+    }
+  },
+  "sections": {
+    "featured_collection": {
+      "view_all": "View all"
+    },
+    "slideshow": {
+      "load_slide": "Go to slide {{ slide_number }}"
+    },
+    "countdown": {
+      "days": "Days",
+      "hours": "Hrs",
+      "minutes": "Min",
+      "seconds": "Sec"
+    }
+  },
+  "blogs": {
+    "general": {
+      "empty": "No stories published yet.",
+      "all": "All stories",
+      "placeholder_meta": "Coming soon",
+      "placeholder_title": "The first note lands with Drop 01"
+    },
+    "comments": {
+      "title": {
+        "one": "{{ count }} comment",
+        "other": "{{ count }} comments"
+      },
+      "name": "Name",
+      "email": "Email",
+      "message": "Comment",
+      "post": "Post comment",
+      "success": "Thanks. Your comment is awaiting moderation."
+    }
+  },
+  "contact": {
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "order": "Order number",
+      "message": "How can we help?",
+      "send": "Send",
+      "success": "Thanks. We reply within one working day."
+    }
+  },
+  "customer": {
+    "account": {
+      "title": "Account",
+      "orders": "Orders",
+      "addresses": "Addresses",
+      "log_out": "Log out"
+    },
+    "login": {
+      "title": "Sign in",
+      "email": "Email",
+      "password": "Password",
+      "sign_in": "Sign in",
+      "forgot": "Forgot password",
+      "create": "Create account"
+    },
+    "register": {
+      "title": "Create account",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "submit": "Create account",
+      "have_account": "Already have an account? Sign in"
+    },
+    "recover_password": {
+      "title": "Reset your password",
+      "submit": "Send reset link",
+      "success": "Check your email for the reset link."
+    },
+    "reset_password": {
+      "title": "Set a new password",
+      "password": "New password",
+      "confirm": "Confirm password",
+      "submit": "Save password"
+    },
+    "activate_account": {
+      "title": "Activate your account",
+      "submit": "Activate",
+      "decline": "Decline invitation"
+    },
+    "orders": {
+      "order_number": "Order",
+      "date": "Date",
+      "fulfillment_status": "Status",
+      "total": "Total",
+      "none": "No orders yet"
+    },
+    "order": {
+      "title": "Order {{ name }}",
+      "subtotal": "Subtotal",
+      "total": "Total",
+      "shipping_address": "Shipping address",
+      "billing_address": "Billing address",
+      "back": "Back to account"
+    },
+    "addresses": {
+      "title": "Addresses",
+      "default": "Default",
+      "delete": "Delete",
+      "add_new": "Add a new address",
+      "address1": "Address",
+      "city": "City",
+      "zip": "PIN code",
+      "phone": "Phone",
+      "save": "Save address"
+    }
+  },
+  "gift_cards": {
+    "issued": {
+      "title": "Here is your {{ value }} gift card for {{ shop }}",
+      "subtext": "Gift card",
+      "expired": "This gift card has expired.",
+      "shop_link": "Start shopping"
+    }
+  },
+  "wishlist": {
+    "empty": "Nothing saved yet",
+    "empty_text": "Tap the heart on anything you want to come back to."
+  },
+  "stores": {
+    "filter": "Filter by city",
+    "all_cities": "All cities",
+    "directions": "Directions",
+    "call": "Call",
+    "none": "No stores in that city yet. More opening every quarter."
+  },
+  "track": {
+    "awb": "Tracking or AWB number",
+    "awb_placeholder": "Paste the number from your shipping email",
+    "submit": "Track it",
+    "signed_in": "Your orders and their tracking links are in your account.",
+    "view_orders": "View my orders",
+    "or_html": "Or <a href=\"{{ login_url }}\">sign in</a> to see every order and its status."
+  },
+  "franchise": {
+    "phone": "Phone",
+    "city": "City",
+    "budget": "Investment range",
+    "message": "Tell us about the space",
+    "message_placeholder": "Location, size, floor, and whether you have it already",
+    "submit": "Send enquiry",
+    "success": "Thanks. We reply to every serious enquiry within three working days."
+  }
+}

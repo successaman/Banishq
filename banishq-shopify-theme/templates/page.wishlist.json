@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "wishlist",
+      "settings": {
+        "eyebrow": "Saved",
+        "heading": "Your wishlist",
+        "text": "Saved on this device. Sign in and add to bag when you are ready."
+      }
+    },
+    "recently-viewed": { "type": "recently-viewed", "settings": { "limit": 4 } }
+  },
+  "order": ["main", "recently-viewed"]
+}

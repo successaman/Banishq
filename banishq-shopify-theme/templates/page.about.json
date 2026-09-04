@@ -1,0 +1,65 @@
+{
+  "sections": {
+    "hero": {
+      "type": "page-hero",
+      "settings": {
+        "eyebrow": "The label",
+        "heading": "Wear Your Presence.",
+        "text": "BANISHQ is a modern Indian unisex label. We make clothes that amplify who you already are, and we price them so that is not a luxury.",
+        "align": "left"
+      }
+    },
+    "story": {
+      "type": "editorial-split",
+      "settings": {
+        "reverse": false,
+        "scheme": "light",
+        "eyebrow": "Why we started",
+        "heading": "Premium make should not cost four times what it is worth.",
+        "text": "<p>Most of what you pay for a well-made shirt in India is not the shirt. It is the layers between the cutting table and the shelf. We removed them: we manufacture what we sell, we photograph it ourselves, and we sell it directly to you.</p><p>What is left is the part that matters — heavier fabric, cleaner cuts, and sizing that behaves the same across every style.</p>",
+        "button_label": "Shop Drop 01"
+      }
+    },
+    "timeline": {
+      "type": "timeline",
+      "blocks": {
+        "m1": { "type": "milestone", "settings": { "year": "2025", "title": "The question", "text": "Why does premium make cost four times what it should in India?" } },
+        "m2": { "type": "milestone", "settings": { "year": "2026", "title": "Drop 01", "text": "Twelve pieces, one rotation, cut and stitched in our own unit." } },
+        "m3": { "type": "milestone", "settings": { "year": "Next", "title": "Stores", "text": "Franchise floors across India, so the fit can be tried before it is bought." } }
+      },
+      "block_order": ["m1", "m2", "m3"],
+      "settings": { "eyebrow": "The story", "heading": "How we got here" }
+    },
+    "values": {
+      "type": "text-columns",
+      "blocks": {
+        "v1": { "type": "column", "settings": { "icon": "leaf", "title": "We make it", "text": "<p>Cut and stitched in our own unit, so we answer for the quality rather than pass the question along.</p>" } },
+        "v2": { "type": "column", "settings": { "icon": "ruler", "title": "One size system", "text": "<p>True unisex fits. An M is an M across every style we sell, so reordering is not a gamble.</p>" } },
+        "v3": { "type": "column", "settings": { "icon": "tag", "title": "₹199 to ₹2,999", "text": "<p>A ladder wide enough for a first job and a wedding week, without a different quality at each rung.</p>" } }
+      },
+      "block_order": ["v1", "v2", "v3"],
+      "settings": { "eyebrow": "What we hold to", "heading": "Three things we do not move on", "columns": 3, "align": "left" }
+    },
+    "press": {
+      "type": "press-logos",
+      "blocks": {
+        "p1": { "type": "logo", "settings": { "name": "Publication" } },
+        "p2": { "type": "logo", "settings": { "name": "Publication" } },
+        "p3": { "type": "logo", "settings": { "name": "Publication" } },
+        "p4": { "type": "logo", "settings": { "name": "Publication" } }
+      },
+      "block_order": ["p1", "p2", "p3", "p4"],
+      "settings": { "heading": "As seen in" }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "eyebrow": "Drop alerts",
+        "heading": "Know before the rest of the feed.",
+        "text": "New drops, restocks and early access. Roughly twice a month — never more.",
+        "note": "Unsubscribe any time. We do not sell your data."
+      }
+    }
+  },
+  "order": ["hero", "story", "timeline", "values", "press", "newsletter"]
+}

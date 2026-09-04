@@ -1,0 +1,21 @@
+{
+  "sections": {
+    "main": {
+      "type": "contact-form",
+      "settings": {
+        "heading": "Talk to us",
+        "text": "Sizing, exchanges, order status — we reply within one working day."
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "f1": { "type": "item", "settings": { "question": "Where is my order?", "answer": "<p>Every order ships with a tracking link. If it has been more than 7 days, write to us with your order number and we will chase it.</p>" } },
+        "f2": { "type": "item", "settings": { "question": "How do I exchange a size?", "answer": "<p>Reply to your order confirmation with the size you need. One exchange per order is free within 7 days.</p>" } }
+      },
+      "block_order": ["f1", "f2"],
+      "settings": { "eyebrow": "Before you write", "heading": "Most answers live here" }
+    }
+  },
+  "order": ["main", "faq"]
+}

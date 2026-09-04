@@ -1,0 +1,44 @@
+<div class="page-width section">
+  <h1 class="h-serif h1" style="margin-bottom: 30px">{{ 'customer.account.title' | t }}</h1>
+  <div class="account-layout">
+    <nav>
+      <ul class="account-nav">
+        <li class="is-active"><a href="{{ routes.account_url }}">{{ 'customer.account.orders' | t }}</a></li>
+        <li><a href="{{ routes.account_addresses_url }}">{{ 'customer.account.addresses' | t }}</a></li>
+        <li><a href="{{ routes.account_logout_url }}">{{ 'customer.account.log_out' | t }}</a></li>
+      </ul>
+    </nav>
+    <div>
+      {%- paginate customer.orders by 20 -%}
+        {%- if customer.orders.size > 0 -%}
+          <table class="order-table">
+            <thead>
+              <tr>
+                <th>{{ 'customer.orders.order_number' | t }}</th>
+                <th>{{ 'customer.orders.date' | t }}</th>
+                <th>{{ 'customer.orders.fulfillment_status' | t }}</th>
+                <th>{{ 'customer.orders.total' | t }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%- for order in customer.orders -%}
+                <tr>
+                  <td><a href="{{ order.customer_url }}" style="text-decoration: underline">{{ order.name }}</a></td>
+                  <td>{{ order.created_at | date: format: 'date' }}</td>
+                  <td>{{ order.fulfillment_status_label }}</td>
+                  <td class="mono">{{ order.total_price | money }}</td>
+                </tr>
+              {%- endfor -%}
+            </tbody>
+          </table>
+          {% render 'pagination', paginate: paginate %}
+        {%- else -%}
+          <div class="empty-state">
+            <h2 class="empty-state__title">{{ 'customer.orders.none' | t }}</h2>
+            <a href="{{ routes.all_products_collection_url }}" class="button" style="margin-top: 18px">{{ 'cart.general.continue_shopping' | t }}</a>
+          </div>
+        {%- endif -%}
+      {%- endpaginate -%}
+    </div>
+  </div>
+</div>

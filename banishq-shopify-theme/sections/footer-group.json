@@ -1,0 +1,65 @@
+{
+  "name": "Footer",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "shop": {
+          "type": "menu",
+          "settings": {
+            "heading": "Shop",
+            "menu": "footer"
+          }
+        },
+        "about": {
+          "type": "menu",
+          "settings": {
+            "heading": "The Label",
+            "menu": "footer"
+          }
+        },
+        "help": {
+          "type": "contact",
+          "settings": {
+            "heading": "Help",
+            "email": "care@banishq.com",
+            "hours": "Mon–Sat, 10am–7pm IST"
+          }
+        },
+        "news": {
+          "type": "newsletter",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "shop",
+        "about",
+        "help",
+        "news"
+      ],
+      "settings": {
+        "tagline": "Wear Your Presence.",
+        "about": "A modern Indian unisex label. Designed in India, made to be worn on repeat — from ₹199 to ₹2,999.",
+        "show_payment_icons": true,
+        "credit": "India"
+      }
+    },
+    "newsletter-popup": {
+      "type": "newsletter-popup",
+      "settings": {
+        "enabled": false,
+        "delay": 8,
+        "eyebrow": "First order",
+        "heading": "10% off, once.",
+        "text": "Join the list for drop alerts and early access. We email twice a month, never more.",
+        "button_label": "Send my code",
+        "note": "One use per customer. Not valid with other offers."
+      }
+    }
+  },
+  "order": [
+    "footer",
+    "newsletter-popup"
+  ]
+}

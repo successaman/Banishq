@@ -1,0 +1,9 @@
+{%- comment -%}
+  Card-only render of a product, fetched as
+  /products/<handle>?section_id=recently-viewed-card by the recently-viewed
+  and wishlist grids. Never appears on a page of its own.
+{%- endcomment -%}
+<div data-recent-card>{% render 'product-card', card_product: product, index: 0 %}</div>
+{% schema %}
+{ "name": "Product card fragment" }
+{% endschema %}

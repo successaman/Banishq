@@ -1,0 +1,27 @@
+{%- comment -%} Breadcrumbs. Mono, quiet, information-led. {%- endcomment -%}
+{%- unless template.name == 'index' -%}
+  <nav class="breadcrumbs" aria-label="{{ 'general.breadcrumbs.label' | t }}">
+    <span><a href="{{ routes.root_url }}">{{ 'general.breadcrumbs.home' | t }}</a></span>
+    {%- case template.name -%}
+      {%- when 'product' -%}
+        {%- if collection.url -%}<span><a href="{{ collection.url }}">{{ collection.title }}</a></span>{%- endif -%}
+        <span aria-current="page">{{ product.title }}</span>
+      {%- when 'collection' -%}
+        <span><a href="{{ routes.collections_url }}">{{ 'general.breadcrumbs.shop' | t }}</a></span>
+        <span aria-current="page">{{ collection.title }}</span>
+      {%- when 'page' -%}
+        <span aria-current="page">{{ page.title }}</span>
+      {%- when 'article' -%}
+        <span><a href="{{ blog.url }}">{{ blog.title }}</a></span>
+        <span aria-current="page">{{ article.title }}</span>
+      {%- when 'blog' -%}
+        <span aria-current="page">{{ blog.title }}</span>
+      {%- when 'cart' -%}
+        <span aria-current="page">{{ 'cart.general.title' | t }}</span>
+      {%- when 'search' -%}
+        <span aria-current="page">{{ 'general.search.title' | t }}</span>
+      {%- else -%}
+        <span aria-current="page">{{ page_title }}</span>
+    {%- endcase -%}
+  </nav>
+{%- endunless -%}

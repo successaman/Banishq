@@ -1,0 +1,45 @@
+<div class="page-width section">
+  <p class="eyebrow">{{ order.created_at | date: format: 'date' }}</p>
+  <h1 class="h-serif h1" style="margin-bottom: 24px">{{ 'customer.order.title' | t: name: order.name }}</h1>
+  <table class="order-table">
+    <thead>
+      <tr>
+        <th>{{ 'cart.label.product' | t }}</th>
+        <th>{{ 'cart.label.quantity' | t }}</th>
+        <th>{{ 'cart.label.total' | t }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%- for line_item in order.line_items -%}
+        <tr>
+          <td>
+            <a href="{{ line_item.product.url }}">{{ line_item.title }}</a>
+            {%- if line_item.sku != blank %}<div class="cart-item__options">{{ line_item.sku }}</div>{% endif -%}
+          </td>
+          <td class="mono">{{ line_item.quantity }}</td>
+          <td class="mono">{{ line_item.final_line_price | money }}</td>
+        </tr>
+      {%- endfor -%}
+    </tbody>
+    <tfoot>
+      <tr><td colspan="2">{{ 'customer.order.subtotal' | t }}</td><td class="mono">{{ order.line_items_subtotal_price | money }}</td></tr>
+      {%- for shipping_method in order.shipping_methods -%}
+        <tr><td colspan="2">{{ shipping_method.title }}</td><td class="mono">{{ shipping_method.price | money }}</td></tr>
+      {%- endfor -%}
+      <tr><td colspan="2"><strong>{{ 'customer.order.total' | t }}</strong></td><td class="mono"><strong>{{ order.total_price | money }}</strong></td></tr>
+    </tfoot>
+  </table>
+
+  <div class="account-layout" style="margin-top: 44px">
+    <div>
+      <h2 class="h4">{{ 'customer.order.shipping_address' | t }}</h2>
+      <div class="rte text-mute">{{ order.shipping_address | format_address }}</div>
+    </div>
+    <div>
+      <h2 class="h4">{{ 'customer.order.billing_address' | t }}</h2>
+      <div class="rte text-mute">{{ order.billing_address | format_address }}</div>
+    </div>
+  </div>
+
+  <p style="margin-top: 30px"><a href="{{ routes.account_url }}" class="link-underline">{{ 'customer.order.back' | t }}</a></p>
+</div>

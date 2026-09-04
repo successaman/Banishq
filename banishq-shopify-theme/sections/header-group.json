@@ -1,0 +1,30 @@
+{
+  "name": "Header",
+  "type": "header",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "blocks": {
+        "m1": { "type": "message", "settings": { "text": "Drop 01 is live. Not staying around forever." } },
+        "m2": { "type": "message", "settings": { "text": "Everyday essentials from ₹199" } },
+        "m3": { "type": "message", "settings": { "text": "Easy 7-day returns · COD across India" } }
+      },
+      "block_order": ["m1", "m2", "m3"],
+      "settings": {
+        "rotate_speed": 5,
+        "left_text": "Free shipping over ₹999",
+        "right_link_1_text": "Track order",
+        "right_link_2_text": "Size guide"
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "menu": "main-menu",
+        "show_wishlist": true,
+        "search_suggestions": "Oversized tees, Cargos, Co-ords, Overshirts, Under 999"
+      }
+    }
+  },
+  "order": ["announcement-bar", "header"]
+}

@@ -1,0 +1,512 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "slide-1": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Drop 01 · SS26",
+            "heading": "Wear Your Presence.",
+            "text": "Unisex essentials built for repeat wear. Premium make, honest pricing — ₹199 to ₹2,999.",
+            "button_1_label": "Shop Drop 01",
+            "button_2_label": "New in"
+          }
+        },
+        "slide-2": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "The Everyday Edit",
+            "heading": "Built for repeat wear.",
+            "text": "Heavier cotton, cleaner cuts, sizes that behave the same across every style.",
+            "button_1_label": "Shop essentials",
+            "button_2_label": "Read the story"
+          }
+        }
+      },
+      "block_order": [
+        "slide-1",
+        "slide-2"
+      ],
+      "settings": {
+        "interval": 6,
+        "alignment": "left"
+      }
+    },
+    "marquee": {
+      "type": "marquee",
+      "blocks": {
+        "i1": {
+          "type": "item",
+          "settings": {
+            "text": "Built for repeat wear"
+          }
+        },
+        "i2": {
+          "type": "item",
+          "settings": {
+            "text": "True unisex fits"
+          }
+        },
+        "i3": {
+          "type": "item",
+          "settings": {
+            "text": "₹199 to ₹2,999"
+          }
+        },
+        "i4": {
+          "type": "item",
+          "settings": {
+            "text": "Made in India"
+          }
+        },
+        "i5": {
+          "type": "item",
+          "settings": {
+            "text": "7-day easy returns"
+          }
+        }
+      },
+      "block_order": [
+        "i1",
+        "i2",
+        "i3",
+        "i4",
+        "i5"
+      ],
+      "settings": {
+        "scheme": "burgundy",
+        "speed": 34,
+        "show_mark": true
+      }
+    },
+    "category-tiles": {
+      "type": "category-tiles",
+      "blocks": {
+        "t1": {
+          "type": "tile",
+          "settings": {
+            "title": "Tees",
+            "meta": "From ₹199"
+          }
+        },
+        "t2": {
+          "type": "tile",
+          "settings": {
+            "title": "Shirts & Overshirts",
+            "meta": "From ₹899"
+          }
+        },
+        "t3": {
+          "type": "tile",
+          "settings": {
+            "title": "Cargos & Trousers",
+            "meta": "From ₹999"
+          }
+        },
+        "t4": {
+          "type": "tile",
+          "settings": {
+            "title": "Co-ords",
+            "meta": "From ₹1,499"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ],
+      "settings": {
+        "eyebrow": "Shop by category",
+        "heading": "Start where you live",
+        "link_label": "View all",
+        "layout": "tiles",
+        "ratio": "portrait",
+        "columns": 4
+      }
+    },
+    "new-in": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "New in",
+        "heading": "Your next rotation just arrived.",
+        "product_limit": 8,
+        "columns": 4,
+        "mobile_scroll": false
+      }
+    },
+    "editorial-split": {
+      "type": "editorial-split",
+      "settings": {
+        "reverse": false,
+        "scheme": "dark",
+        "eyebrow": "The label",
+        "heading": "Premium make. Honest price.",
+        "text": "<p>We manufacture what we sell. No middle layer, no marked-up story — just considered cuts, heavier fabric and a price that stays between ₹199 and ₹2,999.</p>",
+        "button_label": "Read our story"
+      }
+    },
+    "drop-banner": {
+      "type": "drop-banner",
+      "settings": {
+        "eyebrow": "Drop 01 · SS26",
+        "heading": "The Everyday Edit",
+        "text": "Twelve pieces. One rotation. Made to be worn until they are yours.",
+        "button_label": "Shop Drop 01"
+      }
+    },
+    "best-sellers": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Most reordered",
+        "heading": "The ones people come back for",
+        "product_limit": 8,
+        "columns": 4,
+        "mobile_scroll": true
+      }
+    },
+    "value-props": {
+      "type": "value-props",
+      "blocks": {
+        "v1": {
+          "type": "prop",
+          "settings": {
+            "icon": "truck",
+            "title": "Free shipping over ₹999",
+            "text": "Dispatched within 24 hours"
+          }
+        },
+        "v2": {
+          "type": "prop",
+          "settings": {
+            "icon": "return",
+            "title": "7-day easy returns",
+            "text": "No questions, no runaround"
+          }
+        },
+        "v3": {
+          "type": "prop",
+          "settings": {
+            "icon": "ruler",
+            "title": "True unisex fits",
+            "text": "One size system, every body"
+          }
+        },
+        "v4": {
+          "type": "prop",
+          "settings": {
+            "icon": "tag",
+            "title": "₹199 to ₹2,999",
+            "text": "Premium make, honest price"
+          }
+        }
+      },
+      "block_order": [
+        "v1",
+        "v2",
+        "v3",
+        "v4"
+      ],
+      "settings": {}
+    },
+    "lookbook": {
+      "type": "lookbook",
+      "blocks": {
+        "l1": {
+          "type": "image",
+          "settings": {
+            "wide": true,
+            "label": "Drop 01"
+          }
+        },
+        "l2": {
+          "type": "image",
+          "settings": {
+            "label": "Overshirts"
+          }
+        },
+        "l3": {
+          "type": "image",
+          "settings": {
+            "label": "Cargos"
+          }
+        },
+        "l4": {
+          "type": "image",
+          "settings": {
+            "label": "Co-ords"
+          }
+        },
+        "l5": {
+          "type": "image",
+          "settings": {
+            "label": "Tees"
+          }
+        }
+      },
+      "block_order": [
+        "l1",
+        "l2",
+        "l3",
+        "l4",
+        "l5"
+      ],
+      "settings": {
+        "eyebrow": "Campaign",
+        "heading": "Presence, in practice",
+        "link_label": "See the lookbook"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "q1": {
+          "type": "quote",
+          "settings": {
+            "rating": 5,
+            "text": "The fabric is heavier than anything I own at this price.",
+            "author": "Aarav M.",
+            "location": "Bengaluru"
+          }
+        },
+        "q2": {
+          "type": "quote",
+          "settings": {
+            "rating": 5,
+            "text": "Bought the co-ord for work, ended up wearing it every weekend.",
+            "author": "Ishita R.",
+            "location": "Pune"
+          }
+        },
+        "q3": {
+          "type": "quote",
+          "settings": {
+            "rating": 5,
+            "text": "Sizing is honest. I ordered my usual and it fit first time.",
+            "author": "Karan S.",
+            "location": "Delhi"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "settings": {
+        "eyebrow": "Worn and reworn",
+        "heading": "What people say after week three"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "eyebrow": "Drop alerts",
+        "heading": "Know before the rest of the feed.",
+        "text": "New drops, restocks and early access. Roughly twice a month — never more.",
+        "note": "Unsubscribe any time. We do not sell your data."
+      }
+    },
+    "collection-tabs": {
+      "type": "collection-tabs",
+      "blocks": {
+        "t1": {
+          "type": "tab",
+          "settings": {
+            "label": "Men"
+          }
+        },
+        "t2": {
+          "type": "tab",
+          "settings": {
+            "label": "Women"
+          }
+        },
+        "t3": {
+          "type": "tab",
+          "settings": {
+            "label": "Unisex"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3"
+      ],
+      "settings": {
+        "eyebrow": "Shop the drop",
+        "heading": "One label, every wardrobe",
+        "product_limit": 8,
+        "columns": 4
+      }
+    },
+    "shop-the-look": {
+      "type": "shop-the-look",
+      "blocks": {
+        "h1": {
+          "type": "hotspot",
+          "settings": {
+            "x": 38,
+            "y": 32
+          }
+        },
+        "h2": {
+          "type": "hotspot",
+          "settings": {
+            "x": 44,
+            "y": 62
+          }
+        },
+        "h3": {
+          "type": "hotspot",
+          "settings": {
+            "x": 62,
+            "y": 44
+          }
+        }
+      },
+      "block_order": [
+        "h1",
+        "h2",
+        "h3"
+      ],
+      "settings": {
+        "eyebrow": "The full look",
+        "heading": "Everything in frame",
+        "link_label": "Shop Drop 01"
+      }
+    },
+    "journal": {
+      "type": "blog-posts",
+      "settings": {
+        "eyebrow": "Journal",
+        "heading": "Notes on fit, fabric and wearing things out",
+        "limit": 3,
+        "show_excerpt": true
+      }
+    },
+    "instagram": {
+      "type": "instagram-feed",
+      "blocks": {
+        "p1": {
+          "type": "post",
+          "settings": {
+            "caption": "@banishq"
+          }
+        },
+        "p2": {
+          "type": "post",
+          "settings": {
+            "caption": "@banishq"
+          }
+        },
+        "p3": {
+          "type": "post",
+          "settings": {
+            "caption": "@banishq"
+          }
+        },
+        "p4": {
+          "type": "post",
+          "settings": {
+            "caption": "@banishq"
+          }
+        },
+        "p5": {
+          "type": "post",
+          "settings": {
+            "caption": "@banishq"
+          }
+        },
+        "p6": {
+          "type": "post",
+          "settings": {
+            "caption": "@banishq"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6"
+      ],
+      "settings": {
+        "handle": "@banishq",
+        "heading": "Worn in the wild",
+        "text": "Tag us and you might end up here.",
+        "button_label": "Follow along"
+      }
+    },
+    "press": {
+      "type": "press-logos",
+      "blocks": {
+        "l1": {
+          "type": "logo",
+          "settings": {
+            "name": "Publication"
+          }
+        },
+        "l2": {
+          "type": "logo",
+          "settings": {
+            "name": "Publication"
+          }
+        },
+        "l3": {
+          "type": "logo",
+          "settings": {
+            "name": "Publication"
+          }
+        },
+        "l4": {
+          "type": "logo",
+          "settings": {
+            "name": "Publication"
+          }
+        }
+      },
+      "block_order": [
+        "l1",
+        "l2",
+        "l3",
+        "l4"
+      ],
+      "settings": {
+        "heading": "As seen in"
+      }
+    },
+    "recently-viewed": {
+      "type": "recently-viewed",
+      "settings": {
+        "eyebrow": "Picked up again",
+        "heading": "Where you left off",
+        "limit": 4
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "marquee",
+    "category-tiles",
+    "new-in",
+    "collection-tabs",
+    "editorial-split",
+    "drop-banner",
+    "shop-the-look",
+    "best-sellers",
+    "value-props",
+    "lookbook",
+    "journal",
+    "testimonials",
+    "instagram",
+    "recently-viewed",
+    "press",
+    "newsletter"
+  ]
+}

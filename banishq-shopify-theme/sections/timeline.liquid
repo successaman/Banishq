@@ -1,0 +1,50 @@
+{%- comment -%} Brand story milestones. Numbered because the order carries meaning. {%- endcomment -%}
+<section class="section">
+  <div class="page-width page-width--narrow">
+    <div class="section-head">
+      <div class="section-head__text">
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        <h2 class="section-head__title {% if settings.heading_style == 'serif' %}h-serif{% endif %} h2">{{ section.settings.heading }}</h2>
+      </div>
+    </div>
+    <div class="timeline">
+      {%- for block in section.blocks -%}
+        <div class="timeline__item" {{ block.shopify_attributes }}>
+          <span class="timeline__year">{{ block.settings.year }}</span>
+          <h3 class="timeline__title">{{ block.settings.title }}</h3>
+          <p class="timeline__text">{{ block.settings.text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Timeline",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The story" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "How we got here" }
+  ],
+  "blocks": [
+    {
+      "type": "milestone",
+      "name": "Milestone",
+      "settings": [
+        { "type": "text", "id": "year", "label": "Year or stage", "default": "2026" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Drop 01" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Twelve pieces, one rotation, made in our own unit." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Timeline",
+      "blocks": [
+        { "type": "milestone", "settings": { "year": "2025", "title": "The question", "text": "Why does premium make cost four times what it should in India?" } },
+        { "type": "milestone", "settings": { "year": "2026", "title": "Drop 01", "text": "Twelve pieces, one rotation, cut and stitched in our own unit." } },
+        { "type": "milestone", "settings": { "year": "Next", "title": "Stores", "text": "Franchise floors across India, so the fit can be tried before it is bought." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

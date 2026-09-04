@@ -1,0 +1,33 @@
+{
+  "current": {
+    "logo_width": 190,
+    "logo_width_mobile": 130,
+    "brand_tagline": "Wear Your Presence.",
+    "color_black": "#111111",
+    "color_bone": "#F4F1EB",
+    "color_burgundy": "#7B2330",
+    "color_stone": "#A7A39C",
+    "color_olive": "#76765C",
+    "color_page_bg": "#F4F1EB",
+    "color_surface": "#FFFFFF",
+    "heading_style": "serif",
+    "type_scale": 100,
+    "uppercase_nav": true,
+    "page_width": 1560,
+    "corner_radius": "0",
+    "sticky_header": true,
+    "card_image_ratio": "tall",
+    "card_second_image": true,
+    "card_show_vendor": true,
+    "card_show_sizes": true,
+    "card_show_rating": false,
+    "card_quick_add": true,
+    "card_sale_badge_min": 10,
+    "cart_type": "drawer",
+    "cart_notes": true,
+    "free_shipping_threshold": "999",
+    "social_instagram": "https://instagram.com/banishq",
+    "social_whatsapp": "",
+    "sections": {}
+  }
+}

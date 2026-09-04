@@ -1,0 +1,14 @@
+<div class="page-width">
+  <div class="empty-state">
+    <p class="eyebrow">404</p>
+    <h1 class="empty-state__title">{{ 'general.404.title' | t }}</h1>
+    <p class="text-mute" style="max-width: 44ch; margin-inline: auto">{{ 'general.404.text' | t }}</p>
+    <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 26px">
+      <a href="{{ routes.root_url }}" class="button">{{ 'general.404.home' | t }}</a>
+      <a href="{{ routes.all_products_collection_url }}" class="button button--outline">{{ 'general.404.shop' | t }}</a>
+    </div>
+  </div>
+</div>
+{% schema %}
+{ "name": "404" }
+{% endschema %}

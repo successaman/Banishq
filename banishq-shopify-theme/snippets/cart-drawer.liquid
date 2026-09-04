@@ -1,0 +1,10 @@
+{%- comment -%} Slide-out bag. Falls back to /cart when JavaScript is off. {%- endcomment -%}
+<aside id="CartDrawer" class="cart-drawer" data-cart-drawer aria-hidden="true" aria-label="{{ 'cart.general.title' | t }}">
+  <div class="cart-drawer__head">
+    <h2 class="cart-drawer__title">{{ 'cart.general.title' | t }}</h2>
+    <button type="button" class="header__icon" data-close="#CartDrawer" aria-label="{{ 'accessibility.close' | t }}">
+      {% render 'icon', name: 'close' %}
+    </button>
+  </div>
+  {% render 'cart-drawer-inner' %}
+</aside>

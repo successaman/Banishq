@@ -1,0 +1,30 @@
+{
+  "sections": {
+    "guide": {
+      "type": "size-guide",
+      "blocks": {
+        "tops": { "type": "table", "settings": { "title": "Tops — unisex" } },
+        "bottoms": {
+          "type": "table",
+          "settings": {
+            "title": "Bottoms — unisex",
+            "headers": "Size, Waist, Hip, Inseam",
+            "rows": "28, 28-29, 36, 29\n30, 30-31, 38, 29.5\n32, 32-33, 40, 30\n34, 34-35, 42, 30.5\n36, 36-37, 44, 31\n38, 38-39, 46, 31.5"
+          }
+        }
+      },
+      "block_order": ["tops", "bottoms"],
+      "settings": {}
+    },
+    "faq": {
+      "type": "faq",
+      "settings": { "eyebrow": "Fit questions", "heading": "Getting the size right" },
+      "blocks": {
+        "f1": { "type": "item", "settings": { "question": "Are the fits truly unisex?", "answer": "<p>Yes. One size system across the range, cut to sit well on every body.</p>" } },
+        "f2": { "type": "item", "settings": { "question": "I am between two sizes.", "answer": "<p>Take the larger size for relaxed and oversized fits, the smaller one for regular fits.</p>" } }
+      },
+      "block_order": ["f1", "f2"]
+    }
+  },
+  "order": ["guide", "faq"]
+}

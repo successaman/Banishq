@@ -1,0 +1,63 @@
+{%- comment -%}
+  UGC grid. Images are uploaded rather than pulled from Instagram's API, so the
+  section never breaks when a token expires and nothing leaves the store.
+{%- endcomment -%}
+<section class="section">
+  <div class="page-width">
+    <div class="section-head section-head--center">
+      <div class="section-head__text">
+        {%- if section.settings.handle != blank -%}<p class="eyebrow">{{ section.settings.handle }}</p>{%- endif -%}
+        <h2 class="section-head__title {% if settings.heading_style == 'serif' %}h-serif{% endif %} h2">{{ section.settings.heading }}</h2>
+        {%- if section.settings.text != blank -%}<p class="section-head__sub">{{ section.settings.text }}</p>{%- endif -%}
+      </div>
+    </div>
+
+    <div class="ugc">
+      {%- for block in section.blocks -%}
+        <a href="{{ block.settings.link | default: settings.social_instagram }}" class="ugc__item" target="_blank" rel="noopener" {{ block.shopify_attributes }}>
+          {%- if block.settings.image -%}
+            <img src="{{ block.settings.image | image_url: width: 500 }}" alt="{{ block.settings.caption | escape }}" loading="lazy">
+          {%- else -%}
+            {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+          {%- if block.settings.caption != blank -%}<span class="ugc__tag">{{ block.settings.caption }}</span>{%- endif -%}
+        </a>
+      {%- endfor -%}
+    </div>
+
+    {%- if settings.social_instagram != blank -%}
+      <div class="text-center" style="margin-top: 28px">
+        <a href="{{ settings.social_instagram }}" class="button button--outline" target="_blank" rel="noopener">{{ section.settings.button_label }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Instagram grid",
+  "settings": [
+    { "type": "text", "id": "handle", "label": "Handle", "default": "@banishq" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Worn in the wild" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Tag us and you might end up here." },
+    { "type": "text", "id": "button_label", "label": "Button", "default": "Follow along" }
+  ],
+  "blocks": [
+    {
+      "type": "post",
+      "name": "Post",
+      "limit": 12,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "caption", "label": "Caption" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Instagram grid",
+      "blocks": [{ "type": "post" }, { "type": "post" }, { "type": "post" }, { "type": "post" }, { "type": "post" }, { "type": "post" }]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,57 @@
+{%- comment -%} Open Graph + Twitter cards + product structured data. {%- endcomment -%}
+<meta property="og:site_name" content="{{ shop.name }}">
+<meta property="og:url" content="{{ canonical_url }}">
+<meta property="og:title" content="{{ page_title | default: shop.name | escape }}">
+<meta property="og:type" content="{% if request.page_type == 'product' %}product{% elsif request.page_type == 'article' %}article{% else %}website{% endif %}">
+<meta property="og:description" content="{{ page_description | default: shop.description | default: shop.name | escape }}">
+
+{%- if request.page_type == 'product' and product.featured_media -%}
+  <meta property="og:image" content="http:{{ product.featured_media | image_url: width: 1200 }}">
+  <meta property="og:image:secure_url" content="https:{{ product.featured_media | image_url: width: 1200 }}">
+  <meta property="og:price:amount" content="{{ product.price | divided_by: 100.0 }}">
+  <meta property="og:price:currency" content="{{ cart.currency.iso_code }}">
+{%- elsif settings.share_image -%}
+  <meta property="og:image" content="http:{{ settings.share_image | image_url: width: 1200 }}">
+  <meta property="og:image:secure_url" content="https:{{ settings.share_image | image_url: width: 1200 }}">
+{%- endif -%}
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page_title | escape }}">
+<meta name="twitter:description" content="{{ page_description | default: shop.description | default: shop.name | escape }}">
+
+{%- if request.page_type == 'product' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "Product",
+      "name": {{ product.title | json }},
+      "url": {{ request.origin | append: product.url | json }},
+      {% if product.featured_media -%}
+        "image": [{{ product.featured_media | image_url: width: 1200 | prepend: "https:" | json }}],
+      {%- endif %}
+      "description": {{ product.description | strip_html | truncate: 400 | json }},
+      "brand": { "@type": "Brand", "name": {{ product.vendor | default: shop.name | json }} },
+      "sku": {{ product.selected_or_first_available_variant.sku | json }},
+      "offers": {
+        "@type": "Offer",
+        "price": "{{ product.selected_or_first_available_variant.price | divided_by: 100.0 }}",
+        "priceCurrency": {{ cart.currency.iso_code | json }},
+        "availability": "https://schema.org/{% if product.selected_or_first_available_variant.available %}InStock{% else %}OutOfStock{% endif %}",
+        "url": {{ request.origin | append: product.url | json }}
+      }
+    }
+  </script>
+{%- endif -%}
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": {{ shop.name | json }},
+    "slogan": {{ settings.brand_tagline | json }},
+    "url": {{ request.origin | json }}
+    {%- if settings.logo_primary %},
+    "logo": {{ settings.logo_primary | image_url: width: 600 | prepend: "https:" | json }}
+    {%- endif -%}
+  }
+</script>

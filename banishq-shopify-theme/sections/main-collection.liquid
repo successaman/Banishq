@@ -1,0 +1,217 @@
+{%- comment -%}
+  Collection page. Sidebar facets on desktop, slide-over on mobile.
+  Filters and sort submit as a normal GET form when JavaScript is unavailable.
+{%- endcomment -%}
+
+{%- paginate collection.products by section.settings.per_page -%}
+
+{%- if section.settings.show_hero -%}
+  <section class="collection-hero{% unless collection.image %} collection-hero--plain{% endunless %}">
+    {%- if collection.image -%}
+      <div class="collection-hero__media">
+        <img src="{{ collection.image | image_url: width: 2000 }}" alt="{{ collection.title | escape }}" width="2000" height="600" fetchpriority="high">
+      </div>
+    {%- endif -%}
+    <div class="collection-hero__inner page-width">
+      <p class="eyebrow" {% if collection.image %}style="color: rgba(244,241,235,0.7)"{% endif %}>{{ 'collections.general.collection' | t }}</p>
+      <h1 class="collection-hero__title">{{ collection.title }}</h1>
+      {%- if collection.description != blank -%}
+        <div class="collection-hero__desc rte">{{ collection.description }}</div>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endif -%}
+
+<div class="page-width" data-collection-top>
+  {%- unless section.settings.show_hero -%}
+    {% render 'breadcrumbs' %}
+    <h1 class="h-serif h1" style="margin-bottom: 24px">{{ collection.title }}</h1>
+  {%- else -%}
+    {% render 'breadcrumbs' %}
+  {%- endunless -%}
+
+  {%- assign chip_blocks = section.blocks | where: 'type', 'subcollection' -%}
+  {%- if chip_blocks.size > 0 -%}
+    <div class="search-modal__hints" style="margin-bottom: 24px">
+      {%- for block in chip_blocks -%}
+        {%- assign chip_collection = collections[block.settings.collection] -%}
+        {%- assign chip_url = block.settings.link | default: chip_collection.url -%}
+        <a
+          href="{{ chip_url }}"
+          class="chip{% if chip_collection.handle == collection.handle %} is-active{% endif %}"
+          {{ block.shopify_attributes }}>
+          {{ block.settings.title | default: chip_collection.title }}
+        </a>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  <div class="collection-layout">
+    <aside id="Facets" class="facets" data-facets aria-hidden="true">
+      <div class="mobile-nav__head" style="display: none">
+        <span class="mono">{{ 'collections.filters.title' | t }}</span>
+        <button type="button" class="header__icon" data-close="#Facets" aria-label="{{ 'accessibility.close' | t }}">{% render 'icon', name: 'close' %}</button>
+      </div>
+
+      <form data-facet-form>
+        {%- if collection.filters.size > 0 -%}
+          {%- for filter in collection.filters -%}
+            <details class="facet" {% if filter.active_values.size > 0 or forloop.index < 3 %}open{% endif %}>
+              <summary class="facet__summary">
+                {{ filter.label }}
+                {% render 'icon', name: 'chevron-down' %}
+              </summary>
+
+              {%- case filter.type -%}
+                {%- when 'list' -%}
+                  <ul class="facet__list">
+                    {%- for value in filter.values -%}
+                      <li>
+                        <label class="facet__label">
+                          <input
+                            type="checkbox"
+                            name="{{ value.param_name }}"
+                            value="{{ value.value }}"
+                            {% if value.active %}checked{% endif %}
+                            {% if value.count == 0 and value.active == false %}disabled{% endif %}>
+                          <span>{{ value.label }}</span>
+                          <span class="facet__count">{{ value.count }}</span>
+                        </label>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+
+                {%- when 'price_range' -%}
+                  <div style="display: flex; gap: 10px; margin-top: 14px">
+                    <div class="field" style="margin: 0">
+                      <label class="field__label" for="Filter-{{ filter.label | escape }}-min">{{ 'collections.filters.from' | t }}</label>
+                      <input class="field__input" id="Filter-{{ filter.label | escape }}-min" type="number" name="{{ filter.min_value.param_name }}" inputmode="numeric"
+                             {% if filter.min_value.value %}value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"{% endif %}
+                             placeholder="0" min="0" max="{{ filter.range_max | money_without_currency | replace: ',', '' }}">
+                    </div>
+                    <div class="field" style="margin: 0">
+                      <label class="field__label" for="Filter-{{ filter.label | escape }}-max">{{ 'collections.filters.to' | t }}</label>
+                      <input class="field__input" id="Filter-{{ filter.label | escape }}-max" type="number" name="{{ filter.max_value.param_name }}" inputmode="numeric"
+                             {% if filter.max_value.value %}value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"{% endif %}
+                             placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}" min="0" max="{{ filter.range_max | money_without_currency | replace: ',', '' }}">
+                    </div>
+                  </div>
+              {%- endcase -%}
+            </details>
+          {%- endfor -%}
+
+          <noscript>
+            <button type="submit" class="button button--full" style="margin-top: 18px">{{ 'collections.filters.apply' | t }}</button>
+          </noscript>
+        {%- else -%}
+          <p class="text-mute" style="font-size: 0.85rem">{{ 'collections.filters.none' | t }}</p>
+        {%- endif -%}
+      </form>
+    </aside>
+
+    <div>
+      <div class="collection-toolbar">
+        <span class="collection-toolbar__count" data-collection-count>
+          {{ 'collections.general.count' | t: count: collection.products_count }}
+        </span>
+
+        <div class="collection-toolbar__actions">
+          <button type="button" class="chip" data-open="#Facets" style="display: none" data-mobile-filter>
+            {% render 'icon', name: 'filter' %} {{ 'collections.filters.title' | t }}
+          </button>
+
+          {%- if section.settings.show_sort -%}
+            <div class="select">
+              <label class="visually-hidden" for="SortBy">{{ 'collections.sorting.title' | t }}</label>
+              <select id="SortBy" class="select__select" data-sort style="min-height: 40px; padding-block: 8px; font-size: 0.8rem">
+                {%- assign current_sort = collection.sort_by | default: collection.default_sort_by -%}
+                {%- for option in collection.sort_options -%}
+                  <option value="{{ option.value }}" {% if option.value == current_sort %}selected{% endif %}>{{ option.name }}</option>
+                {%- endfor -%}
+              </select>
+              <span class="select__icon">{% render 'icon', name: 'chevron-down' %}</span>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="active-facets" data-active-facets>
+        {%- for filter in collection.filters -%}
+          {%- for value in filter.active_values -%}
+            <a href="{{ value.url_to_remove }}" class="chip">{{ value.label }} {% render 'icon', name: 'close' %}</a>
+          {%- endfor -%}
+        {%- endfor -%}
+        {%- if collection.filters.size > 0 and collection.current_type == blank -%}
+          {%- assign has_active = false -%}
+          {%- for filter in collection.filters -%}
+            {%- if filter.active_values.size > 0 -%}{%- assign has_active = true -%}{%- endif -%}
+          {%- endfor -%}
+          {%- if has_active -%}
+            <a href="{{ collection.url }}" class="chip">{{ 'collections.filters.clear_all' | t }}</a>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+
+      <div data-product-grid>
+        {%- if collection.products.size > 0 -%}
+          <ul class="product-grid" style="--grid-desktop: {{ section.settings.columns }}" role="list">
+            {%- for product in collection.products -%}
+              <li>{% render 'product-card', card_product: product, index: forloop.index0 %}</li>
+            {%- endfor -%}
+          </ul>
+          {% render 'pagination', paginate: paginate %}
+        {%- else -%}
+          <div class="empty-state">
+            <h2 class="empty-state__title">{{ 'collections.general.no_matches' | t }}</h2>
+            <p class="text-mute">{{ 'collections.general.no_matches_text' | t }}</p>
+            <a href="{{ collection.url }}" class="button" style="margin-top: 18px">{{ 'collections.filters.clear_all' | t }}</a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  {%- if section.settings.seo_text != blank -%}
+    <div class="page-width--narrow rte text-mute" style="margin: 56px auto 0; padding-top: 34px; border-top: 1px solid var(--bq-line); font-size: 0.88rem">
+      {{ section.settings.seo_text }}
+    </div>
+  {%- endif -%}
+</div>
+
+<style>
+  @media (max-width: 989px) {
+    [data-mobile-filter] { display: inline-flex !important; }
+    #Facets .mobile-nav__head { display: flex !important; margin: -20px calc(var(--bq-gutter) * -1) 0; }
+  }
+</style>
+
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [
+    { "type": "checkbox", "id": "show_hero", "label": "Show collection banner", "default": true },
+    { "type": "checkbox", "id": "show_sort", "label": "Show sorting", "default": true },
+    { "type": "range", "id": "columns", "min": 2, "max": 5, "step": 1, "label": "Desktop columns", "default": 4 },
+    { "type": "range", "id": "per_page", "min": 8, "max": 48, "step": 4, "label": "Products per page", "default": 24 },
+    {
+      "type": "richtext",
+      "id": "seo_text",
+      "label": "Text below the grid",
+      "info": "Shown under the products on every collection using this template. Useful for search."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "subcollection",
+      "name": "Related collection chip",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "text", "id": "title", "label": "Title override" },
+        { "type": "url", "id": "link", "label": "Link override" }
+      ]
+    }
+  ]
+}
+{% endschema %}

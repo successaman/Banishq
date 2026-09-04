@@ -1,0 +1,33 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-cart",
+      "blocks": {
+        "c1": { "type": "coupon", "settings": { "code": "FIRST10", "text": "10% off your first order. One use per customer." } },
+        "c2": { "type": "coupon", "settings": { "code": "ROTATION5", "text": "Extra 5% off when you buy three pieces or more." } },
+        "t1": { "type": "trending_category", "settings": { "title": "Tees" } },
+        "t2": { "type": "trending_category", "settings": { "title": "Overshirts" } },
+        "t3": { "type": "trending_category", "settings": { "title": "Cargos" } },
+        "t4": { "type": "trending_category", "settings": { "title": "Co-ords" } }
+      },
+      "block_order": ["c1", "c2", "t1", "t2", "t3", "t4"],
+      "settings": {
+        "banner_text": "Spend ₹999 and shipping is on us.",
+        "banner_terms": "Applies to all prepaid and COD orders in India",
+        "show_pincode": true,
+        "show_line_eta": true,
+        "show_coupons": true,
+        "show_international": true,
+        "show_wishlist_link": true,
+        "empty_text": "Nothing in here yet. Start with the essentials.",
+        "trending_searches": "Oversized tees, Cargos, Co-ords, Overshirts, Under 999",
+        "empty_collection_heading": "Our top sellers"
+      }
+    },
+    "recently-viewed": {
+      "type": "recently-viewed",
+      "settings": { "eyebrow": "Picked up again", "heading": "Where you left off", "limit": 4 }
+    }
+  },
+  "order": ["main", "recently-viewed"]
+}

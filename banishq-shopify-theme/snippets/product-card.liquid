@@ -1,0 +1,177 @@
+{%- comment -%}
+  BANISHQ product card.
+
+  Parameters:
+    card_product  {Object}  product
+    ratio         {String}  portrait | tall | square  (defaults to theme setting)
+    show_sizes    {Boolean} override the theme setting
+    lazy          {Boolean} lazy-load the image (default true)
+    index         {Number}  position in the grid, used for eager-loading the first row
+
+  Commerce density comes from The Souled Store (badges, strike price, % off,
+  size chips, wishlist). Restraint comes from the BANISHQ brief: bone ground,
+  black type, burgundy only where it carries meaning.
+{%- endcomment -%}
+
+{%- liquid
+  assign ratio = ratio | default: settings.card_image_ratio
+  assign show_sizes = show_sizes | default: settings.card_show_sizes, allow_false: true
+  assign index = index | default: 99
+  if index < 4
+    assign loading = 'eager'
+  else
+    assign loading = 'lazy'
+  endif
+-%}
+
+{%- if card_product == blank or card_product.empty? -%}
+  <div class="card">
+    <div class="card__media media media--{{ ratio }}">
+      {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    </div>
+    <div class="card__body">
+      <h3 class="card__title">{{ 'onboarding.product_title' | t }}</h3>
+      <div class="price"><span class="price__regular">₹1,299</span></div>
+    </div>
+  </div>
+{%- else -%}
+  {%- liquid
+    assign target = card_product.selected_or_first_available_variant
+    assign on_sale = false
+    assign percent_off = 0
+    if target.compare_at_price > target.price
+      assign on_sale = true
+      assign diff = target.compare_at_price | minus: target.price | times: 100.0
+      assign percent_off = diff | divided_by: target.compare_at_price | round
+    endif
+
+    assign is_new = false
+    if card_product.tags contains 'new' or card_product.tags contains 'New'
+      assign is_new = true
+    endif
+
+    assign size_option_index = nil
+    for option in card_product.options_with_values
+      assign downcased = option.name | downcase
+      if downcased contains 'size'
+        assign size_option_index = forloop.index0
+      endif
+    endfor
+  -%}
+
+  <div class="card" data-product-card>
+    <div class="card__media media media--{{ ratio }}">
+      <a href="{{ card_product.url }}" tabindex="-1" aria-hidden="true">
+        {%- if card_product.featured_media -%}
+          <img
+            src="{{ card_product.featured_media | image_url: width: 700 }}"
+            srcset="{{ card_product.featured_media | image_url: width: 360 }} 360w,
+                    {{ card_product.featured_media | image_url: width: 540 }} 540w,
+                    {{ card_product.featured_media | image_url: width: 700 }} 700w,
+                    {{ card_product.featured_media | image_url: width: 1000 }} 1000w"
+            sizes="(min-width: 990px) 24vw, (min-width: 750px) 33vw, 48vw"
+            alt="{{ card_product.featured_media.alt | escape }}"
+            width="{{ card_product.featured_media.width }}"
+            height="{{ card_product.featured_media.height }}"
+            loading="{{ loading }}"
+            class="card__img">
+        {%- else -%}
+          {{ 'product-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+
+        {%- if settings.card_second_image and card_product.media[1] -%}
+          <img
+            src="{{ card_product.media[1] | image_url: width: 700 }}"
+            srcset="{{ card_product.media[1] | image_url: width: 360 }} 360w,
+                    {{ card_product.media[1] | image_url: width: 700 }} 700w"
+            sizes="(min-width: 990px) 24vw, (min-width: 750px) 33vw, 48vw"
+            alt=""
+            loading="lazy"
+            class="card__img card__img--alt">
+        {%- endif -%}
+      </a>
+
+      <div class="card__badges">
+        {%- unless card_product.available -%}
+          <span class="badge badge--soldout">{{ 'products.product.sold_out' | t }}</span>
+        {%- else -%}
+          {%- if on_sale and percent_off >= settings.card_sale_badge_min -%}
+            <span class="badge badge--sale">{{ percent_off }}% {{ 'products.product.off' | t }}</span>
+          {%- endif -%}
+          {%- if is_new -%}
+            <span class="badge badge--new">{{ 'products.product.just_in' | t }}</span>
+          {%- endif -%}
+        {%- endunless -%}
+      </div>
+
+      <button
+        type="button"
+        class="card__wish"
+        data-wish="{{ card_product.handle }}"
+        aria-label="{{ 'products.product.save_to_wishlist' | t }}">
+        {% render 'icon', name: 'heart' %}
+      </button>
+
+      {%- if show_sizes and size_option_index != nil and card_product.available -%}
+        <div class="card__sizes">
+          {%- assign size_values = card_product.options_with_values[size_option_index].values -%}
+          {%- for value in size_values limit: 7 -%}
+            {%- liquid
+              assign found = nil
+              for variant in card_product.variants
+                if variant.options[size_option_index] == value and variant.available
+                  assign found = variant
+                  break
+                endif
+              endfor
+            -%}
+            {%- if found -%}
+              <button type="button" class="card__size" data-quick-variant="{{ found.id }}" aria-label="{{ 'products.product.add_size' | t: size: value }}">{{ value }}</button>
+            {%- else -%}
+              <span class="card__size" disabled aria-hidden="true">{{ value }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="card__body">
+      {%- if settings.card_show_vendor and card_product.type != blank -%}
+        <span class="card__kicker">{{ card_product.type }}</span>
+      {%- endif -%}
+
+      <h3 class="card__title">
+        <a href="{{ card_product.url }}">{{ card_product.title | escape }}</a>
+      </h3>
+
+      {% render 'price', product: card_product, show_save: true %}
+
+      {%- assign colour_option = nil -%}
+      {%- for option in card_product.options_with_values -%}
+        {%- assign downcased = option.name | downcase -%}
+        {%- if downcased contains 'colour' or downcased contains 'color' -%}
+          {%- assign colour_option = option -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if colour_option and colour_option.values.size > 1 -%}
+        <div class="card__swatches" aria-label="{{ colour_option.values.size }} colours">
+          {%- for value in colour_option.values limit: 5 -%}
+            <span class="swatch" style="background: {{ value | downcase | split: ' ' | last }};" title="{{ value }}"></span>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- if settings.card_quick_add and card_product.available and card_product.variants.size == 1 -%}
+        <div class="card__quick">
+          <form data-product-form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="{{ card_product.variants.first.id }}">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" class="button button--outline button--sm button--full">
+              {{ 'products.product.add_to_cart' | t }}
+            </button>
+          </form>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}

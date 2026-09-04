@@ -1,0 +1,56 @@
+{%- comment -%} Four commerce reassurances. Information, not decoration. {%- endcomment -%}
+<section class="section section--tight">
+  <div class="page-width">
+    <div class="value-props">
+      {%- for block in section.blocks -%}
+        <div class="value-prop" {{ block.shopify_attributes }}>
+          {% render 'icon', name: block.settings.icon %}
+          <p class="value-prop__title">{{ block.settings.title }}</p>
+          <p class="value-prop__text">{{ block.settings.text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Value props",
+  "blocks": [
+    {
+      "type": "prop",
+      "name": "Prop",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "truck", "label": "Delivery" },
+            { "value": "return", "label": "Returns" },
+            { "value": "shield", "label": "Secure" },
+            { "value": "ruler", "label": "Fit" },
+            { "value": "tag", "label": "Price" },
+            { "value": "leaf", "label": "Fabric" },
+            { "value": "store", "label": "Store" }
+          ],
+          "default": "truck"
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "Free shipping over ₹999" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Dispatched in 24 hours" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Value props",
+      "blocks": [
+        { "type": "prop", "settings": { "icon": "truck", "title": "Free shipping over ₹999", "text": "Dispatched within 24 hours" } },
+        { "type": "prop", "settings": { "icon": "return", "title": "7-day easy returns", "text": "No questions, no runaround" } },
+        { "type": "prop", "settings": { "icon": "ruler", "title": "True unisex fits", "text": "One size system, every body" } },
+        { "type": "prop", "settings": { "icon": "tag", "title": "₹199 to ₹2,999", "text": "Premium make, honest price" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

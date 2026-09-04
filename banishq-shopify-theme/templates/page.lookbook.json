@@ -1,0 +1,44 @@
+{
+  "sections": {
+    "hero": {
+      "type": "page-hero",
+      "settings": { "eyebrow": "Drop 01 · SS26", "heading": "The Everyday Edit", "text": "Twelve pieces. One rotation. Shot on the people who will wear them.", "align": "center" }
+    },
+    "lookbook": {
+      "type": "lookbook",
+      "blocks": {
+        "l1": { "type": "image", "settings": { "wide": true, "label": "Drop 01" } },
+        "l2": { "type": "image", "settings": { "label": "Overshirts" } },
+        "l3": { "type": "image", "settings": { "label": "Cargos" } },
+        "l4": { "type": "image", "settings": { "label": "Co-ords" } },
+        "l5": { "type": "image", "settings": { "label": "Tees" } }
+      },
+      "block_order": ["l1", "l2", "l3", "l4", "l5"],
+      "settings": { "eyebrow": "Campaign", "heading": "Presence, in practice", "link_label": "Shop the drop" }
+    },
+    "look": {
+      "type": "shop-the-look",
+      "blocks": {
+        "h1": { "type": "hotspot", "settings": { "x": 38, "y": 32 } },
+        "h2": { "type": "hotspot", "settings": { "x": 44, "y": 62 } },
+        "h3": { "type": "hotspot", "settings": { "x": 62, "y": 44 } }
+      },
+      "block_order": ["h1", "h2", "h3"],
+      "settings": { "eyebrow": "The full look", "heading": "Everything in frame", "link_label": "Shop Drop 01" }
+    },
+    "instagram": {
+      "type": "instagram-feed",
+      "blocks": {
+        "p1": { "type": "post", "settings": { "caption": "@banishq" } },
+        "p2": { "type": "post", "settings": { "caption": "@banishq" } },
+        "p3": { "type": "post", "settings": { "caption": "@banishq" } },
+        "p4": { "type": "post", "settings": { "caption": "@banishq" } },
+        "p5": { "type": "post", "settings": { "caption": "@banishq" } },
+        "p6": { "type": "post", "settings": { "caption": "@banishq" } }
+      },
+      "block_order": ["p1", "p2", "p3", "p4", "p5", "p6"],
+      "settings": { "handle": "@banishq", "heading": "Worn in the wild", "text": "Tag us and you might end up here.", "button_label": "Follow along" }
+    }
+  },
+  "order": ["hero", "lookbook", "look", "instagram"]
+}

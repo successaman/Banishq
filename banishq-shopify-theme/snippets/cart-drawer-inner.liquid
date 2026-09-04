@@ -1,0 +1,82 @@
+{%- comment -%}
+  Cart drawer contents. Re-rendered over fetch by theme.js, so this snippet is
+  also the whole body of sections/cart-drawer.liquid.
+{%- endcomment -%}
+<div data-cart-drawer-inner>
+  {%- if cart.item_count > 0 -%}
+    {%- assign threshold = settings.free_shipping_threshold | times: 100 -%}
+    {%- if threshold > 0 -%}
+      {%- assign remaining = threshold | minus: cart.total_price -%}
+      <div class="shipping-bar">
+        {%- if remaining > 0 -%}
+          {{ 'cart.shipping.add_more_html' | t: amount: remaining | money }}
+        {%- else -%}
+          {{ 'cart.shipping.unlocked' | t }}
+        {%- endif -%}
+        <div class="shipping-bar__track">
+          {%- assign pct = cart.total_price | times: 100 | divided_by: threshold -%}
+          <div class="shipping-bar__fill" style="width: {% if pct > 100 %}100{% else %}{{ pct }}{% endif %}%"></div>
+        </div>
+      </div>
+    {%- endif -%}
+
+    <div class="cart-drawer__body">
+      {%- for item in cart.items -%}
+        <div class="cart-item">
+          <a href="{{ item.url }}" class="cart-item__media" tabindex="-1" aria-hidden="true">
+            {%- if item.image -%}
+              <img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.image.alt | escape }}" width="86" height="107" loading="lazy">
+            {%- endif -%}
+          </a>
+          <div>
+            <h3 class="cart-item__title"><a href="{{ item.url }}">{{ item.product.title }}</a></h3>
+            {%- unless item.product.has_only_default_variant -%}
+              <p class="cart-item__options">{{ item.variant.title }}</p>
+            {%- endunless -%}
+            {%- if item.selling_plan_allocation -%}
+              <p class="cart-item__options">{{ item.selling_plan_allocation.selling_plan.name }}</p>
+            {%- endif -%}
+            <div class="price" style="margin-top:6px">
+              <span class="price__regular">{{ item.final_line_price | money }}</span>
+              {%- if item.original_line_price > item.final_line_price -%}
+                <s class="price__compare">{{ item.original_line_price | money }}</s>
+              {%- endif -%}
+            </div>
+            <div class="cart-item__foot">
+              {% render 'quantity-selector', value: item.quantity, key: item.key %}
+              <button type="button" class="cart-item__remove" data-cart-remove="{{ item.key }}">{{ 'cart.general.remove' | t }}</button>
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div class="cart-drawer__foot">
+      <div class="cart-totals">
+        {%- for discount in cart.cart_level_discount_applications -%}
+          <div class="cart-totals__row">
+            <span>{{ discount.title }}</span>
+            <span>&minus;{{ discount.total_allocated_amount | money }}</span>
+          </div>
+        {%- endfor -%}
+        <div class="cart-totals__row cart-totals__row--total">
+          <span>{{ 'cart.general.subtotal' | t }}</span>
+          <span>{{ cart.total_price | money }}</span>
+        </div>
+      </div>
+      <p class="mono" style="color: var(--bq-ink-mute); margin: 0 0 14px">{{ 'cart.general.taxes_note' | t }}</p>
+      <form action="{{ routes.cart_url }}" method="post">
+        <button type="submit" name="checkout" class="button button--full">{{ 'cart.general.checkout' | t }}</button>
+      </form>
+      <a href="{{ routes.cart_url }}" class="button button--outline button--full" style="margin-top:8px">{{ 'cart.general.view_cart' | t }}</a>
+    </div>
+  {%- else -%}
+    <div class="cart-drawer__body">
+      <div class="empty-state">
+        <h3 class="empty-state__title">{{ 'cart.general.empty' | t }}</h3>
+        <p class="text-mute">{{ 'cart.general.empty_text' | t }}</p>
+        <a href="{{ routes.all_products_collection_url }}" class="button" style="margin-top:18px">{{ 'cart.general.continue_shopping' | t }}</a>
+      </div>
+    </div>
+  {%- endif -%}
+</div>

@@ -1,0 +1,436 @@
+{%- comment -%}
+  Product page. Editorial gallery on the left, information-led buy column on
+  the right. Variant swapping is progressive: the form posts normally without
+  JavaScript because every option is a radio inside the product form.
+{%- endcomment -%}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign form_id = 'ProductForm-' | append: section.id
+-%}
+
+<div class="page-width">
+  {% render 'breadcrumbs' %}
+
+  <div class="product">
+    {%- comment -%} ------------------------------------------------- gallery {%- endcomment -%}
+    <div class="product__gallery">
+      {%- if product.media.size > 0 -%}
+        {%- for media in product.media -%}
+          <div class="product__media{% if forloop.first and product.media.size > 2 %} product__media--full{% endif %}" id="Media-{{ media.id }}">
+            {%- case media.media_type -%}
+              {%- when 'image' -%}
+                <img
+                  src="{{ media | image_url: width: 1400 }}"
+                  srcset="{{ media | image_url: width: 600 }} 600w,
+                          {{ media | image_url: width: 900 }} 900w,
+                          {{ media | image_url: width: 1400 }} 1400w"
+                  sizes="(min-width: 990px) 45vw, 100vw"
+                  alt="{{ media.alt | escape }}"
+                  width="{{ media.width }}"
+                  height="{{ media.height }}"
+                  {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}>
+              {%- when 'video' -%}
+                {{ media | media_tag: image_size: '1400x', controls: true }}
+              {%- when 'external_video' -%}
+                {{ media | external_video_tag }}
+              {%- when 'model' -%}
+                {{ media | model_viewer_tag }}
+            {%- endcase -%}
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        <div class="product__media">{{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+        <div class="product__media">{{ 'product-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} ---------------------------------------------- buy column {%- endcomment -%}
+    <div class="product__info">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+
+          {%- when 'vendor' -%}
+            {%- if product.type != blank or product.vendor != blank -%}
+              <p class="product__vendor" {{ block.shopify_attributes }}>
+                {{ product.type | default: product.vendor }}
+                {%- if product.selected_or_first_available_variant.sku != blank %} · {{ product.selected_or_first_available_variant.sku }}{% endif -%}
+              </p>
+            {%- endif -%}
+
+          {%- when 'title' -%}
+            <h1 class="product__title" {{ block.shopify_attributes }}>{{ product.title }}</h1>
+
+          {%- when 'price' -%}
+            <div class="product__price" {{ block.shopify_attributes }}>
+              {% render 'price', product: product, variant: current_variant, show_save: true %}
+            </div>
+            <p class="product__tax">{{ 'products.product.tax_note' | t }}</p>
+
+          {%- when 'variant_picker' -%}
+            {%- unless product.has_only_default_variant -%}
+              <div data-variant-picker data-form="{{ form_id }}" {{ block.shopify_attributes }}>
+                <script type="application/json" data-variant-json>
+                  [
+                    {%- for variant in product.variants -%}
+                      {
+                        "id": {{ variant.id }},
+                        "options": {{ variant.options | json }},
+                        "price": {{ variant.price }},
+                        "compare_at_price": {{ variant.compare_at_price | default: 0 }},
+                        "available": {{ variant.available }}
+                      }{% unless forloop.last %},{% endunless %}
+                    {%- endfor -%}
+                  ]
+                </script>
+
+                {%- for option in product.options_with_values -%}
+                  {%- liquid
+                    assign option_index = forloop.index0
+                    assign option_down = option.name | downcase
+                    assign is_swatch = false
+                    if option_down contains 'colour' or option_down contains 'color'
+                      assign is_swatch = true
+                    endif
+                    assign is_size = false
+                    if option_down contains 'size'
+                      assign is_size = true
+                    endif
+                  -%}
+                  <div class="variant-group" data-option-index="{{ forloop.index0 }}">
+                    <div class="variant-group__head">
+                      <span class="variant-group__label">{{ option.name }}: <span class="variant-group__value" data-selected-value>{{ option.selected_value }}</span></span>
+                      {%- if is_size and block.settings.size_guide_page != blank -%}
+                        <a href="{{ block.settings.size_guide_page }}" class="mono" style="text-decoration: underline; text-underline-offset: 3px">
+                          {{ 'products.product.size_guide' | t }}
+                        </a>
+                      {%- endif -%}
+                    </div>
+
+                    <div class="variant-options">
+                      {%- for value in option.values -%}
+                        {%- liquid
+                          assign option_available = false
+                          for variant in product.variants
+                            if variant.options[option_index] == value and variant.available
+                              assign option_available = true
+                              break
+                            endif
+                          endfor
+                          assign input_id = 'Option-' | append: section.id | append: '-' | append: option.position | append: '-' | append: forloop.index0
+                        -%}
+                        <div class="variant-option{% if is_swatch %} variant-option--swatch{% endif %}{% unless option_available %} variant-option--unavailable{% endunless %}">
+                          <input
+                            type="radio"
+                            id="{{ input_id }}"
+                            name="{{ option.name | escape }}-{{ section.id }}"
+                            value="{{ value | escape }}"
+                            form="{{ form_id }}"
+                            {% if option.selected_value == value %}checked{% endif %}>
+                          <label
+                            for="{{ input_id }}"
+                            {% if is_swatch %}style="--swatch: {{ value | downcase | split: ' ' | last }}" title="{{ value | escape }}"{% endif %}>
+                            {%- unless is_swatch -%}{{ value }}{%- else -%}<span class="visually-hidden">{{ value }}</span>{%- endunless -%}
+                          </label>
+                        </div>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                {%- endfor -%}
+              </div>
+            {%- endunless -%}
+
+          {%- when 'buy_buttons' -%}
+            <div data-buy-block {{ block.shopify_attributes }}>
+              {%- form 'product', product, id: form_id, class: 'product__buy', novalidate: 'novalidate', data-product-form: '' -%}
+                <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+
+                {%- unless product.has_only_default_variant -%}
+                  <noscript>
+                    <div class="field">
+                      <label class="field__label" for="NoScriptVariant-{{ section.id }}">{{ 'products.product.choose_variant' | t }}</label>
+                      <div class="select">
+                        <select id="NoScriptVariant-{{ section.id }}" name="id" class="select__select">
+                          {%- for variant in product.variants -%}
+                            <option value="{{ variant.id }}" {% if variant == current_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>
+                              {{ variant.title }} — {{ variant.price | money }}{% unless variant.available %} ({{ 'products.product.sold_out' | t }}){% endunless %}
+                            </option>
+                          {%- endfor -%}
+                        </select>
+                        <span class="select__icon">{% render 'icon', name: 'chevron-down' %}</span>
+                      </div>
+                    </div>
+                  </noscript>
+                {%- endunless -%}
+
+                <div style="display: flex; gap: 10px; align-items: stretch">
+                  {%- if block.settings.show_quantity -%}
+                    {% render 'quantity-selector', value: 1, name: 'quantity' %}
+                  {%- endif -%}
+                  <button
+                    type="submit"
+                    class="button button--full"
+                    data-add-to-cart
+                    {% unless current_variant.available %}disabled{% endunless %}>
+                    <span data-add-text>
+                      {%- if current_variant.available -%}
+                        {{ 'products.product.add_to_cart' | t }}
+                      {%- else -%}
+                        {{ 'products.product.sold_out' | t }}
+                      {%- endif -%}
+                    </span>
+                  </button>
+                </div>
+
+                {%- if block.settings.show_dynamic_checkout -%}
+                  {{ form | payment_button }}
+                {%- endif -%}
+              {%- endform -%}
+            </div>
+
+          {%- when 'meta' -%}
+            <div class="product__meta" {{ block.shopify_attributes }}>
+              {%- if block.settings.line_1 != blank -%}
+                <p class="product__meta-row">{% render 'icon', name: block.settings.icon_1 %} <span>{{ block.settings.line_1 }}</span></p>
+              {%- endif -%}
+              {%- if block.settings.line_2 != blank -%}
+                <p class="product__meta-row">{% render 'icon', name: block.settings.icon_2 %} <span>{{ block.settings.line_2 }}</span></p>
+              {%- endif -%}
+              {%- if block.settings.line_3 != blank -%}
+                <p class="product__meta-row">{% render 'icon', name: block.settings.icon_3 %} <span>{{ block.settings.line_3 }}</span></p>
+              {%- endif -%}
+            </div>
+
+          {%- when 'delivery' -%}
+            <div
+              class="tcart__pin"
+              style="margin-bottom: 20px"
+              data-pincode
+              data-serviceable="{{ block.settings.serviceable_prefixes | escape }}"
+              data-days="{{ block.settings.delivery_days }}"
+              data-metro-days="{{ block.settings.metro_delivery_days }}"
+              data-metro="{{ block.settings.metro_prefixes | escape }}"
+              {{ block.shopify_attributes }}>
+              <div class="tcart__pin-label">
+                {{ 'cart.delivery.title' | t }}
+                <span>{{ 'cart.delivery.subtitle' | t }}</span>
+              </div>
+              <form class="tcart__pin-form" data-pincode-form>
+                <span class="tcart__pin-cc">IN</span>
+                <label class="visually-hidden" for="PdpPincode-{{ section.id }}">{{ 'cart.delivery.placeholder' | t }}</label>
+                <input
+                  id="PdpPincode-{{ section.id }}"
+                  class="tcart__pin-input"
+                  type="text"
+                  inputmode="numeric"
+                  pattern="[0-9]{6}"
+                  maxlength="6"
+                  placeholder="{{ 'cart.delivery.placeholder' | t }}"
+                  data-pincode-input>
+                <button type="submit" class="tcart__pin-submit">{{ 'cart.delivery.check' | t }}</button>
+              </form>
+              <p class="tcart__pin-result" data-pincode-result hidden></p>
+            </div>
+
+          {%- when 'size_chart' -%}
+            <details class="accordion" {{ block.shopify_attributes }}>
+              <summary class="accordion__summary">{{ block.settings.heading }} {% render 'icon', name: 'plus' %}</summary>
+              <div class="accordion__content">
+                <div class="table-scroll">
+                  <table class="size-table">
+                    <thead>
+                      <tr>
+                        {%- assign headers = block.settings.headers | split: ',' -%}
+                        {%- for header in headers -%}<th>{{ header | strip }}</th>{%- endfor -%}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {%- assign rows = block.settings.rows | split: '
+' -%}
+                      {%- for row in rows -%}
+                        {%- assign trimmed = row | strip -%}
+                        {%- if trimmed != blank -%}
+                          <tr>
+                            {%- assign cells = trimmed | split: ',' -%}
+                            {%- for cell in cells -%}<td>{{ cell | strip }}</td>{%- endfor -%}
+                          </tr>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </tbody>
+                  </table>
+                </div>
+                {%- if block.settings.note != blank -%}
+                  <p class="text-mute" style="font-size: 0.8rem; margin-top: 12px">{{ block.settings.note }}</p>
+                {%- endif -%}
+              </div>
+            </details>
+
+          {%- when 'complementary' -%}
+            {%- assign complements = product.metafields.shopify--discovery--product_recommendation.complementary_products.value -%}
+            {%- if complements != blank and complements.size > 0 -%}
+              <div style="padding-block: 22px; border-bottom: 1px solid var(--bq-line)" {{ block.shopify_attributes }}>
+                <p class="variant-group__label" style="margin-bottom: 14px">{{ block.settings.heading }}</p>
+                <div class="scroll-row">
+                  {%- for complement in complements limit: block.settings.limit -%}
+                    <div>{% render 'product-card', card_product: complement, show_sizes: false, index: forloop.index0 %}</div>
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endif -%}
+
+          {%- when 'description' -%}
+            <details class="accordion" open {{ block.shopify_attributes }}>
+              <summary class="accordion__summary">{{ 'products.product.description' | t }} {% render 'icon', name: 'plus' %}</summary>
+              <div class="accordion__content rte">{{ product.description }}</div>
+            </details>
+
+          {%- when 'accordion' -%}
+            <details class="accordion" {{ block.shopify_attributes }}>
+              <summary class="accordion__summary">{{ block.settings.heading }} {% render 'icon', name: 'plus' %}</summary>
+              <div class="accordion__content rte">
+                {%- if block.settings.page != blank -%}
+                  {{ pages[block.settings.page].content }}
+                {%- else -%}
+                  {{ block.settings.content }}
+                {%- endif -%}
+              </div>
+            </details>
+
+          {%- when 'share' -%}
+            <div style="padding-top: 20px" {{ block.shopify_attributes }}>
+              <span class="mono" style="color: var(--bq-ink-mute)">{{ 'products.product.share' | t }}</span>
+            </div>
+
+          {%- when '@app' -%}
+            {% render block %}
+
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{%- comment -%} ------------------------------------------ sticky mobile bar {%- endcomment -%}
+<div class="pdp-sticky" data-pdp-sticky>
+  <div class="pdp-sticky__info">
+    <div class="pdp-sticky__title">{{ product.title }}</div>
+    <div class="price"><span class="price__regular" data-sticky-price>{{ current_variant.price | money }}</span></div>
+  </div>
+  <a href="#{{ form_id }}" class="button button--sm">{{ 'products.product.add_to_cart' | t }}</a>
+</div>
+
+{% schema %}
+{
+  "name": "Product",
+  "blocks": [
+    { "type": "vendor", "name": "Type / SKU", "limit": 1 },
+    { "type": "title", "name": "Title", "limit": 1 },
+    { "type": "price", "name": "Price", "limit": 1 },
+    {
+      "type": "variant_picker",
+      "name": "Variant picker",
+      "limit": 1,
+      "settings": [{ "type": "url", "id": "size_guide_page", "label": "Size guide link" }]
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Buy buttons",
+      "limit": 1,
+      "settings": [
+        { "type": "checkbox", "id": "show_quantity", "label": "Show quantity selector", "default": true },
+        { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout buttons", "default": true }
+      ]
+    },
+    {
+      "type": "meta",
+      "name": "Reassurance lines",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select", "id": "icon_1", "label": "Icon 1", "default": "truck",
+          "options": [
+            { "value": "truck", "label": "Delivery" }, { "value": "return", "label": "Returns" },
+            { "value": "shield", "label": "Secure" }, { "value": "ruler", "label": "Fit" },
+            { "value": "tag", "label": "Price" }, { "value": "leaf", "label": "Fabric" }
+          ]
+        },
+        { "type": "text", "id": "line_1", "label": "Line 1", "default": "Free shipping over ₹999 · Dispatched in 24 hours" },
+        {
+          "type": "select", "id": "icon_2", "label": "Icon 2", "default": "return",
+          "options": [
+            { "value": "truck", "label": "Delivery" }, { "value": "return", "label": "Returns" },
+            { "value": "shield", "label": "Secure" }, { "value": "ruler", "label": "Fit" },
+            { "value": "tag", "label": "Price" }, { "value": "leaf", "label": "Fabric" }
+          ]
+        },
+        { "type": "text", "id": "line_2", "label": "Line 2", "default": "7-day easy returns and size exchange" },
+        {
+          "type": "select", "id": "icon_3", "label": "Icon 3", "default": "leaf",
+          "options": [
+            { "value": "truck", "label": "Delivery" }, { "value": "return", "label": "Returns" },
+            { "value": "shield", "label": "Secure" }, { "value": "ruler", "label": "Fit" },
+            { "value": "tag", "label": "Price" }, { "value": "leaf", "label": "Fabric" }
+          ]
+        },
+        { "type": "text", "id": "line_3", "label": "Line 3", "default": "Cut and stitched in India" }
+      ]
+    },
+    {
+      "type": "delivery",
+      "name": "Delivery estimate",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "serviceable_prefixes",
+          "label": "Serviceable PIN prefixes",
+          "info": "Comma separated first 2 or 3 digits. Leave blank to accept every valid PIN.",
+          "default": "11,12,20,21,30,36,38,39,40,41,42,44,50,51,52,53,56,57,58,60,62,68,70,71,73,75,76,78,80"
+        },
+        { "type": "textarea", "id": "metro_prefixes", "label": "Metro PIN prefixes", "default": "11,40,56,60,70,50,38,41" },
+        { "type": "range", "id": "metro_delivery_days", "min": 1, "max": 7, "step": 1, "label": "Metro delivery days", "default": 3 },
+        { "type": "range", "id": "delivery_days", "min": 2, "max": 14, "step": 1, "label": "Rest of India delivery days", "default": 6 }
+      ]
+    },
+    {
+      "type": "size_chart",
+      "name": "Size chart",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Size chart" },
+        { "type": "text", "id": "headers", "label": "Headers", "info": "Comma separated.", "default": "Size, Chest, Length, Shoulder" },
+        {
+          "type": "textarea",
+          "id": "rows",
+          "label": "Rows",
+          "info": "One row per line, cells separated by commas.",
+          "default": "XS, 34-36, 26.5, 16.5\nS, 36-38, 27.5, 17.5\nM, 38-40, 28.5, 18.5\nL, 40-42, 29.5, 19.5\nXL, 42-44, 30.5, 20.5\nXXL, 44-46, 31.5, 21.5"
+        },
+        { "type": "text", "id": "note", "label": "Note", "default": "Body measurements in inches. Between sizes? Take the larger one for relaxed fits." }
+      ]
+    },
+    {
+      "type": "complementary",
+      "name": "Pairs well with",
+      "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Uses the complementary products set in Shopify's free Search & Discovery app." },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Pairs well with" },
+        { "type": "range", "id": "limit", "min": 2, "max": 6, "step": 1, "label": "Products shown", "default": 4 }
+      ]
+    },
+    { "type": "description", "name": "Description", "limit": 1 },
+    {
+      "type": "accordion",
+      "name": "Accordion row",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Fabric & care" },
+        { "type": "richtext", "id": "content", "label": "Content" },
+        { "type": "page", "id": "page", "label": "Or pull from a page" }
+      ]
+    },
+    { "type": "share", "name": "Share", "limit": 1 },
+    { "type": "@app" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,34 @@
+{
+  "sections": {
+    "hero": {
+      "type": "page-hero",
+      "settings": { "eyebrow": "Order help", "heading": "Track your order", "align": "left" }
+    },
+    "track": {
+      "type": "track-order",
+      "blocks": {
+        "s1": { "type": "step", "settings": { "icon": "tag", "title": "Confirmed", "text": "We have your order and are picking it from the shelf." } },
+        "s2": { "type": "step", "settings": { "icon": "truck", "title": "Shipped", "text": "Handed to the carrier. Tracking link sent by email and SMS." } },
+        "s3": { "type": "step", "settings": { "icon": "store", "title": "Out for delivery", "text": "With the rider. Keep your phone reachable for COD orders." } },
+        "s4": { "type": "step", "settings": { "icon": "return", "title": "Changed your mind", "text": "Seven days from delivery to return, one free size exchange." } }
+      },
+      "block_order": ["s1", "s2", "s3", "s4"],
+      "settings": {
+        "eyebrow": "Where is it",
+        "heading": "Track your order",
+        "text": "Every order ships with a tracking link by email and SMS. You can also look it up here."
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "f1": { "type": "item", "settings": { "question": "My tracking has not updated in two days.", "answer": "<p>Carrier scans can lag over weekends and holidays. If it has been more than three working days, write to us with your order number and we will chase it.</p>" } },
+        "f2": { "type": "item", "settings": { "question": "Can I change the delivery address?", "answer": "<p>Only before the order ships. Reply to your confirmation email as soon as you can and we will try.</p>" } },
+        "f3": { "type": "item", "settings": { "question": "I missed the delivery.", "answer": "<p>Carriers reattempt twice. After that the parcel returns to us and we refund automatically.</p>" } }
+      },
+      "block_order": ["f1", "f2", "f3"],
+      "settings": { "eyebrow": "Delivery questions", "heading": "Common holdups" }
+    }
+  },
+  "order": ["hero", "track", "faq"]
+}

@@ -1,0 +1,50 @@
+{
+  "sections": {
+    "hero": {
+      "type": "page-hero",
+      "settings": {
+        "eyebrow": "Partner with us",
+        "heading": "Open a BANISHQ store",
+        "text": "The long plan is a floor in every serious retail street in India. We are looking for partners who want to run one properly.",
+        "align": "left"
+      }
+    },
+    "form": {
+      "type": "franchise-form",
+      "blocks": {
+        "p1": { "type": "point", "settings": { "title": "600–1,200 sq ft", "text": "Ground floor high street, or an anchor position in a Tier 1 or Tier 2 mall." } },
+        "p2": { "type": "point", "settings": { "title": "Retail experience helps", "text": "Not essential. Commitment to the floor matters more than a CV." } },
+        "p3": { "type": "point", "settings": { "title": "We supply everything", "text": "Fit-out kit, stock, visual merchandising calendar and staff training." } }
+      },
+      "block_order": ["p1", "p2", "p3"],
+      "settings": {
+        "eyebrow": "Partner with us",
+        "heading": "Bring BANISHQ to your city.",
+        "note": "We reply to every serious enquiry within three working days."
+      }
+    },
+    "support": {
+      "type": "text-columns",
+      "blocks": {
+        "c1": { "type": "column", "settings": { "icon": "store", "title": "Fit-out", "text": "<p>Fixtures, signage and lighting to the brand spec, shipped and installed.</p>" } },
+        "c2": { "type": "column", "settings": { "icon": "tag", "title": "Stock", "text": "<p>Opening inventory planned to your catchment, replenished on a weekly cycle.</p>" } },
+        "c3": { "type": "column", "settings": { "icon": "shield", "title": "Training", "text": "<p>Two weeks of floor training for your team before you open, then quarterly refreshers.</p>" } },
+        "c4": { "type": "column", "settings": { "icon": "truck", "title": "Marketing", "text": "<p>A launch campaign for your city and a share of the national calendar.</p>" } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4"],
+      "settings": { "eyebrow": "What you get", "heading": "You are not opening it alone", "columns": 4 }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "f1": { "type": "item", "settings": { "question": "What is the total investment?", "answer": "<p>It depends on the city and the size of the floor. Most partners are between ₹15L and ₹40L including fit-out, opening stock and the security deposit.</p>" } },
+        "f2": { "type": "item", "settings": { "question": "How long does it take to open?", "answer": "<p>Around 90 to 120 days from a signed agreement, assuming the space is handed over ready for fit-out.</p>" } },
+        "f3": { "type": "item", "settings": { "question": "Do I need to find the space myself?", "answer": "<p>Ideally yes. If you have the capital and the commitment but not the site, tell us the city and we will look with you.</p>" } },
+        "f4": { "type": "item", "settings": { "question": "Is there an exclusive territory?", "answer": "<p>Yes, defined by catchment rather than by city, and written into the agreement.</p>" } }
+      },
+      "block_order": ["f1", "f2", "f3", "f4"],
+      "settings": { "eyebrow": "Before you write", "heading": "Franchise questions" }
+    }
+  },
+  "order": ["hero", "form", "support", "faq"]
+}

@@ -1,0 +1,32 @@
+{%- comment -%}
+  Price block. Mono numerals per the brand type system.
+  Params: product | variant, show_save (Boolean)
+{%- endcomment -%}
+{%- liquid
+  if variant
+    assign target = variant
+  else
+    assign target = product.selected_or_first_available_variant
+  endif
+  assign compare = target.compare_at_price
+  assign money = target.price
+  assign on_sale = false
+  if compare > money
+    assign on_sale = true
+    assign diff = compare | minus: money | times: 100.0
+    assign percent_off = diff | divided_by: compare | round
+  endif
+-%}
+<div class="price{% if on_sale %} price--sale{% endif %}" data-product-price>
+  {%- if product.price_varies and variant == nil -%}
+    <span class="price__regular">{{ 'products.product.from' | t }} {{ product.price_min | money }}</span>
+  {%- else -%}
+    <span class="price__regular">{{ money | money }}</span>
+  {%- endif -%}
+  {%- if on_sale -%}
+    <s class="price__compare">{{ compare | money }}</s>
+    {%- if show_save -%}
+      <span class="price__save">{{ percent_off }}% {{ 'products.product.off' | t }}</span>
+    {%- endif -%}
+  {%- endif -%}
+</div>

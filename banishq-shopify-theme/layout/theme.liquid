@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}" class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="{{ settings.color_black }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    {%- liquid
+      assign favicon = settings.logo_bird
+      if favicon == blank
+        assign favicon_url = 'banishq-bird-icon.png' | asset_url
+      else
+        assign favicon_url = favicon | image_url: width: 96
+      endif
+    -%}
+    <link rel="icon" type="image/png" href="{{ favicon_url }}">
+    <link rel="apple-touch-icon" href="{{ favicon_url }}">
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; {{ 'general.meta.tags' | t: tags: current_tags | join: ', ' }}{% endif -%}
+      {%- if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
+
+    {% render 'meta-tags' %}
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap"></noscript>
+
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+
+    {%- liquid
+      assign radius = settings.corner_radius | append: 'px'
+      assign scale = settings.type_scale | times: 0.01
+    -%}
+    <style>
+      :root {
+        --bq-black: {{ settings.color_black }};
+        --bq-bone: {{ settings.color_bone }};
+        --bq-burgundy: {{ settings.color_burgundy }};
+        --bq-stone: {{ settings.color_stone }};
+        --bq-olive: {{ settings.color_olive }};
+        --bq-page: {{ settings.color_page_bg }};
+        --bq-surface: {{ settings.color_surface }};
+        --bq-page-width: {{ settings.page_width }}px;
+        --bq-radius: {{ radius }};
+        --bq-scale: {{ scale }};
+        --bq-nav-transform: {% if settings.uppercase_nav %}uppercase{% else %}none{% endif %};
+      }
+    </style>
+
+    <script>
+      document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+      window.BANISHQ = {
+        routes: {
+          root_url: '{{ routes.root_url }}',
+          cart_add_url: '{{ routes.cart_add_url }}',
+          cart_change_url: '{{ routes.cart_change_url }}',
+          cart_update_url: '{{ routes.cart_update_url }}',
+          cart_url: '{{ routes.cart_url }}',
+          predictive_search_url: '{{ routes.predictive_search_url }}'
+        },
+        cartType: '{{ settings.cart_type }}',
+        moneyFormat: {{ shop.money_format | json }},
+        freeShippingThreshold: {{ settings.free_shipping_threshold | default: 0 | times: 100 | json }},
+        strings: {
+          addToCart: {{ 'products.product.add_to_cart' | t | json }},
+          soldOut: {{ 'products.product.sold_out' | t | json }},
+          unavailable: {{ 'products.product.unavailable' | t | json }},
+          added: {{ 'products.product.added' | t | json }},
+          savedToWishlist: {{ 'products.product.saved_to_wishlist' | t | json }},
+          removedFromWishlist: {{ 'products.product.removed_from_wishlist' | t | json }},
+          pinInvalid: {{ 'cart.delivery.invalid' | t | json }},
+          pinServiceable: {{ 'cart.delivery.serviceable' | t | json }},
+          pinNotServiceable: {{ 'cart.delivery.not_serviceable' | t | json }},
+          pinEta: {{ 'cart.delivery.eta' | t | json }},
+          couponApplied: {{ 'cart.coupons.applied' | t | json }},
+          couponNote: {{ 'cart.coupons.note' | t | json }},
+          nothingSelected: {{ 'cart.selection.none' | t | json }}
+        }
+      };
+    </script>
+    <script src="{{ 'theme.js' | asset_url }}" defer></script>
+
+    {{ content_for_header }}
+  </head>
+
+  <body
+    class="template-{{ template.name | handle }} template-suffix-{{ template.suffix | default: 'none' | handle }}"
+    {% if request.page_type == 'product' %}data-product-handle="{{ product.handle }}"{% endif %}>
+    <a class="skip-link button" href="#MainContent">{{ 'accessibility.skip_to_text' | t }}</a>
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" class="main-content" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    {%- if settings.cart_type == 'drawer' -%}
+      {% render 'cart-drawer' %}
+    {%- endif -%}
+
+    <div class="bq-overlay" data-overlay hidden></div>
+
+    <ul hidden>
+      <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
+      <li id="a11y-new-window-message">{{ 'accessibility.link_messages.new_window' | t }}</li>
+    </ul>
+  </body>
+</html>

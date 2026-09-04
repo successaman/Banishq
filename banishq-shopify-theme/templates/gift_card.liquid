@@ -1,0 +1,27 @@
+{% layout none %}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ 'gift_cards.issued.title' | t: value: gift_card.initial_value | money, shop: shop.name }}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Manrope:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ content_for_header }}
+  </head>
+  <body style="background: var(--bq-black); color: var(--bq-bone)">
+    <div class="page-width page-width--narrow section text-center">
+      <img src="{{ 'banishq-wordmark-bone.png' | asset_url }}" alt="{{ shop.name }}" style="width: 200px; margin: 0 auto 34px">
+      <p class="eyebrow" style="color: var(--bq-stone)">{{ 'gift_cards.issued.subtext' | t }}</p>
+      <h1 class="h-serif h1">{{ gift_card.balance | money }}</h1>
+      {%- if gift_card.expired -%}
+        <p class="form__message form__message--error" style="justify-content: center">{{ 'gift_cards.issued.expired' | t }}</p>
+      {%- endif -%}
+      <div style="background: var(--bq-bone); color: var(--bq-black); padding: 26px; margin: 30px 0">
+        {{ gift_card.qr_identifier }}
+        <p class="mono" style="margin: 16px 0 0; font-size: 1rem">{{ gift_card.code | format_code }}</p>
+      </div>
+      <a href="{{ shop.url }}" class="button button--bone">{{ 'gift_cards.issued.shop_link' | t }}</a>
+    </div>
+  </body>
+</html>

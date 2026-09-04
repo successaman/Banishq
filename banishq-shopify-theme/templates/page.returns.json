@@ -1,0 +1,36 @@
+{
+  "sections": {
+    "hero": {
+      "type": "page-hero",
+      "settings": {
+        "eyebrow": "Order help",
+        "heading": "Returns and exchanges",
+        "text": "Seven days from delivery. One size exchange per order is free. No forms to print.",
+        "align": "left"
+      }
+    },
+    "steps": {
+      "type": "text-columns",
+      "blocks": {
+        "s1": { "type": "column", "settings": { "icon": "return", "title": "1 · Raise it", "text": "<p>Reply to your order email or use the returns link in your account, within 7 days of delivery.</p>" } },
+        "s2": { "type": "column", "settings": { "icon": "truck", "title": "2 · We collect", "text": "<p>A pickup is scheduled within 48 hours across serviceable PIN codes. Keep the tags on.</p>" } },
+        "s3": { "type": "column", "settings": { "icon": "shield", "title": "3 · Money back", "text": "<p>Refunds land in 5 to 7 working days to the original method. COD orders refund to your bank.</p>" } }
+      },
+      "block_order": ["s1", "s2", "s3"],
+      "settings": { "eyebrow": "How it works", "heading": "Three steps, no argument", "columns": 3 }
+    },
+    "content": { "type": "main-page", "settings": {} },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "f1": { "type": "item", "settings": { "question": "What cannot be returned?", "answer": "<p>Innerwear, socks and anything worn, washed or missing its tags. Marked-down clearance pieces are exchange only.</p>" } },
+        "f2": { "type": "item", "settings": { "question": "Is the exchange really free?", "answer": "<p>One size exchange per order, yes. Additional exchanges carry a ₹99 logistics fee.</p>" } },
+        "f3": { "type": "item", "settings": { "question": "My PIN code is not serviceable for pickup.", "answer": "<p>Ship it to us and we reimburse the courier cost up to ₹150 with a receipt.</p>" } },
+        "f4": { "type": "item", "settings": { "question": "Can I return in store?", "answer": "<p>Yes, at any BANISHQ floor within seven days, with the order confirmation on your phone.</p>" } }
+      },
+      "block_order": ["f1", "f2", "f3", "f4"],
+      "settings": { "eyebrow": "Returns questions", "heading": "The details" }
+    }
+  },
+  "order": ["hero", "steps", "content", "faq"]
+}

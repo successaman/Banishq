@@ -1,0 +1,87 @@
+{%- comment -%}
+  Order tracking entry point. Signed-in customers go straight to their order
+  list; guests are handed to the carrier lookup the merchant configures.
+{%- endcomment -%}
+<section class="section">
+  <div class="page-width">
+    <div class="section-head">
+      <div class="section-head__text">
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        <h2 class="section-head__title {% if settings.heading_style == 'serif' %}h-serif{% endif %} h2">{{ section.settings.heading }}</h2>
+        {%- if section.settings.text != blank -%}<p class="section-head__sub">{{ section.settings.text }}</p>{%- endif -%}
+      </div>
+    </div>
+
+    <div class="formcard">
+      {%- if customer -%}
+        <p class="text-mute" style="margin-top: 0">{{ 'track.signed_in' | t }}</p>
+        <a href="{{ routes.account_url }}" class="button button--full">{{ 'track.view_orders' | t }}</a>
+      {%- else -%}
+        <form action="{{ section.settings.tracking_url | default: routes.account_login_url }}" method="get" target="_blank" rel="noopener">
+          <div class="field">
+            <label class="field__label" for="TrackAwb">{{ 'track.awb' | t }}</label>
+            <input class="field__input" id="TrackAwb" type="text" name="{{ section.settings.tracking_param | default: 'awb' }}" placeholder="{{ 'track.awb_placeholder' | t }}" required>
+          </div>
+          <button type="submit" class="button button--full">{{ 'track.submit' | t }}</button>
+        </form>
+        <p class="text-mute" style="font-size: 0.8rem; margin-bottom: 0">
+          {{ 'track.or_html' | t: login_url: routes.account_login_url }}
+        </p>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="icols" style="--icols: {{ section.blocks.size }}; margin-top: 44px">
+        {%- for block in section.blocks -%}
+          <div class="icol" {{ block.shopify_attributes }}>
+            {% render 'icon', name: block.settings.icon %}
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.text }}</p>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Track order",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Where is it" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Track your order" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Every order ships with a tracking link by email and SMS. You can also look it up here." },
+    { "type": "url", "id": "tracking_url", "label": "Carrier tracking URL", "info": "The page the AWB number is submitted to." },
+    { "type": "text", "id": "tracking_param", "label": "Query parameter", "default": "awb" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Status explainer",
+      "settings": [
+        {
+          "type": "select", "id": "icon", "label": "Icon", "default": "tag",
+          "options": [
+            { "value": "tag", "label": "Order" }, { "value": "truck", "label": "Delivery" },
+            { "value": "return", "label": "Returns" }, { "value": "shield", "label": "Secure" },
+            { "value": "store", "label": "Store" }
+          ]
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "Confirmed" },
+        { "type": "text", "id": "text", "label": "Text", "default": "We have your order and are picking it from the shelf." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Track order",
+      "blocks": [
+        { "type": "step", "settings": { "icon": "tag", "title": "Confirmed", "text": "We have your order and are picking it from the shelf." } },
+        { "type": "step", "settings": { "icon": "truck", "title": "Shipped", "text": "Handed to the carrier. Tracking link sent by email and SMS." } },
+        { "type": "step", "settings": { "icon": "store", "title": "Out for delivery", "text": "With the rider. Keep your phone reachable for COD orders." } },
+        { "type": "step", "settings": { "icon": "return", "title": "Changed your mind", "text": "Seven days from delivery to return, one free size exchange." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

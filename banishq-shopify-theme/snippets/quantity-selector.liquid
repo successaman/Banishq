@@ -1,0 +1,17 @@
+{%- comment -%} Params: value, name, key (cart line key), min {%- endcomment -%}
+{%- liquid
+  assign value = value | default: 1
+  assign name = name | default: 'quantity'
+  assign min = min | default: 1
+-%}
+<div class="quantity">
+  {%- if key -%}
+    <button type="button" data-cart-qty="{{ value | minus: 1 }}" data-cart-key="{{ key }}" aria-label="{{ 'cart.label.decrease' | t }}">{% render 'icon', name: 'minus' %}</button>
+    <input type="number" value="{{ value }}" min="0" data-cart-qty-input data-cart-key="{{ key }}" aria-label="{{ 'cart.label.quantity' | t }}">
+    <button type="button" data-cart-qty="{{ value | plus: 1 }}" data-cart-key="{{ key }}" aria-label="{{ 'cart.label.increase' | t }}">{% render 'icon', name: 'plus' %}</button>
+  {%- else -%}
+    <button type="button" data-qty="minus" aria-label="{{ 'cart.label.decrease' | t }}">{% render 'icon', name: 'minus' %}</button>
+    <input type="number" name="{{ name }}" value="{{ value }}" min="{{ min }}" aria-label="{{ 'cart.label.quantity' | t }}">
+    <button type="button" data-qty="plus" aria-label="{{ 'cart.label.increase' | t }}">{% render 'icon', name: 'plus' %}</button>
+  {%- endif -%}
+</div>

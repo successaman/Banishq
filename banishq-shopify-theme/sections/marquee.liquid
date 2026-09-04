@@ -1,0 +1,72 @@
+{%- comment -%}
+  Running strip. Mono type, bird icon as the repeat mark — never a second
+  pattern system. Duplicated group keeps the loop seamless.
+{%- endcomment -%}
+{%- if section.blocks.size > 0 -%}
+  <div class="marquee marquee--{{ section.settings.scheme }}" style="--bq-marquee-speed: {{ section.settings.speed }}s">
+    <div class="marquee__track">
+      {%- for i in (1..2) -%}
+        <div class="marquee__group" {% if i == 2 %}aria-hidden="true"{% endif %}>
+          {%- for block in section.blocks -%}
+            <span class="marquee__item" {{ block.shopify_attributes }}>
+              {%- comment -%}
+                The supplied bird icon is burgundy on an opaque warm-bone
+                ground, so it only sits correctly on a bone strip. On black or
+                burgundy the separator falls back to a hairline square in the
+                current colour — never a redrawn bird.
+              {%- endcomment -%}
+              {%- if section.settings.show_mark -%}
+                {%- if section.settings.scheme == 'bone' -%}
+                  <img src="{{ 'banishq-bird-icon.png' | asset_url }}" alt="" width="15" height="15" loading="lazy">
+                {%- else -%}
+                  <span class="marquee__dot" aria-hidden="true"></span>
+                {%- endif -%}
+              {%- endif -%}
+              {{ block.settings.text }}
+            </span>
+          {%- endfor -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Marquee strip",
+  "settings": [
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Colour",
+      "options": [
+        { "value": "burgundy", "label": "Burgundy" },
+        { "value": "black", "label": "Black" },
+        { "value": "bone", "label": "Warm bone" }
+      ],
+      "default": "burgundy"
+    },
+    { "type": "range", "id": "speed", "min": 18, "max": 70, "step": 2, "unit": "s", "label": "Loop duration", "default": 34 },
+    { "type": "checkbox", "id": "show_mark", "label": "Show bird mark between items", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [{ "type": "text", "id": "text", "label": "Text", "default": "Built for repeat wear" }]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marquee strip",
+      "blocks": [
+        { "type": "item", "settings": { "text": "Built for repeat wear" } },
+        { "type": "item", "settings": { "text": "Unisex fits" } },
+        { "type": "item", "settings": { "text": "₹199 to ₹2,999" } },
+        { "type": "item", "settings": { "text": "Made in India" } },
+        { "type": "item", "settings": { "text": "7-day easy returns" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

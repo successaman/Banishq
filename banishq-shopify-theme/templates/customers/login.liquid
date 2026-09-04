@@ -1,0 +1,38 @@
+<div class="page-width section">
+  <div class="auth-card">
+    <h1 class="h-serif h1 text-center" style="margin-bottom: 24px">{{ 'customer.login.title' | t }}</h1>
+    {%- form 'customer_login' -%}
+      {%- if form.errors -%}
+        <p class="form__message form__message--error">{{ form.errors | default_errors }}</p>
+      {%- endif -%}
+      <div class="field">
+        <label class="field__label" for="LoginEmail">{{ 'customer.login.email' | t }}</label>
+        <input class="field__input" id="LoginEmail" type="email" name="customer[email]" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label class="field__label" for="LoginPassword">{{ 'customer.login.password' | t }}</label>
+        <input class="field__input" id="LoginPassword" type="password" name="customer[password]" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="button button--full">{{ 'customer.login.sign_in' | t }}</button>
+      <p class="text-center" style="margin-top: 16px; font-size: 0.85rem">
+        <a href="#recover" style="text-decoration: underline">{{ 'customer.login.forgot' | t }}</a>
+        &nbsp;&middot;&nbsp;
+        <a href="{{ routes.account_register_url }}" style="text-decoration: underline">{{ 'customer.login.create' | t }}</a>
+      </p>
+    {%- endform -%}
+
+    <div id="recover" style="margin-top: 44px; padding-top: 30px; border-top: 1px solid var(--bq-line)">
+      <h2 class="h4">{{ 'customer.recover_password.title' | t }}</h2>
+      {%- form 'recover_customer_password' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="form__message form__message--success">{{ 'customer.recover_password.success' | t }}</p>
+        {%- endif -%}
+        <div class="field">
+          <label class="field__label" for="RecoverEmail">{{ 'customer.login.email' | t }}</label>
+          <input class="field__input" id="RecoverEmail" type="email" name="email" autocomplete="email" required>
+        </div>
+        <button type="submit" class="button button--outline button--full">{{ 'customer.recover_password.submit' | t }}</button>
+      {%- endform -%}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+{%- comment -%} Customer care voice: warm, useful, quick. {%- endcomment -%}
+<div class="page-width section">
+  <div class="collection-layout" style="grid-template-columns: 1fr">
+    <div style="max-width: 620px">
+      <span class="seam-rule"></span>
+      {%- if section.settings.heading != blank -%}
+        <h1 class="h-serif h1" style="margin-bottom: 12px">{{ section.settings.heading }}</h1>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <p class="body-lg text-mute" style="margin-bottom: 30px">{{ section.settings.text }}</p>
+      {%- endif -%}
+
+      {%- form 'contact' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="form__message form__message--success">{{ 'contact.form.success' | t }}</p>
+        {%- elsif form.errors -%}
+          <p class="form__message form__message--error">{{ form.errors | default_errors }}</p>
+        {%- endif -%}
+
+        <div class="field">
+          <label class="field__label" for="ContactName">{{ 'contact.form.name' | t }}</label>
+          <input class="field__input" id="ContactName" type="text" name="contact[name]" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label class="field__label" for="ContactEmail">{{ 'contact.form.email' | t }}</label>
+          <input class="field__input" id="ContactEmail" type="email" name="contact[email]" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label class="field__label" for="ContactOrder">{{ 'contact.form.order' | t }}</label>
+          <input class="field__input" id="ContactOrder" type="text" name="contact[order number]" placeholder="#1024">
+        </div>
+        <div class="field">
+          <label class="field__label" for="ContactBody">{{ 'contact.form.message' | t }}</label>
+          <textarea class="field__input" id="ContactBody" name="contact[body]" required></textarea>
+        </div>
+        <button type="submit" class="button">{{ 'contact.form.send' | t }}</button>
+      {%- endform -%}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Contact form",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Talk to us" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Sizing, exchanges, order status — we reply within one working day." }
+  ]
+}
+{% endschema %}

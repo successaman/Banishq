@@ -1,0 +1,39 @@
+{
+  "sections": {
+    "hero": {
+      "type": "page-hero",
+      "settings": {
+        "eyebrow": "Find us",
+        "heading": "Stores",
+        "text": "Try the fit, feel the fabric, walk out with it. More floors opening every quarter.",
+        "align": "left"
+      }
+    },
+    "locator": {
+      "type": "store-locator",
+      "blocks": {
+        "s1": { "type": "store", "settings": { "city": "Bengaluru", "name": "BANISHQ Indiranagar", "address": "100 Feet Road, Indiranagar, Bengaluru 560038", "hours": "Mon–Sun, 11am–9pm" } },
+        "s2": { "type": "store", "settings": { "city": "Mumbai", "name": "BANISHQ Bandra", "address": "Linking Road, Bandra West, Mumbai 400050", "hours": "Mon–Sun, 11am–9pm" } },
+        "s3": { "type": "store", "settings": { "city": "Delhi", "name": "BANISHQ Hauz Khas", "address": "Hauz Khas Village, New Delhi 110016", "hours": "Mon–Sun, 11am–9pm" } },
+        "s4": { "type": "store", "settings": { "city": "Pune", "status": "Opening soon", "name": "BANISHQ Koregaon Park", "address": "North Main Road, Koregaon Park, Pune 411001", "hours": "" } }
+      },
+      "block_order": ["s1", "s2", "s3", "s4"],
+      "settings": {
+        "eyebrow": "Find us",
+        "heading": "Stores across India",
+        "text": "More opening every quarter. Franchise enquiries are welcome."
+      }
+    },
+    "instore": {
+      "type": "text-columns",
+      "blocks": {
+        "c1": { "type": "column", "settings": { "icon": "ruler", "title": "Fit room", "text": "<p>Every size in the ladder on the floor, so you leave knowing your number.</p>" } },
+        "c2": { "type": "column", "settings": { "icon": "return", "title": "Return in store", "text": "<p>Bought online? Return or exchange it at any BANISHQ floor within seven days.</p>" } },
+        "c3": { "type": "column", "settings": { "icon": "store", "title": "Order to store", "text": "<p>Out of stock in your size? We ship it to the store for free collection.</p>" } }
+      },
+      "block_order": ["c1", "c2", "c3"],
+      "settings": { "eyebrow": "In store", "heading": "What the floor gives you that the site cannot", "columns": 3 }
+    }
+  },
+  "order": ["hero", "locator", "instore"]
+}

@@ -1,0 +1,54 @@
+{%- comment -%} Customer voice. Warm and useful, never cold luxury language. {%- endcomment -%}
+<section class="section">
+  <div class="page-width">
+    <div class="section-head section-head--center">
+      <div class="section-head__text">
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        <h2 class="section-head__title {% if settings.heading_style == 'serif' %}h-serif{% endif %} h2">{{ section.settings.heading }}</h2>
+      </div>
+    </div>
+    <div class="quotes">
+      {%- for block in section.blocks -%}
+        <figure class="quote" {{ block.shopify_attributes }}>
+          <div class="quote__stars" aria-label="{{ block.settings.rating }} out of 5">
+            {%- for i in (1..block.settings.rating) -%}{% render 'icon', name: 'star' %}{%- endfor -%}
+          </div>
+          <blockquote class="quote__text">{{ block.settings.text }}</blockquote>
+          <figcaption class="quote__who">{{ block.settings.author }}{% if block.settings.location != blank %} · {{ block.settings.location }}{% endif %}</figcaption>
+        </figure>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Worn and reworn" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What people say after week three" }
+  ],
+  "blocks": [
+    {
+      "type": "quote",
+      "name": "Quote",
+      "settings": [
+        { "type": "range", "id": "rating", "min": 3, "max": 5, "step": 1, "label": "Rating", "default": 5 },
+        { "type": "textarea", "id": "text", "label": "Quote", "default": "The fabric is heavier than anything I own at this price." },
+        { "type": "text", "id": "author", "label": "Name", "default": "Aarav M." },
+        { "type": "text", "id": "location", "label": "City", "default": "Bengaluru" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        { "type": "quote", "settings": { "text": "The fabric is heavier than anything I own at this price.", "author": "Aarav M.", "location": "Bengaluru" } },
+        { "type": "quote", "settings": { "text": "Bought the co-ord for work, ended up wearing it every weekend.", "author": "Ishita R.", "location": "Pune" } },
+        { "type": "quote", "settings": { "text": "Sizing is honest. I ordered my usual and it fit first time.", "author": "Karan S.", "location": "Delhi" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

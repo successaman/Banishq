@@ -1,0 +1,87 @@
+{%- comment -%}
+  Store and franchise list. Built for the nationwide rollout: each store is a
+  block, and the city select filters client-side with no request.
+{%- endcomment -%}
+<section class="section">
+  <div class="page-width">
+    <div class="section-head">
+      <div class="section-head__text">
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        <h2 class="section-head__title {% if settings.heading_style == 'serif' %}h-serif{% endif %} h2">{{ section.settings.heading }}</h2>
+        {%- if section.settings.text != blank -%}<p class="section-head__sub">{{ section.settings.text }}</p>{%- endif -%}
+      </div>
+
+      {%- if section.blocks.size > 3 -%}
+        <div class="select" style="min-width: 220px">
+          <label class="visually-hidden" for="StoreCity">{{ 'stores.filter' | t }}</label>
+          <select id="StoreCity" class="select__select" data-store-filter>
+            <option value="">{{ 'stores.all_cities' | t }}</option>
+            {%- assign cities = '' -%}
+            {%- for block in section.blocks -%}
+              {%- assign city = block.settings.city | strip -%}
+              {%- unless cities contains city -%}
+                {%- assign cities = cities | append: city | append: '|' -%}
+                <option value="{{ city | escape }}">{{ city }}</option>
+              {%- endunless -%}
+            {%- endfor -%}
+          </select>
+          <span class="select__icon">{% render 'icon', name: 'chevron-down' %}</span>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="stores">
+      {%- for block in section.blocks -%}
+        <article class="store" data-store data-city="{{ block.settings.city | escape }}" {{ block.shopify_attributes }}>
+          <span class="store__city">{{ block.settings.city }}{% if block.settings.status != blank %} · {{ block.settings.status }}{% endif %}</span>
+          <h3 class="store__name">{{ block.settings.name }}</h3>
+          <p class="store__addr">{{ block.settings.address }}</p>
+          {%- if block.settings.hours != blank -%}<p class="store__meta">{{ block.settings.hours }}</p>{%- endif -%}
+          {%- if block.settings.phone != blank -%}<p class="store__meta">{{ block.settings.phone }}</p>{%- endif -%}
+          <div class="store__links">
+            {%- if block.settings.map_url != blank -%}
+              <a href="{{ block.settings.map_url }}" target="_blank" rel="noopener">{{ 'stores.directions' | t }}</a>
+            {%- endif -%}
+            {%- if block.settings.phone != blank -%}
+              <a href="tel:{{ block.settings.phone | remove: ' ' }}">{{ 'stores.call' | t }}</a>
+            {%- endif -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+
+    <p class="text-mute text-center" data-store-empty hidden style="padding-block: 40px">{{ 'stores.none' | t }}</p>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Store locator",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Find us" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Stores across India" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "More opening every quarter. Franchise enquiries are welcome." }
+  ],
+  "blocks": [
+    {
+      "type": "store",
+      "name": "Store",
+      "settings": [
+        { "type": "text", "id": "city", "label": "City", "default": "Bengaluru" },
+        { "type": "text", "id": "status", "label": "Status", "info": "For example: Opening soon", "default": "" },
+        { "type": "text", "id": "name", "label": "Store name", "default": "BANISHQ Indiranagar" },
+        { "type": "textarea", "id": "address", "label": "Address", "default": "100 Feet Road, Indiranagar, Bengaluru 560038" },
+        { "type": "text", "id": "hours", "label": "Hours", "default": "Mon–Sun, 11am–9pm" },
+        { "type": "text", "id": "phone", "label": "Phone" },
+        { "type": "url", "id": "map_url", "label": "Map link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Store locator",
+      "blocks": [{ "type": "store" }, { "type": "store" }, { "type": "store" }]
+    }
+  ]
+}
+{% endschema %}

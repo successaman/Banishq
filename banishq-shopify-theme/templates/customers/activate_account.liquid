@@ -1,0 +1,20 @@
+<div class="page-width section">
+  <div class="auth-card">
+    <h1 class="h-serif h1 text-center" style="margin-bottom: 24px">{{ 'customer.activate_account.title' | t }}</h1>
+    {%- form 'activate_customer_password' -%}
+      {%- if form.errors -%}
+        <p class="form__message form__message--error">{{ form.errors | default_errors }}</p>
+      {%- endif -%}
+      <div class="field">
+        <label class="field__label" for="ActivatePassword">{{ 'customer.reset_password.password' | t }}</label>
+        <input class="field__input" id="ActivatePassword" type="password" name="customer[password]" autocomplete="new-password" required>
+      </div>
+      <div class="field">
+        <label class="field__label" for="ActivateConfirm">{{ 'customer.reset_password.confirm' | t }}</label>
+        <input class="field__input" id="ActivateConfirm" type="password" name="customer[password_confirmation]" autocomplete="new-password" required>
+      </div>
+      <button type="submit" class="button button--full">{{ 'customer.activate_account.submit' | t }}</button>
+      <button type="submit" name="decline" class="button button--outline button--full" style="margin-top: 8px">{{ 'customer.activate_account.decline' | t }}</button>
+    {%- endform -%}
+  </div>
+</div>

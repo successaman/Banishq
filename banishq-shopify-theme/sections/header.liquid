@@ -1,0 +1,273 @@
+{%- comment -%}
+  BANISHQ header.
+  Desktop: three-column grid — nav / primary logo / actions. Menus with
+  grandchildren open as a mega panel (Souled Store density), menus with only
+  children open as a quiet dropdown (Taneira restraint).
+  Mobile: wordmark only, per the logo allocation rules in the brand brief.
+{%- endcomment -%}
+
+<header
+  class="header-wrapper{% if settings.sticky_header %} header-wrapper--sticky{% endif %}"
+  data-header
+  style="--bq-logo-w: {{ settings.logo_width }}px;">
+  <div class="page-width">
+    <div class="header">
+      <nav class="nav" aria-label="{{ 'general.navigation.primary' | t }}">
+        {%- for link in section.settings.menu.links -%}
+          {%- liquid
+            assign has_grandchildren = false
+            for child in link.links
+              if child.links.size > 0
+                assign has_grandchildren = true
+                break
+              endif
+            endfor
+            assign link_title_down = link.title | downcase
+          -%}
+          <div class="nav__item">
+            <a
+              href="{{ link.url }}"
+              class="nav__link{% if link_title_down contains 'sale' or link_title_down contains 'drop' %} nav__link--accent{% endif %}"
+              {% if link.current %}aria-current="page"{% endif %}>
+              {{ link.title }}
+              {%- if link.links.size > 0 %} {% render 'icon', name: 'chevron-down' %}{% endif -%}
+            </a>
+
+            {%- if has_grandchildren -%}
+              <div class="mega">
+                <div class="mega__grid">
+                  {%- for child in link.links limit: 3 -%}
+                    <div>
+                      <p class="mega__col-title">{{ child.title }}</p>
+                      <ul class="mega__list">
+                        {%- for grandchild in child.links -%}
+                          <li><a href="{{ grandchild.url }}">{{ grandchild.title }}</a></li>
+                        {%- endfor -%}
+                      </ul>
+                    </div>
+                  {%- endfor -%}
+
+                  {%- assign promo_rendered = false -%}
+                  {%- for block in section.blocks -%}
+                    {%- if block.type == 'menu_promo' and block.settings.parent_handle == link.handle and promo_rendered == false -%}
+                      {%- assign promo_rendered = true -%}
+                      <a href="{{ block.settings.link }}" class="mega__promo" {{ block.shopify_attributes }}>
+                        {%- if block.settings.image -%}
+                          <img src="{{ block.settings.image | image_url: width: 480 }}" alt="{{ block.settings.heading | escape }}" width="480" height="600" loading="lazy">
+                        {%- else -%}
+                          {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                        {%- endif -%}
+                        <span class="mega__promo-caption">{{ block.settings.heading }}</span>
+                      </a>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- elsif link.links.size > 0 -%}
+              <ul class="dropdown">
+                {%- for child in link.links -%}
+                  <li><a href="{{ child.url }}">{{ child.title }}</a></li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </nav>
+
+      <button
+        type="button"
+        class="header__icon header__menu-toggle"
+        data-open="#MobileNav"
+        aria-label="{{ 'general.navigation.open_menu' | t }}"
+        aria-controls="MobileNav">
+        {% render 'icon', name: 'menu' %}
+      </button>
+
+      <a href="{{ routes.root_url }}" class="header__logo" aria-label="{{ shop.name }} — {{ settings.brand_tagline }}">
+        {%- liquid
+          assign desktop_logo = settings.logo_primary
+          assign mobile_logo = settings.logo_wordmark
+        -%}
+        <picture>
+          {%- if mobile_logo -%}
+            <source media="(max-width: 749px)" srcset="{{ mobile_logo | image_url: width: 400 }}">
+          {%- else -%}
+            <source media="(max-width: 749px)" srcset="{{ 'banishq-wordmark-black.png' | asset_url }}">
+          {%- endif -%}
+          {%- if desktop_logo -%}
+            <img
+              src="{{ desktop_logo | image_url: width: 640 }}"
+              alt="{{ shop.name }}"
+              width="{{ settings.logo_width }}"
+              height="auto"
+              style="width: var(--bq-logo-w);"
+              fetchpriority="high">
+          {%- else -%}
+            <img
+              src="{{ 'banishq-logo-primary.png' | asset_url }}"
+              alt="{{ shop.name }}"
+              style="width: var(--bq-logo-w);"
+              fetchpriority="high">
+          {%- endif -%}
+        </picture>
+      </a>
+
+      <div class="header__actions">
+        <button type="button" class="header__icon" data-open="#SearchModal" aria-label="{{ 'general.search.title' | t }}" aria-controls="SearchModal">
+          {% render 'icon', name: 'search' %}
+        </button>
+
+        {%- if section.settings.show_wishlist -%}
+          <a href="{{ section.settings.wishlist_url | default: routes.root_url }}" class="header__icon" aria-label="{{ 'products.product.wishlist' | t }}">
+            {% render 'icon', name: 'heart' %}
+            <span class="header__count" data-wish-count hidden>0</span>
+          </a>
+        {%- endif -%}
+
+        {%- if shop.customer_accounts_enabled -%}
+          <a href="{{ routes.account_url }}" class="header__icon" aria-label="{{ 'customer.account.title' | t }}">
+            {% render 'icon', name: 'account' %}
+          </a>
+        {%- endif -%}
+
+        <a
+          href="{{ routes.cart_url }}"
+          class="header__icon"
+          {% if settings.cart_type == 'drawer' %}data-open="#CartDrawer"{% endif %}
+          aria-label="{{ 'cart.general.title' | t }}">
+          {% render 'icon', name: 'bag' %}
+          <span class="header__count" data-cart-count {% if cart.item_count == 0 %}hidden{% endif %}>{{ cart.item_count }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+{%- comment -%} ---------------------------------------------- mobile drawer {%- endcomment -%}
+<nav id="MobileNav" class="mobile-nav" data-mobile-nav aria-hidden="true" aria-label="{{ 'general.navigation.primary' | t }}">
+  <div class="mobile-nav__head">
+    <span class="mono">{{ 'general.navigation.menu' | t }}</span>
+    <button type="button" class="header__icon" data-close="#MobileNav" aria-label="{{ 'accessibility.close' | t }}">
+      {% render 'icon', name: 'close' %}
+    </button>
+  </div>
+  <div class="mobile-nav__body">
+    {%- for link in section.settings.menu.links -%}
+      {%- if link.links.size > 0 -%}
+        <div>
+          <button type="button" class="mobile-nav__link" data-subnav-toggle aria-expanded="false">
+            {{ link.title }}
+            {% render 'icon', name: 'plus' %}
+          </button>
+          <div class="mobile-nav__sub">
+            <a href="{{ link.url }}"><strong>{{ 'general.navigation.view_all' | t: title: link.title }}</strong></a>
+            {%- for child in link.links -%}
+              {%- if child.links.size > 0 -%}
+                <p class="mono" style="margin: 14px 0 2px; color: var(--bq-ink-mute)">{{ child.title }}</p>
+                {%- for grandchild in child.links -%}
+                  <a href="{{ grandchild.url }}">{{ grandchild.title }}</a>
+                {%- endfor -%}
+              {%- else -%}
+                <a href="{{ child.url }}">{{ child.title }}</a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- else -%}
+        <a href="{{ link.url }}" class="mobile-nav__link">{{ link.title }}</a>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+  <div class="mobile-nav__foot">
+    {%- if shop.customer_accounts_enabled -%}
+      <a href="{{ routes.account_url }}" class="button button--outline button--full">{{ 'customer.account.title' | t }}</a>
+    {%- endif -%}
+    <p class="mono" style="margin: 16px 0 0; color: var(--bq-ink-mute)">{{ settings.brand_tagline }}</p>
+  </div>
+</nav>
+
+{%- comment -%} ---------------------------------------------- search modal {%- endcomment -%}
+<div id="SearchModal" class="search-modal" data-search-modal aria-hidden="true" role="dialog" aria-label="{{ 'general.search.title' | t }}">
+  <div class="page-width">
+    <form action="{{ routes.search_url }}" method="get" role="search" class="search-modal__form">
+      <input type="hidden" name="options[prefix]" value="last">
+      <label class="visually-hidden" for="SearchInput">{{ 'general.search.placeholder' | t }}</label>
+      <input
+        id="SearchInput"
+        type="search"
+        name="q"
+        class="search-modal__input"
+        placeholder="{{ 'general.search.placeholder' | t }}"
+        autocomplete="off"
+        data-predictive-input>
+      <button type="submit" class="header__icon" aria-label="{{ 'general.search.submit' | t }}">{% render 'icon', name: 'search' %}</button>
+      <button type="button" class="header__icon" data-close="#SearchModal" aria-label="{{ 'accessibility.close' | t }}">{% render 'icon', name: 'close' %}</button>
+    </form>
+
+    {%- if section.settings.search_suggestions != blank -%}
+      <div class="search-modal__hints">
+        <span class="mono" style="color: var(--bq-ink-mute); align-self: center">{{ 'general.search.popular' | t }}</span>
+        {%- assign suggestions = section.settings.search_suggestions | split: ',' -%}
+        {%- for suggestion in suggestions -%}
+          {%- assign term = suggestion | strip -%}
+          <a href="{{ routes.search_url }}?q={{ term | url_encode }}" class="chip">{{ term }}</a>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <div class="predictive" data-predictive-results></div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "shopify-section--header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist",
+      "label": "Show wishlist icon",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "wishlist_url",
+      "label": "Wishlist page"
+    },
+    {
+      "type": "text",
+      "id": "search_suggestions",
+      "label": "Popular searches",
+      "info": "Comma separated.",
+      "default": "Oversized tees, Cargos, Co-ords, Overshirts, Under 999"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu_promo",
+      "name": "Mega menu promo",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "parent_handle",
+          "label": "Parent menu item handle",
+          "info": "The handle of the top-level menu item this promo sits under, e.g. men, women.",
+          "default": "men"
+        },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "heading", "label": "Caption", "default": "Drop 01 — The Everyday Edit" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "enabled_on": { "groups": ["header"] }
+}
+{% endschema %}

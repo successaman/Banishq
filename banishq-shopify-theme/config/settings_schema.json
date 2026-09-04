@@ -1,0 +1,210 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Banishq — Wear Your Presence",
+    "theme_version": "1.0.0",
+    "theme_author": "Udaan Craft Media",
+    "theme_documentation_url": "https://banishq.com",
+    "theme_support_url": "https://banishq.com/pages/contact"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      { "type": "header", "content": "Logo" },
+      {
+        "type": "image_picker",
+        "id": "logo_primary",
+        "label": "Primary horizontal logo (bird + wordmark)",
+        "info": "Used on the desktop header and footer. Minimum 120px wide. Do not retype or redraw."
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_wordmark",
+        "label": "Utility wordmark",
+        "info": "Used on the mobile header. Minimum 80px wide."
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_bird",
+        "label": "Bird icon",
+        "info": "Used for the favicon and small-size marks. Minimum 16px."
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "min": 100,
+        "max": 320,
+        "step": 10,
+        "unit": "px",
+        "label": "Desktop logo width",
+        "default": 190
+      },
+      {
+        "type": "range",
+        "id": "logo_width_mobile",
+        "min": 80,
+        "max": 200,
+        "step": 5,
+        "unit": "px",
+        "label": "Mobile logo width",
+        "default": 130
+      },
+      { "type": "header", "content": "Brand line" },
+      {
+        "type": "text",
+        "id": "brand_tagline",
+        "label": "Brand line",
+        "default": "Wear Your Presence.",
+        "info": "Never lock this to the logo artwork."
+      }
+    ]
+  },
+  {
+    "name": "Colours",
+    "settings": [
+      { "type": "paragraph", "content": "Black and warm bone should dominate (≈40% each). Burgundy carries recognition (≈10%). Stone grey supports information only." },
+      { "type": "color", "id": "color_black", "label": "BANISHQ Black", "default": "#111111" },
+      { "type": "color", "id": "color_bone", "label": "Warm Bone", "default": "#F4F1EB" },
+      { "type": "color", "id": "color_burgundy", "label": "Signature Burgundy", "default": "#7B2330" },
+      { "type": "color", "id": "color_stone", "label": "Stone Grey", "default": "#A7A39C" },
+      { "type": "color", "id": "color_olive", "label": "Seasonal Olive (campaign only)", "default": "#76765C" },
+      { "type": "color", "id": "color_page_bg", "label": "Page background", "default": "#F4F1EB" },
+      { "type": "color", "id": "color_surface", "label": "Card / surface", "default": "#FFFFFF" }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      { "type": "paragraph", "content": "Display: Instrument Serif. Interface: Manrope. Utility and numerals: IBM Plex Mono." },
+      {
+        "type": "select",
+        "id": "heading_style",
+        "label": "Section heading style",
+        "options": [
+          { "value": "serif", "label": "Instrument Serif (editorial)" },
+          { "value": "sans", "label": "Manrope (interface)" }
+        ],
+        "default": "serif"
+      },
+      {
+        "type": "range",
+        "id": "type_scale",
+        "min": 90,
+        "max": 120,
+        "step": 5,
+        "unit": "%",
+        "label": "Type scale",
+        "default": 100
+      },
+      {
+        "type": "checkbox",
+        "id": "uppercase_nav",
+        "label": "Uppercase navigation and buttons",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "range",
+        "id": "page_width",
+        "min": 1200,
+        "max": 1800,
+        "step": 20,
+        "unit": "px",
+        "label": "Maximum page width",
+        "default": 1560
+      },
+      {
+        "type": "select",
+        "id": "corner_radius",
+        "label": "Corner radius",
+        "options": [
+          { "value": "0", "label": "Square (editorial)" },
+          { "value": "2", "label": "Hairline" },
+          { "value": "6", "label": "Soft" }
+        ],
+        "default": "0"
+      },
+      {
+        "type": "checkbox",
+        "id": "sticky_header",
+        "label": "Sticky header",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Product cards",
+    "settings": [
+      {
+        "type": "select",
+        "id": "card_image_ratio",
+        "label": "Image ratio",
+        "options": [
+          { "value": "portrait", "label": "Portrait 3:4" },
+          { "value": "tall", "label": "Editorial 4:5" },
+          { "value": "square", "label": "Square 1:1" }
+        ],
+        "default": "tall"
+      },
+      { "type": "checkbox", "id": "card_second_image", "label": "Show second image on hover", "default": true },
+      { "type": "checkbox", "id": "card_show_vendor", "label": "Show product type line", "default": true },
+      { "type": "checkbox", "id": "card_show_sizes", "label": "Show size chips on hover", "default": true },
+      { "type": "checkbox", "id": "card_show_rating", "label": "Show rating (requires a reviews app)", "default": false },
+      { "type": "checkbox", "id": "card_quick_add", "label": "Enable quick add", "default": true },
+      {
+        "type": "range",
+        "id": "card_sale_badge_min",
+        "min": 0,
+        "max": 60,
+        "step": 5,
+        "unit": "%",
+        "label": "Only show discount badge above",
+        "default": 10
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "Cart behaviour",
+        "options": [
+          { "value": "drawer", "label": "Slide-out drawer" },
+          { "value": "page", "label": "Go to cart page" }
+        ],
+        "default": "drawer"
+      },
+      { "type": "checkbox", "id": "cart_notes", "label": "Enable order notes", "default": true },
+      {
+        "type": "text",
+        "id": "free_shipping_threshold",
+        "label": "Free shipping threshold (₹)",
+        "default": "999",
+        "info": "Numbers only. Leave blank to hide the progress bar."
+      }
+    ]
+  },
+  {
+    "name": "Social",
+    "settings": [
+      { "type": "text", "id": "social_instagram", "label": "Instagram URL" },
+      { "type": "text", "id": "social_facebook", "label": "Facebook URL" },
+      { "type": "text", "id": "social_youtube", "label": "YouTube URL" },
+      { "type": "text", "id": "social_pinterest", "label": "Pinterest URL" },
+      { "type": "text", "id": "social_whatsapp", "label": "WhatsApp URL" },
+      { "type": "text", "id": "social_linkedin", "label": "LinkedIn URL" }
+    ]
+  },
+  {
+    "name": "Social sharing image",
+    "settings": [
+      { "type": "image_picker", "id": "share_image", "label": "Default sharing image" }
+    ]
+  }
+]

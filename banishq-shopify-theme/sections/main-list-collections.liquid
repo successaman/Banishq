@@ -1,0 +1,27 @@
+<div class="page-width section">
+  {% render 'breadcrumbs' %}
+  <h1 class="h-serif h1" style="margin-bottom: 30px">{{ 'collections.general.all' | t }}</h1>
+  <div class="tiles" style="--tiles-desktop: {{ section.settings.columns }}">
+    {%- for collection in collections -%}
+      <a href="{{ collection.url }}" class="tile media media--portrait">
+        {%- if collection.featured_image -%}
+          <img src="{{ collection.featured_image | image_url: width: 800 }}" alt="{{ collection.title | escape }}" loading="lazy">
+        {%- else -%}
+          {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+        <span class="tile__body">
+          <span class="tile__title">{{ collection.title }}</span>
+          <span class="tile__meta">{{ 'collections.general.count' | t: count: collection.all_products_count }}</span>
+        </span>
+      </a>
+    {%- endfor -%}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Collections list",
+  "settings": [
+    { "type": "range", "id": "columns", "min": 2, "max": 5, "step": 1, "label": "Desktop columns", "default": 4 }
+  ]
+}
+{% endschema %}
