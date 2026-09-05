@@ -74,6 +74,70 @@
       ],
       "settings": {}
     },
+    "countdown": {
+      "type": "category-countdown",
+      "settings": {
+        "eyebrow": "Limited time",
+        "heading": "The next drop is almost here",
+        "text": "Twelve pieces. One rotation. Made for anyone, everyone, you. Coming soon.",
+        "button_label": "Set reminder",
+        "button_link": "/collections/unisex"
+      }
+    },
+    "unisex-testimonials": {
+      "type": "category-testimonials",
+      "blocks": {
+        "t1": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "text": "Finally, a brand that doesn't put me in a box. True unisex and it shows.",
+            "author": "Sam P.",
+            "location": "Goa",
+            "verified": true
+          }
+        },
+        "t2": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "text": "Wear them any way you want. The fit works for every body.",
+            "author": "Alex T.",
+            "location": "Delhi",
+            "verified": true
+          }
+        },
+        "t3": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "text": "Quality, sustainability, and inclusivity in one brand. Here for it.",
+            "author": "Jordan M.",
+            "location": "Kolkata",
+            "verified": true
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3"
+      ],
+      "settings": {
+        "eyebrow": "Worn by everyone",
+        "heading": "The community speaks",
+        "show_cta": true,
+        "cta_text": "You in? Share your BANISHQ story.",
+        "cta_button_label": "Leave a review",
+        "cta_button_link": "/collections/unisex"
+      }
+    },
+    "unisex-subcategories": {
+      "type": "category-chips",
+      "settings": {
+        "heading": "Find your vibe"
+      }
+    },
     "newsletter": {
       "type": "newsletter",
       "settings": {
@@ -86,6 +150,9 @@
   },
   "order": [
     "unisex-homepage",
+    "countdown",
+    "unisex-testimonials",
+    "unisex-subcategories",
     "value-props",
     "newsletter"
   ]

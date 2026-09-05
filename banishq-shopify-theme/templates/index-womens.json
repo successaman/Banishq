@@ -74,6 +74,70 @@
       ],
       "settings": {}
     },
+    "countdown": {
+      "type": "category-countdown",
+      "settings": {
+        "eyebrow": "Limited time",
+        "heading": "Women's collection arriving soon",
+        "text": "Get ready. Our new Women's range drops in just days. Be first to shop.",
+        "button_label": "Get notified",
+        "button_link": "/collections/womens"
+      }
+    },
+    "womens-testimonials": {
+      "type": "category-testimonials",
+      "blocks": {
+        "t1": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "text": "Finally, clothes that fit my body shape perfectly. Flatter and comfortable.",
+            "author": "Ishita R.",
+            "location": "Bangalore",
+            "verified": true
+          }
+        },
+        "t2": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "text": "The co-ords are game-changing. Mix and match has never been easier.",
+            "author": "Shreya M.",
+            "location": "Mumbai",
+            "verified": true
+          }
+        },
+        "t3": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "text": "Quality and price are unbeatable. Ordering more for my friends.",
+            "author": "Priya D.",
+            "location": "Hyderabad",
+            "verified": true
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3"
+      ],
+      "settings": {
+        "eyebrow": "From real women",
+        "heading": "See what they're saying",
+        "show_cta": true,
+        "cta_text": "Share your story. Every review earns you rewards.",
+        "cta_button_label": "Write a review",
+        "cta_button_link": "/collections/womens"
+      }
+    },
+    "womens-subcategories": {
+      "type": "category-chips",
+      "settings": {
+        "heading": "Explore by type"
+      }
+    },
     "newsletter": {
       "type": "newsletter",
       "settings": {
@@ -86,6 +150,9 @@
   },
   "order": [
     "womens-homepage",
+    "countdown",
+    "womens-testimonials",
+    "womens-subcategories",
     "value-props",
     "newsletter"
   ]

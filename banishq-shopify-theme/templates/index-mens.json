@@ -74,6 +74,70 @@
       ],
       "settings": {}
     },
+    "countdown": {
+      "type": "category-countdown",
+      "settings": {
+        "eyebrow": "Limited time",
+        "heading": "New collection drops soon",
+        "text": "Mark your calendar. The next Men's drop is coming. Sign up to get early access.",
+        "button_label": "Notify me",
+        "button_link": "/collections/mens"
+      }
+    },
+    "mens-testimonials": {
+      "type": "category-testimonials",
+      "blocks": {
+        "t1": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "text": "The fabric is heavier than anything I own at this price. Fits perfectly.",
+            "author": "Aditya M.",
+            "location": "Bengaluru",
+            "verified": true
+          }
+        },
+        "t2": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "text": "Bought the shirts for work, ended up wearing them every weekend too.",
+            "author": "Karan S.",
+            "location": "Delhi",
+            "verified": true
+          }
+        },
+        "t3": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "text": "Sizing is honest. I ordered my usual and it fit first time.",
+            "author": "Rohan P.",
+            "location": "Pune",
+            "verified": true
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3"
+      ],
+      "settings": {
+        "eyebrow": "Worn and tested",
+        "heading": "What men are saying",
+        "show_cta": true,
+        "cta_text": "Join thousands of men wearing BANISHQ.",
+        "cta_button_label": "Start exploring",
+        "cta_button_link": "/collections/mens"
+      }
+    },
+    "mens-subcategories": {
+      "type": "category-chips",
+      "settings": {
+        "heading": "Shop by style"
+      }
+    },
     "newsletter": {
       "type": "newsletter",
       "settings": {
@@ -86,6 +150,9 @@
   },
   "order": [
     "mens-homepage",
+    "countdown",
+    "mens-testimonials",
+    "mens-subcategories",
     "value-props",
     "newsletter"
   ]
