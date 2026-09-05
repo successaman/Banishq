@@ -14,7 +14,7 @@
     "type_scale": 100,
     "uppercase_nav": true,
     "page_width": 1560,
-    "corner_radius": "0",
+    "corner_radius": "12",
     "sticky_header": true,
     "card_image_ratio": "tall",
     "card_second_image": true,

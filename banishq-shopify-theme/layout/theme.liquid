@@ -38,7 +38,20 @@
     {{ 'base.css' | asset_url | stylesheet_tag }}
 
     {%- liquid
-      assign radius = settings.corner_radius | append: 'px'
+      # One merchant control drives all three radius tokens so cards, chips and
+      # panels can never drift apart. Proportions follow Taneira: media carries
+      # the full radius, small controls about a third of it, panels a touch more.
+      assign r = settings.corner_radius | plus: 0
+      if r == 0
+        assign r_sm = 0
+        assign r_lg = 0
+      else
+        assign r_sm = r | divided_by: 3
+        if r_sm < 3
+          assign r_sm = 3
+        endif
+        assign r_lg = r | plus: 4
+      endif
       assign scale = settings.type_scale | times: 0.01
     -%}
     <style>
@@ -51,7 +64,9 @@
         --bq-page: {{ settings.color_page_bg }};
         --bq-surface: {{ settings.color_surface }};
         --bq-page-width: {{ settings.page_width }}px;
-        --bq-radius: {{ radius }};
+        --bq-radius: {{ r }}px;
+        --bq-radius-sm: {{ r_sm }}px;
+        --bq-radius-lg: {{ r_lg }}px;
         --bq-scale: {{ scale }};
         --bq-nav-transform: {% if settings.uppercase_nav %}uppercase{% else %}none{% endif %};
       }

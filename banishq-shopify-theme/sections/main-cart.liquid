@@ -338,7 +338,7 @@
         <p class="tempty__label text-center">{{ 'cart.empty.trending_categories' | t }}</p>
         <div class="tiles" style="--tiles-desktop: {{ tile_blocks.size }}">
           {%- for block in tile_blocks -%}
-            {%- assign coll = collections[block.settings.collection] -%}
+            {%- assign coll = block.settings.collection -%}
             <a href="{{ block.settings.link | default: coll.url }}" class="tile media media--square" {{ block.shopify_attributes }}>
               {%- if block.settings.image -%}
                 <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.title | escape }}" loading="lazy">
@@ -356,7 +356,7 @@
       </div>
     {%- endif -%}
 
-    {%- assign top_sellers = collections[section.settings.empty_collection] -%}
+    {%- assign top_sellers = section.settings.empty_collection -%}
     {%- if top_sellers.products.size > 0 -%}
       <div class="tempty__block">
         <p class="tempty__label text-center">{{ section.settings.empty_collection_heading }}</p>

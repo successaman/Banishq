@@ -34,7 +34,7 @@
   {%- if chip_blocks.size > 0 -%}
     <div class="search-modal__hints" style="margin-bottom: 24px">
       {%- for block in chip_blocks -%}
-        {%- assign chip_collection = collections[block.settings.collection] -%}
+        {%- assign chip_collection = block.settings.collection -%}
         {%- assign chip_url = block.settings.link | default: chip_collection.url -%}
         <a
           href="{{ chip_url }}"

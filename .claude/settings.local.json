@@ -7,7 +7,13 @@
       "Bash(grep -nE '^\\\\.\\(tile|quicklink|look|lookbook|editorial|drop|panel|drawer|mega|press|ig|blog|value|marquee|hero|toast|newsletter|field|input|search\\)[a-z_-]*\\(__[a-z-]+\\)? *[,{]' assets/base.css)",
       "Bash(grep -nE '^\\\\.\\(lookbook|look|ig|press|article|blog|panel|drawer|toast|badge|chip|editorial|swatch|size-chip|facet|sort|pagehero|pageset|accordion|testimonial|store|faq\\)[a-z_-]*\\(__[a-z-]+\\)?[a-z_-]* *[,{]' assets/base.css)",
       "Bash(node -e ' *)",
-      "Bash(py --version)"
+      "Bash(py --version)",
+      "Bash(git commit -q -m ' *)",
+      "Bash(sed -i '/^statement : undefined,$/d' server.js)",
+      "Bash(node -e \"require\\('./server.js'\\)\")",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code} bytes=%{size_download}\\\\n\" http://localhost:4400/)",
+      "Read(//tmp/**)",
+      "Bash(curl -s http://localhost:4400/)"
     ]
   }
 }

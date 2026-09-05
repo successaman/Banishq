@@ -22,7 +22,7 @@
     {%- if section.settings.layout == 'circles' -%}
       <div class="quicklinks">
         {%- for block in section.blocks -%}
-          {%- assign coll = collections[block.settings.collection] -%}
+          {%- assign coll = block.settings.collection -%}
           <a href="{{ block.settings.link | default: coll.url }}" class="quicklink" {{ block.shopify_attributes }}>
             {%- if block.settings.image -%}
               <img src="{{ block.settings.image | image_url: width: 260 }}" alt="{{ block.settings.title | escape }}" width="92" height="92" loading="lazy">
@@ -40,7 +40,7 @@
     {%- else -%}
       <div class="tiles" style="--tiles-desktop: {{ section.settings.columns }}">
         {%- for block in section.blocks -%}
-          {%- assign coll = collections[block.settings.collection] -%}
+          {%- assign coll = block.settings.collection -%}
           <a href="{{ block.settings.link | default: coll.url }}" class="tile media media--{{ section.settings.ratio }}" {{ block.shopify_attributes }}>
             {%- if block.settings.image -%}
               <img src="{{ block.settings.image | image_url: width: 900 }}"

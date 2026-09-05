@@ -121,12 +121,14 @@
         "type": "select",
         "id": "corner_radius",
         "label": "Corner radius",
+        "info": "Drives cards, buttons, chips and panels together. Rounded is the retail-standard look.",
         "options": [
           { "value": "0", "label": "Square (editorial)" },
           { "value": "2", "label": "Hairline" },
-          { "value": "6", "label": "Soft" }
+          { "value": "6", "label": "Soft" },
+          { "value": "12", "label": "Rounded (recommended)" }
         ],
-        "default": "0"
+        "default": "12"
       },
       {
         "type": "checkbox",

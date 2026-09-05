@@ -10,13 +10,13 @@
         {%- if section.settings.subheading != blank -%}<p class="section-head__sub">{{ section.settings.subheading }}</p>{%- endif -%}
       </div>
       {%- if section.settings.collection != blank -%}
-        <a href="{{ collections[section.settings.collection].url }}" class="link-underline">
+        <a href="{{ section.settings.collection.url }}" class="link-underline">
           {{ 'sections.featured_collection.view_all' | t }} {% render 'icon', name: 'arrow-right' %}
         </a>
       {%- endif -%}
     </div>
 
-    {%- assign products = collections[section.settings.collection].products -%}
+    {%- assign products = section.settings.collection.products -%}
     {%- if products.size > 0 -%}
       <ul class="product-grid{% if section.settings.mobile_scroll %} scroll-row{% endif %}" style="--grid-desktop: {{ section.settings.columns }}" role="list">
         {%- for product in products limit: section.settings.product_limit -%}
