@@ -28,7 +28,9 @@
 
   --bq-scale: 1;
   --bq-page-width: 1560px;
-  --bq-radius: 0px;
+  --bq-radius: 6px;
+  --bq-radius-sm: 4px;
+  --bq-radius-lg: 10px;
   --bq-nav-transform: uppercase;
 
   --bq-gutter: 20px;
@@ -611,7 +613,7 @@ textarea.field__input { min-height: 130px; resize: vertical; }
 }
 
 .card { position: relative; display: flex; flex-direction: column; height: 100%; }
-.card__media { position: relative; display: block; overflow: hidden; background: #ece8e0; }
+.card__media { position: relative; display: block; overflow: hidden; background: #ece8e0; border-radius: var(--bq-radius); }
 .card__img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.4s var(--bq-ease), scale 0.7s var(--bq-ease); }
 .card__img--alt { position: absolute; inset: 0; opacity: 0; }
 .card:hover .card__img--alt { opacity: 1; }
@@ -628,6 +630,7 @@ textarea.field__input { min-height: 130px; resize: vertical; }
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  border-radius: var(--bq-radius-sm);
 }
 .badge--sale { background: var(--bq-burgundy); }
 .badge--soldout { background: var(--bq-stone); color: var(--bq-black); }
@@ -665,6 +668,7 @@ textarea.field__input { min-height: 130px; resize: vertical; }
   font-size: 0.64rem;
   letter-spacing: 0.06em;
   text-align: center;
+  border-radius: var(--bq-radius-sm);
   transition: background 0.18s var(--bq-ease), color 0.18s var(--bq-ease);
 }
 .card__size:hover:not([disabled]) { background: var(--bq-black); color: var(--bq-bone); border-color: var(--bq-black); }
@@ -852,7 +856,7 @@ textarea.field__input { min-height: 130px; resize: vertical; }
 .product__gallery { display: grid; gap: 10px; }
 @media (min-width: 750px) { .product__gallery { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 990px) { .product__gallery { position: sticky; top: calc(var(--bq-header-h) + 16px); } }
-.product__media { position: relative; overflow: hidden; background: #ece8e0; }
+.product__media { position: relative; overflow: hidden; background: #ece8e0; border-radius: var(--bq-radius); }
 .product__media img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
 .product__media--full { grid-column: 1 / -1; }
 @media (max-width: 749px) {
@@ -863,7 +867,20 @@ textarea.field__input { min-height: 130px; resize: vertical; }
 
 .product__info { display: flex; flex-direction: column; }
 .product__vendor { font-family: var(--bq-font-mono); font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--bq-ink-mute); margin-bottom: 10px; }
-.product__title { font-family: var(--bq-font-display); font-size: clamp(1.7rem, 3.2vw, 2.6rem); line-height: 1.08; margin: 0 0 14px; }
+.product__title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin: 0 0 14px; }
+.product__title { font-family: var(--bq-font-display); font-size: clamp(1.7rem, 3.2vw, 2.6rem); line-height: 1.08; margin: 0; }
+.product__wish {
+  flex: none;
+  width: 42px; height: 42px;
+  display: grid; place-items: center;
+  border: 1px solid var(--bq-line);
+  border-radius: var(--bq-radius);
+  background: var(--bq-surface);
+  transition: border-color 0.2s var(--bq-ease), background 0.2s var(--bq-ease);
+}
+.product__wish:hover { border-color: var(--bq-burgundy); }
+.product__wish svg { width: 19px; height: 19px; }
+.product__wish.is-active svg { fill: var(--bq-burgundy); stroke: var(--bq-burgundy); }
 .product__price { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
 .product__price .price { font-size: 1.24rem; }
 .product__tax { font-size: 0.75rem; color: var(--bq-ink-mute); margin-bottom: 22px; }
@@ -879,6 +896,7 @@ textarea.field__input { min-height: 130px; resize: vertical; }
   display: inline-flex; align-items: center; justify-content: center;
   min-width: 50px; min-height: 44px; padding: 0 14px;
   border: 1px solid var(--bq-line);
+  border-radius: var(--bq-radius-sm);
   font-family: var(--bq-font-mono); font-size: 0.76rem; letter-spacing: 0.06em;
   cursor: pointer;
   transition: border-color 0.2s var(--bq-ease), background 0.2s var(--bq-ease), color 0.2s var(--bq-ease);
@@ -891,7 +909,7 @@ textarea.field__input { min-height: 130px; resize: vertical; }
 .variant-option--swatch input:checked + label { box-shadow: 0 0 0 2px var(--bq-page), 0 0 0 3px var(--bq-black); }
 
 .product__buy { display: grid; gap: 10px; margin-block: 6px 22px; }
-.quantity { display: inline-flex; align-items: center; border: 1px solid var(--bq-line); }
+.quantity { display: inline-flex; align-items: center; border: 1px solid var(--bq-line); border-radius: var(--bq-radius); overflow: hidden; }
 .quantity button { width: 44px; height: 46px; display: grid; place-items: center; }
 .quantity input { width: 46px; height: 46px; border: 0; text-align: center; font-family: var(--bq-font-mono); background: none; }
 .quantity input:focus { outline: none; }
@@ -1073,11 +1091,12 @@ textarea.field__input { min-height: 130px; resize: vertical; }
   margin-bottom: 18px;
   background: var(--bq-surface);
   border: 1px solid var(--bq-line);
+  border-radius: var(--bq-radius);
 }
 @media (min-width: 750px) { .tcart__pin { grid-template-columns: 170px 1fr; align-items: center; gap: 20px; } }
 .tcart__pin-label { font-family: var(--bq-font-mono); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; }
 .tcart__pin-label span { display: block; text-transform: none; letter-spacing: 0; font-family: var(--bq-font-sans); font-size: 0.72rem; color: var(--bq-ink-mute); margin-top: 3px; }
-.tcart__pin-form { display: flex; align-items: stretch; gap: 0; border: 1px solid var(--bq-line); background: var(--bq-page); }
+.tcart__pin-form { display: flex; align-items: stretch; gap: 0; border: 1px solid var(--bq-line); background: var(--bq-page); border-radius: var(--bq-radius-sm); overflow: hidden; }
 .tcart__pin-cc { display: grid; place-items: center; padding-inline: 12px; font-family: var(--bq-font-mono); font-size: 0.7rem; border-right: 1px solid var(--bq-line); color: var(--bq-ink-mute); }
 .tcart__pin-input { flex: 1; min-width: 0; border: 0; background: none; padding: 12px 14px; font-family: var(--bq-font-mono); font-size: 0.82rem; letter-spacing: 0.08em; }
 .tcart__pin-input:focus { outline: none; }

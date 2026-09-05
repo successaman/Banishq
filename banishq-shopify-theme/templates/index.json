@@ -42,7 +42,7 @@
             "title": "Men's",
             "description": "Engineered for men",
             "badge": "Shop",
-            "link": "/pages/mens"
+            "link": "/collections/mens"
           }
         },
         "womens": {
@@ -51,7 +51,7 @@
             "title": "Women's",
             "description": "Designed for women",
             "badge": "Shop",
-            "link": "/pages/womens"
+            "link": "/collections/womens"
           }
         },
         "unisex": {
@@ -60,7 +60,7 @@
             "title": "Unisex",
             "description": "Gender-neutral styles",
             "badge": "Shop",
-            "link": "/pages/unisex"
+            "link": "/collections/unisex"
           }
         }
       },

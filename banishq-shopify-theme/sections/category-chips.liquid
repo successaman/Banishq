@@ -26,7 +26,12 @@
                 loading="lazy"
                 width="200" height="200">
             {%- else -%}
-              <div class="chip-card__placeholder">{{ 'collection-2' | placeholder_svg_tag }}</div>
+              <img
+                class="chip-card__placeholder"
+                src="{% cycle 'chip_fallback': 'https://images.unsplash.com/photo-1599725728598-dc7ed109ff89?w=300&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1613915617430-8ab0fd7c6baf?w=300&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1635650805023-f2529440b5aa?w=300&q=80&auto=format&fit=crop' %}"
+                alt=""
+                loading="lazy"
+                width="200" height="200">
             {%- endif -%}
 
             <span class="chip-card__label">
@@ -43,7 +48,12 @@
                 loading="lazy"
                 width="200" height="200">
             {%- else -%}
-              <div class="chip-card__placeholder">{{ 'collection-2' | placeholder_svg_tag }}</div>
+              <img
+                class="chip-card__placeholder"
+                src="{% cycle 'chip_fallback': 'https://images.unsplash.com/photo-1599725728598-dc7ed109ff89?w=300&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1613915617430-8ab0fd7c6baf?w=300&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1635650805023-f2529440b5aa?w=300&q=80&auto=format&fit=crop' %}"
+                alt=""
+                loading="lazy"
+                width="200" height="200">
             {%- endif -%}
 
             <span class="chip-card__label">{{ block.settings.label }}</span>
@@ -81,6 +91,7 @@
   display: grid;
   place-items: center;
   border: 1px solid var(--bq-line);
+  border-radius: var(--bq-radius);
   transition: all 0.3s var(--bq-ease);
   background: var(--bq-bone);
 }
@@ -111,6 +122,7 @@
   background: #ece8e0;
   display: grid;
   place-items: center;
+  object-fit: cover;
 }
 
 .chip-card__label {

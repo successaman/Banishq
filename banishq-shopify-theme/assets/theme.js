@@ -489,6 +489,28 @@
   });
   paintWishlist();
 
+  /* ---------------------------------------------------------------- share */
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-share]');
+    if (!btn) return;
+    e.preventDefault();
+    var url = btn.getAttribute('data-share-url') || window.location.href;
+    var title = btn.getAttribute('data-share-title') || document.title;
+    if (navigator.share) {
+      navigator.share({ title: title, url: url }).catch(function () { /* user cancelled */ });
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function () {
+        toast('Link copied');
+      }).catch(function () {
+        window.prompt('Copy this link', url);
+      });
+    } else {
+      window.prompt('Copy this link', url);
+    }
+  });
+
   /* ------------------------------------------------------- reveal on scroll */
   if ('IntersectionObserver' in window) {
     var revealObserver = new IntersectionObserver(function (entries) {

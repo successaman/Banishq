@@ -19,7 +19,11 @@
           {%- if block.settings.image -%}
             <img src="{{ block.settings.image | image_url: width: 1200 }}" alt="{{ block.settings.label | escape }}" loading="lazy">
           {%- else -%}
-            {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            <img
+              src="{% cycle 'lookbook_fallback': 'https://images.unsplash.com/photo-1732464517792-7385024242a6?w=1200&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1662532577856-e8ee8b138a8b?w=1200&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1608145550502-f53571aa63e1?w=1200&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1627292441194-0280c19e74e4?w=1200&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1515907467242-93cd67ebc7d6?w=1200&q=80&auto=format&fit=crop' %}"
+              alt="{{ block.settings.label | escape }}"
+              loading="lazy"
+              style="width: 100%; height: 100%; object-fit: cover">
           {%- endif -%}
           {%- if block.settings.label != blank -%}<span class="lookbook__tag">{{ block.settings.label }}</span>{%- endif -%}
         </a>

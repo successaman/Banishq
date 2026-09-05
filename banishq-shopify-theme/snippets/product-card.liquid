@@ -27,7 +27,12 @@
 {%- if card_product == blank or card_product.empty? -%}
   <div class="card">
     <div class="card__media media media--{{ ratio }}">
-      {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      <img
+        src="https://images.unsplash.com/photo-1599725728598-dc7ed109ff89?w=700&q=80&auto=format&fit=crop"
+        alt=""
+        loading="lazy"
+        width="700" height="875"
+        class="card__img">
     </div>
     <div class="card__body">
       <h3 class="card__title">{{ 'onboarding.product_title' | t }}</h3>
@@ -57,6 +62,8 @@
         assign size_option_index = forloop.index0
       endif
     endfor
+
+    assign fallback_index = card_product.id | modulo: 6
   -%}
 
   <div class="card" data-product-card>
@@ -76,7 +83,20 @@
             loading="{{ loading }}"
             class="card__img">
         {%- else -%}
-          {{ 'product-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- case fallback_index -%}
+            {%- when 0 -%}
+              <img src="https://images.unsplash.com/photo-1599725728598-dc7ed109ff89?w=700&q=80&auto=format&fit=crop" alt="" loading="{{ loading }}" width="700" height="875" class="card__img">
+            {%- when 1 -%}
+              <img src="https://images.unsplash.com/photo-1613915617430-8ab0fd7c6baf?w=700&q=80&auto=format&fit=crop" alt="" loading="{{ loading }}" width="700" height="875" class="card__img">
+            {%- when 2 -%}
+              <img src="https://images.unsplash.com/photo-1654005018306-7066fc118281?w=700&q=80&auto=format&fit=crop" alt="" loading="{{ loading }}" width="700" height="875" class="card__img">
+            {%- when 3 -%}
+              <img src="https://images.unsplash.com/photo-1632149877166-f75d49000351?w=700&q=80&auto=format&fit=crop" alt="" loading="{{ loading }}" width="700" height="875" class="card__img">
+            {%- when 4 -%}
+              <img src="https://images.unsplash.com/photo-1608146226687-b39d090a8c20?w=700&q=80&auto=format&fit=crop" alt="" loading="{{ loading }}" width="700" height="875" class="card__img">
+            {%- else -%}
+              <img src="https://images.unsplash.com/photo-1594035795519-19274ae37f71?w=700&q=80&auto=format&fit=crop" alt="" loading="{{ loading }}" width="700" height="875" class="card__img">
+          {%- endcase -%}
         {%- endif -%}
 
         {%- if settings.card_second_image and card_product.media[1] -%}

@@ -43,15 +43,21 @@
         {%- endif -%}
       </div>
 
-      {%- if section.settings.image -%}
-        <div class="countdown-card__media">
+      <div class="countdown-card__media">
+        {%- if section.settings.image -%}
           <img
             src="{{ section.settings.image | image_url: width: 600 }}"
             alt="{{ section.settings.image.alt | escape }}"
             loading="lazy"
             width="500" height="600">
-        </div>
-      {%- endif -%}
+        {%- else -%}
+          <img
+            src="https://images.unsplash.com/photo-1654005018306-7066fc118281?w=600&q=80&auto=format&fit=crop"
+            alt=""
+            loading="lazy"
+            width="500" height="600">
+        {%- endif -%}
+      </div>
     </div>
   </div>
 </section>
@@ -100,6 +106,7 @@
   padding: 16px;
   background: var(--bq-bone);
   border: 1px solid var(--bq-line);
+  border-radius: var(--bq-radius);
 }
 
 .countdown-value {
@@ -122,6 +129,7 @@
 .countdown-card__media {
   aspect-ratio: 4 / 5;
   overflow: hidden;
+  border-radius: var(--bq-radius-lg);
 }
 
 .countdown-card__media img {

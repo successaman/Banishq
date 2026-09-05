@@ -37,7 +37,12 @@
                 loading="lazy"
                 width="500" height="500">
             {%- else -%}
-              <div class="placeholder-image">{{ 'collection-2' | placeholder_svg_tag }}</div>
+              <img
+                class="placeholder-image"
+                src="{% cycle 'tab_fallback': 'https://images.unsplash.com/photo-1619603364937-8d7af41ef206?w=1000&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1613915617430-8ab0fd7c6baf?w=1000&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1635650805023-f2529440b5aa?w=1000&q=80&auto=format&fit=crop' %}"
+                alt="{{ block.settings.title | escape }}"
+                loading="lazy"
+                width="500" height="500">
             {%- endif -%}
 
             {%- if block.settings.badge != blank -%}
@@ -92,6 +97,7 @@
   text-decoration: none;
   color: inherit;
   border: 1px solid var(--bq-line);
+  border-radius: var(--bq-radius-lg);
   overflow: hidden;
   transition: all 0.3s var(--bq-ease);
 }
@@ -143,12 +149,14 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
   font-weight: 600;
+  border-radius: var(--bq-radius-sm);
 }
 
 .tab-card__count {
   position: absolute;
   top: 16px;
   left: 16px;
+  border-radius: var(--bq-radius-sm);
   background: rgba(0, 0, 0, 0.7);
   color: var(--bq-bone);
   padding: 6px 12px;
@@ -232,8 +240,9 @@
     {
       "name": "Category tabs",
       "blocks": [
-        { "type": "category", "settings": { "title": "Men's & Women's", "description": "Shop our full collections", "link": "/" } },
-        { "type": "category", "settings": { "title": "Unisex", "description": "Gender-neutral styles", "link": "/" } }
+        { "type": "category", "settings": { "title": "Men's", "description": "Engineered for men", "badge": "Shop Men's", "link": "/collections/mens" } },
+        { "type": "category", "settings": { "title": "Women's", "description": "Designed for women", "badge": "Shop Women's", "link": "/collections/womens" } },
+        { "type": "category", "settings": { "title": "Unisex", "description": "Gender-neutral styles", "badge": "Shop Unisex", "link": "/collections/unisex" } }
       ]
     }
   ]

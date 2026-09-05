@@ -29,7 +29,9 @@
             {%- elsif coll.featured_image -%}
               <img src="{{ coll.featured_image | image_url: width: 260 }}" alt="{{ coll.title | escape }}" width="92" height="92" loading="lazy">
             {%- else -%}
-              {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+              <img
+                src="{% cycle 'quicklink_fallback': 'https://images.unsplash.com/photo-1599725728598-dc7ed109ff89?w=260&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1613915617430-8ab0fd7c6baf?w=260&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1654005018306-7066fc118281?w=260&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1632149877166-f75d49000351?w=260&q=80&auto=format&fit=crop' %}"
+                alt="{{ block.settings.title | escape }}" width="92" height="92" loading="lazy">
             {%- endif -%}
             <span class="quicklink__label">{{ block.settings.title | default: coll.title }}</span>
           </a>
@@ -48,7 +50,9 @@
             {%- elsif coll.featured_image -%}
               <img src="{{ coll.featured_image | image_url: width: 900 }}" alt="{{ coll.title | escape }}" loading="lazy">
             {%- else -%}
-              {{ 'collection-2' | placeholder_svg_tag: 'placeholder-svg' }}
+              <img
+                src="{% cycle 'tile_fallback': 'https://images.unsplash.com/photo-1599725728598-dc7ed109ff89?w=900&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1613915617430-8ab0fd7c6baf?w=900&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1654005018306-7066fc118281?w=900&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1632149877166-f75d49000351?w=900&q=80&auto=format&fit=crop' %}"
+                alt="{{ block.settings.title | escape }}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover">
             {%- endif -%}
             <span class="tile__body">
               <span class="tile__title">{{ block.settings.title | default: coll.title }}</span>

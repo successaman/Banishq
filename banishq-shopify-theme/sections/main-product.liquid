@@ -40,8 +40,12 @@
           </div>
         {%- endfor -%}
       {%- else -%}
-        <div class="product__media">{{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
-        <div class="product__media">{{ 'product-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+        <div class="product__media">
+          <img src="https://images.unsplash.com/photo-1599725728598-dc7ed109ff89?w=1400&q=80&auto=format&fit=crop" alt="{{ product.title | escape }}" width="1400" height="1750" fetchpriority="high">
+        </div>
+        <div class="product__media">
+          <img src="https://images.unsplash.com/photo-1550995694-3f5f4a7e1bd2?w=1400&q=80&auto=format&fit=crop" alt="{{ product.title | escape }}" width="1400" height="1750" loading="lazy">
+        </div>
       {%- endif -%}
     </div>
 
@@ -59,7 +63,16 @@
             {%- endif -%}
 
           {%- when 'title' -%}
-            <h1 class="product__title" {{ block.shopify_attributes }}>{{ product.title }}</h1>
+            <div class="product__title-row" {{ block.shopify_attributes }}>
+              <h1 class="product__title">{{ product.title }}</h1>
+              <button
+                type="button"
+                class="product__wish"
+                data-wish="{{ product.handle }}"
+                aria-label="{{ 'products.product.save_to_wishlist' | t }}">
+                {% render 'icon', name: 'heart' %}
+              </button>
+            </div>
 
           {%- when 'price' -%}
             <div class="product__price" {{ block.shopify_attributes }}>
@@ -298,7 +311,16 @@
 
           {%- when 'share' -%}
             <div style="padding-top: 20px" {{ block.shopify_attributes }}>
-              <span class="mono" style="color: var(--bq-ink-mute)">{{ 'products.product.share' | t }}</span>
+              <button
+                type="button"
+                class="link-underline"
+                data-share
+                data-share-url="{{ shop.url }}{{ product.url }}"
+                data-share-title="{{ product.title | escape }}"
+                style="background: none; border: 0; cursor: pointer; color: var(--bq-ink)">
+                {% render 'icon', name: 'share' %}
+                {{ 'products.product.share' | t }}
+              </button>
             </div>
 
           {%- when '@app' -%}
