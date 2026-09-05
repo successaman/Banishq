@@ -919,8 +919,127 @@
     }
   }
 
+  /* ---------------------------------------------------- product rails */
+  /* Arrows page the track by roughly one screenful. Swiping is native, so
+     this only adds a pointer affordance and disables the arrow at each end. */
+  function initRails(root) {
+    var rails = (root || document).querySelectorAll('[data-rail]');
+    Array.prototype.forEach.call(rails, function (rail) {
+      if (rail.dataset.railReady) return;
+      var track = rail.querySelector('[data-rail-track]');
+      if (!track) return;
+      rail.dataset.railReady = '1';
+
+      var prev = rail.querySelector('[data-rail-prev]');
+      var next = rail.querySelector('[data-rail-next]');
+
+      function sync() {
+        var max = track.scrollWidth - track.clientWidth;
+        if (prev) prev.disabled = track.scrollLeft <= 4;
+        if (next) next.disabled = track.scrollLeft >= max - 4;
+      }
+      function page(dir) {
+        track.scrollBy({ left: dir * Math.round(track.clientWidth * 0.8), behavior: 'smooth' });
+        // Arrow state derives from scrollLeft, which updates asynchronously;
+        // re-sync shortly after so the end-stop arrow hides without a swipe.
+        window.setTimeout(sync, 420);
+      }
+      if (prev) prev.addEventListener('click', function () { page(-1); });
+      if (next) next.addEventListener('click', function () { page(1); });
+      track.addEventListener('scroll', sync, { passive: true });
+      window.addEventListener('resize', sync);
+      sync();
+    });
+  }
+
+  initRails();
+
+  /* ------------------------------------------------- product gallery */
+  /* Scroll-snap already moves the gallery; this only reflects which slide is
+     showing (thumbnail, counter, arrow disabled state) and lets the thumbs and
+     arrows drive the scroll. With JS off the gallery is still a swipeable
+     scroller, just without the indicators. */
+  function initProductGallery(root) {
+    var gallery = (root || document).querySelector('[data-pdp-gallery]');
+    if (!gallery || gallery.dataset.pdpReady) return;
+
+    var slidesEl = gallery.querySelector('[data-pdp-slides]');
+    if (!slidesEl) return;
+    var slides = Array.prototype.slice.call(slidesEl.querySelectorAll('[data-pdp-slide]'));
+    if (slides.length < 2) return;
+
+    gallery.dataset.pdpReady = '1';
+
+    var thumbs = Array.prototype.slice.call(gallery.querySelectorAll('[data-pdp-thumb]'));
+    var current = gallery.querySelector('[data-pdp-current]');
+    var prev = gallery.querySelector('[data-pdp-prev]');
+    var next = gallery.querySelector('[data-pdp-next]');
+    var index = 0;
+
+    function paint(i) {
+      index = i;
+      thumbs.forEach(function (t, ti) { t.classList.toggle('is-active', ti === i); });
+      if (current) current.textContent = String(i + 1);
+      if (prev) prev.disabled = i === 0;
+      if (next) next.disabled = i === slides.length - 1;
+      var active = thumbs[i];
+      if (active && active.scrollIntoView) {
+        active.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      }
+    }
+
+    function goTo(i) {
+      var clamped = Math.max(0, Math.min(slides.length - 1, i));
+      var target = slides[clamped];
+      if (!target) return;
+      // Paint straight away rather than waiting for the scroll handler: the
+      // target is already known, and scroll events are throttled (or absent)
+      // while the tab is backgrounded, which would leave the controls stale.
+      paint(clamped);
+      slidesEl.scrollTo({ left: target.offsetLeft - slidesEl.offsetLeft, behavior: 'smooth' });
+    }
+
+    // Nearest-slide-to-centre beats an IntersectionObserver here: with
+    // scroll-snap and smooth scrolling the ratio can cross a threshold between
+    // frames and the observer misses the change, leaving the thumbnail and
+    // counter stuck on the previous image.
+    function activeIndex() {
+      var mid = slidesEl.scrollLeft + slidesEl.clientWidth / 2;
+      var best = 0, bestDist = Infinity;
+      for (var i = 0; i < slides.length; i++) {
+        var c = slides[i].offsetLeft + slides[i].clientWidth / 2;
+        var d = Math.abs(c - mid);
+        if (d < bestDist) { bestDist = d; best = i; }
+      }
+      return best;
+    }
+
+    var ticking = false;
+    slidesEl.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function () {
+        ticking = false;
+        var i = activeIndex();
+        if (i !== index) paint(i);
+      });
+    }, { passive: true });
+
+    thumbs.forEach(function (t) {
+      t.addEventListener('click', function () { goTo(parseInt(t.dataset.pdpThumb, 10) || 0); });
+    });
+    if (prev) prev.addEventListener('click', function () { goTo(index - 1); });
+    if (next) next.addEventListener('click', function () { goTo(index + 1); });
+
+    paint(0);
+  }
+
+  initProductGallery();
+
   /* ------------------------------------------------ theme editor support */
-  document.addEventListener('shopify:section:load', function () {
+  document.addEventListener('shopify:section:load', function (e) {
     paintWishlist();
+    initProductGallery(e && e.target ? e.target : document);
+    initRails(e && e.target ? e.target : document);
   });
 })();

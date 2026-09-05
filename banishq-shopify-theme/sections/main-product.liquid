@@ -14,37 +14,67 @@
 
   <div class="product">
     {%- comment -%} ------------------------------------------------- gallery {%- endcomment -%}
-    <div class="product__gallery">
-      {%- if product.media.size > 0 -%}
-        {%- for media in product.media -%}
-          <div class="product__media{% if forloop.first and product.media.size > 2 %} product__media--full{% endif %}" id="Media-{{ media.id }}">
-            {%- case media.media_type -%}
-              {%- when 'image' -%}
-                <img
-                  src="{{ media | image_url: width: 1400 }}"
-                  srcset="{{ media | image_url: width: 600 }} 600w,
-                          {{ media | image_url: width: 900 }} 900w,
-                          {{ media | image_url: width: 1400 }} 1400w"
-                  sizes="(min-width: 990px) 45vw, 100vw"
-                  alt="{{ media.alt | escape }}"
-                  width="{{ media.width }}"
-                  height="{{ media.height }}"
-                  {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}>
-              {%- when 'video' -%}
-                {{ media | media_tag: image_size: '1400x', controls: true }}
-              {%- when 'external_video' -%}
-                {{ media | external_video_tag }}
-              {%- when 'model' -%}
-                {{ media | model_viewer_tag }}
-            {%- endcase -%}
-          </div>
-        {%- endfor -%}
-      {%- else -%}
-        <div class="product__media">
-          <img src="https://images.unsplash.com/photo-1599725728598-dc7ed109ff89?w=1400&q=80&auto=format&fit=crop" alt="{{ product.title | escape }}" width="1400" height="1750" fetchpriority="high">
+    <div class="product__gallery" data-pdp-gallery>
+      <div class="product__stage">
+        <div class="product__slides" data-pdp-slides>
+          {%- if product.media.size > 0 -%}
+            {%- for media in product.media -%}
+              <div class="product__media" id="Media-{{ media.id }}" data-pdp-slide>
+                {%- case media.media_type -%}
+                  {%- when 'image' -%}
+                    <img
+                      src="{{ media | image_url: width: 1400 }}"
+                      srcset="{{ media | image_url: width: 600 }} 600w,
+                              {{ media | image_url: width: 900 }} 900w,
+                              {{ media | image_url: width: 1400 }} 1400w"
+                      sizes="(min-width: 990px) 45vw, 100vw"
+                      alt="{{ media.alt | escape }}"
+                      width="{{ media.width }}"
+                      height="{{ media.height }}"
+                      {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}>
+                  {%- when 'video' -%}
+                    {{ media | media_tag: image_size: '1400x', controls: true }}
+                  {%- when 'external_video' -%}
+                    {{ media | external_video_tag }}
+                  {%- when 'model' -%}
+                    {{ media | model_viewer_tag }}
+                {%- endcase -%}
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            <div class="product__media" data-pdp-slide>
+              <img src="https://images.unsplash.com/photo-1599725728598-dc7ed109ff89?w=1400&q=80&auto=format&fit=crop" alt="{{ product.title | escape }}" width="1400" height="1750" fetchpriority="high">
+            </div>
+            <div class="product__media" data-pdp-slide>
+              <img src="https://images.unsplash.com/photo-1550995694-3f5f4a7e1bd2?w=1400&q=80&auto=format&fit=crop" alt="{{ product.title | escape }}" width="1400" height="1750" loading="lazy">
+            </div>
+          {%- endif -%}
         </div>
-        <div class="product__media">
-          <img src="https://images.unsplash.com/photo-1550995694-3f5f4a7e1bd2?w=1400&q=80&auto=format&fit=crop" alt="{{ product.title | escape }}" width="1400" height="1750" loading="lazy">
+
+        {%- if product.media.size > 1 -%}
+          <button type="button" class="product__nav product__nav--prev" data-pdp-prev aria-label="{{ 'products.product.previous_image' | t }}">
+            {% render 'icon', name: 'chevron-right' %}
+          </button>
+          <button type="button" class="product__nav product__nav--next" data-pdp-next aria-label="{{ 'products.product.next_image' | t }}">
+            {% render 'icon', name: 'chevron-right' %}
+          </button>
+          <p class="product__counter" aria-live="polite">
+            <span data-pdp-current>1</span>/{{ product.media.size }}
+          </p>
+        {%- endif -%}
+      </div>
+
+      {%- if product.media.size > 1 -%}
+        <div class="product__thumbs" data-pdp-thumbs role="list">
+          {%- for media in product.media -%}
+            <button
+              type="button"
+              class="product__thumb{% if forloop.first %} is-active{% endif %}"
+              data-pdp-thumb="{{ forloop.index0 }}"
+              aria-label="{{ 'products.product.go_to_image' | t: index: forloop.index }}">
+              <img src="{{ media | image_url: width: 200 }}" alt="" width="72" height="90" loading="lazy">
+            </button>
+          {%- endfor -%}
         </div>
       {%- endif -%}
     </div>

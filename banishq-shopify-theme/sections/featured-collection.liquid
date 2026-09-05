@@ -17,12 +17,27 @@
     </div>
 
     {%- assign products = section.settings.collection.products -%}
+    {%- assign is_rail = section.settings.mobile_scroll -%}
     {%- if products.size > 0 -%}
-      <ul class="product-grid{% if section.settings.mobile_scroll %} scroll-row{% endif %}" style="--grid-desktop: {{ section.settings.columns }}" role="list">
-        {%- for product in products limit: section.settings.product_limit -%}
-          <li>{% render 'product-card', card_product: product, index: forloop.index0 %}</li>
-        {%- endfor -%}
-      </ul>
+      <div class="rail{% if is_rail %} rail--carousel{% endif %}"{% if is_rail %} data-rail{% endif %}>
+        <ul class="product-grid{% if is_rail %} scroll-row{% endif %}"
+            style="--grid-desktop: {{ section.settings.columns }}"
+            role="list"
+            {% if is_rail %}data-rail-track{% endif %}>
+          {%- for product in products limit: section.settings.product_limit -%}
+            <li>{% render 'product-card', card_product: product, index: forloop.index0 %}</li>
+          {%- endfor -%}
+        </ul>
+
+        {%- if is_rail -%}
+          <button type="button" class="rail__nav rail__nav--prev" data-rail-prev aria-label="{{ 'sections.rail.previous' | t }}">
+            {% render 'icon', name: 'chevron-right' %}
+          </button>
+          <button type="button" class="rail__nav rail__nav--next" data-rail-next aria-label="{{ 'sections.rail.next' | t }}">
+            {% render 'icon', name: 'chevron-right' %}
+          </button>
+        {%- endif -%}
+      </div>
     {%- else -%}
       <ul class="product-grid" style="--grid-desktop: {{ section.settings.columns }}" role="list">
         {%- for i in (1..section.settings.columns) -%}
@@ -43,7 +58,7 @@
     { "type": "text", "id": "subheading", "label": "Subheading" },
     { "type": "range", "id": "product_limit", "min": 4, "max": 24, "step": 2, "label": "Products shown", "default": 8 },
     { "type": "range", "id": "columns", "min": 2, "max": 5, "step": 1, "label": "Desktop columns", "default": 4 },
-    { "type": "checkbox", "id": "mobile_scroll", "label": "Swipe row on mobile", "default": false }
+    { "type": "checkbox", "id": "mobile_scroll", "label": "Show as swipe carousel", "info": "One row that scrolls sideways, with arrows on desktop. Off shows a wrapping grid.", "default": false }
   ],
   "presets": [{ "name": "Featured collection" }]
 }

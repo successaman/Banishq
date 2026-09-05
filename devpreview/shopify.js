@@ -42,7 +42,7 @@ function makeProduct(i) {
   const variant = variants.find(v => v.available) || variants[0];
   return {
     id: 500 + i, title: NAMES[i % NAMES.length], handle: `product-${i}`, url: `/products/product-${i}`,
-    featured_image: media, featured_media: media, media: [media, { ...media, src: img(i + 1) }],
+    featured_image: media, featured_media: media, media: [0,1,2,3,4].map(function(k){ return { id: 900+i*10+k, media_type:'image', src: img(i+k), alt: NAMES[i % NAMES.length], width:800, height:1000, preview_image:{src:img(i+k)} }; }),
     images: [media], price: price * 100, compare_at_price: compare * 100,
     price_min: price * 100, price_max: price * 100, available: i % 7 !== 5,
     vendor: 'BANISHQ', type: 'Apparel', tags: i % 4 === 0 ? ['new'] : [],
@@ -117,8 +117,13 @@ function registerFilters(engine) {
   def('image_tag', (src, ...a) => `<img src="${src}" alt="">`);
 
   def('t', function (key, ...args) {
+    // liquidjs hands named filter args over as [key, value] arrays:
+    // {{ 'k' | t: count: 3 }} -> [['count', 3]].
     const opts = {};
-    for (let i = 0; i < args.length; i += 2) opts[args[i]] = args[i + 1];
+    for (const a of args) {
+      if (Array.isArray(a) && a.length === 2) opts[a[0]] = a[1];
+      else if (a && typeof a === 'object') Object.assign(opts, a);
+    }
     // __locales now lives in globals, not environments — read through the
     // context so it resolves from either.
     let s = this.context.getSync(['__locales']) || this.context.environments.__locales;

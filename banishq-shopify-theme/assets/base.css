@@ -862,17 +862,68 @@ textarea.field__input { min-height: 130px; resize: vertical; }
 .product { display: grid; gap: 34px; }
 @media (min-width: 990px) { .product { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 56px; align-items: start; } }
 
+/* Product gallery — one carousel at every width, so the shopper swipes or
+   clicks through the same set of images instead of meeting a grid on desktop
+   and a swipe row on mobile. Scroll-snap does the moving; JS only syncs the
+   thumbnails and the counter, so the gallery still works with JS off. */
 .product__gallery { display: grid; gap: 10px; }
-@media (min-width: 750px) { .product__gallery { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 990px) { .product__gallery { position: sticky; top: calc(var(--bq-header-h) + 16px); } }
-.product__media { position: relative; overflow: hidden; background: #ece8e0; border-radius: var(--bq-radius); }
-.product__media img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
-.product__media--full { grid-column: 1 / -1; }
-@media (max-width: 749px) {
-  .product__gallery { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 6px; scrollbar-width: none; }
-  .product__gallery::-webkit-scrollbar { display: none; }
-  .product__media { flex: 0 0 88%; scroll-snap-align: center; }
+
+.product__stage { position: relative; }
+.product__slides {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  gap: 0;
+  scrollbar-width: none;
+  border-radius: var(--bq-radius);
 }
+.product__slides::-webkit-scrollbar { display: none; }
+.product__media {
+  position: relative; flex: 0 0 100%; scroll-snap-align: center;
+  overflow: hidden; background: #ece8e0; border-radius: var(--bq-radius);
+}
+.product__media img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; }
+
+/* Arrows: pointer only. Touch users swipe, and on a phone they cover image. */
+.product__nav {
+  position: absolute; top: 50%; translate: 0 -50%;
+  width: 40px; height: 40px; display: none; place-items: center;
+  border-radius: 50%; background: color-mix(in srgb, var(--bq-page) 88%, transparent);
+  backdrop-filter: blur(6px); z-index: 2;
+  transition: background 0.2s var(--bq-ease), opacity 0.2s var(--bq-ease);
+}
+.product__nav svg { width: 17px; height: 17px; stroke: var(--bq-black); fill: none; stroke-width: 1.6; }
+.product__nav--prev { left: 12px; }
+.product__nav--prev svg { rotate: 180deg; }
+.product__nav--next { right: 12px; }
+.product__nav:hover { background: var(--bq-page); }
+.product__nav[disabled] { opacity: 0.25; pointer-events: none; }
+@media (hover: hover) and (pointer: fine) { .product__nav { display: grid; } }
+
+.product__counter {
+  position: absolute; right: 12px; bottom: 12px; z-index: 2; margin: 0;
+  padding: 4px 10px; border-radius: 999px;
+  background: rgba(17, 17, 17, 0.62); color: var(--bq-bone);
+  font-family: var(--bq-font-mono); font-size: 0.66rem; letter-spacing: 0.08em;
+}
+
+.product__thumbs {
+  display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.product__thumbs::-webkit-scrollbar { display: none; }
+.product__thumb {
+  flex: 0 0 auto; width: 62px; padding: 0; background: none; line-height: 0;
+  border: 1px solid transparent; border-radius: var(--bq-radius-sm);
+  overflow: hidden; cursor: pointer; opacity: 0.55;
+  transition: opacity 0.2s var(--bq-ease), border-color 0.2s var(--bq-ease);
+}
+.product__thumb img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+.product__thumb:hover { opacity: 0.85; }
+.product__thumb.is-active { opacity: 1; border-color: var(--bq-black); }
+@media (min-width: 750px) { .product__thumb { width: 76px; } }
 
 .product__info { display: flex; flex-direction: column; }
 .product__vendor { font-family: var(--bq-font-mono); font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--bq-ink-mute); margin-bottom: 10px; }
@@ -1504,4 +1555,38 @@ textarea.field__input { min-height: 130px; resize: vertical; }
   /* Keep the last row of products clear of the bar. */
   .template-collection .main-content,
   .template-search .main-content { padding-bottom: 72px; }
+}
+
+
+/* ------------------------------------------------------------------
+   Product rail — a one-row carousel with arrows on pointer devices.
+   The track is .scroll-row, so swiping already works everywhere and
+   the arrows are an addition for mouse users, not a requirement.
+   ------------------------------------------------------------------ */
+.rail { position: relative; }
+
+.rail__nav {
+  position: absolute; top: calc(50% - 42px); translate: 0 -50%;
+  width: 40px; height: 40px; display: none; place-items: center;
+  border-radius: 50%; z-index: 3;
+  background: color-mix(in srgb, var(--bq-page) 90%, transparent);
+  border: 1px solid var(--bq-line);
+  backdrop-filter: blur(6px);
+  transition: opacity 0.2s var(--bq-ease), background 0.2s var(--bq-ease);
+}
+.rail__nav svg { width: 16px; height: 16px; stroke: var(--bq-black); fill: none; stroke-width: 1.6; }
+.rail__nav--prev { left: -18px; }
+.rail__nav--prev svg { rotate: 180deg; }
+.rail__nav--next { right: -18px; }
+.rail__nav:hover { background: var(--bq-page); }
+.rail__nav[disabled] { opacity: 0; pointer-events: none; }
+
+/* Arrows only where there is a cursor; touch users swipe the track. */
+@media (hover: hover) and (pointer: fine) {
+  .rail--carousel .rail__nav { display: grid; }
+}
+/* Keep them inside the gutter on narrower desktops. */
+@media (max-width: 1100px) {
+  .rail__nav--prev { left: 4px; }
+  .rail__nav--next { right: 4px; }
 }

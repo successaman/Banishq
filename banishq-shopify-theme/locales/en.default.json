@@ -82,7 +82,10 @@
       "add_size": "Add size {{ size }} to bag",
       "tax_note": "Inclusive of all taxes. Shipping calculated at checkout.",
       "saved_to_wishlist": "Saved to wishlist",
-      "removed_from_wishlist": "Removed from wishlist"
+      "removed_from_wishlist": "Removed from wishlist",
+      "previous_image": "Previous image",
+      "next_image": "Next image",
+      "go_to_image": "Go to image {{ index }}"
     }
   },
   "onboarding": {
@@ -201,6 +204,10 @@
       "hours": "Hrs",
       "minutes": "Min",
       "seconds": "Sec"
+    },
+    "rail": {
+      "previous": "Previous products",
+      "next": "More products"
     }
   },
   "blogs": {

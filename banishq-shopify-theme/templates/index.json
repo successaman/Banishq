@@ -176,7 +176,7 @@
         "heading": "Your next rotation just arrived.",
         "product_limit": 8,
         "columns": 4,
-        "mobile_scroll": false
+        "mobile_scroll": true
       }
     },
     "editorial-split": {
