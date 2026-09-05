@@ -84,6 +84,49 @@ const collections = {
 };
 collections[''] = collections.all;
 
+// A real cart with line items — an item_count with an empty items array
+// renders a drawer that shows a subtotal and no products, which is not a
+// state Shopify can actually produce.
+function buildCart() {
+  const chosen = [ALL[0], ALL[3]];
+  const items = chosen.map((prod, n) => {
+    const v = prod.selected_or_first_available_variant;
+    const qty = n === 0 ? 2 : 1;
+    return {
+      key: prod.handle + ':' + v.id,
+      id: v.id,
+      url: prod.url,
+      quantity: qty,
+      title: prod.title + ' - ' + v.title,
+      product: prod,
+      product_title: prod.title,
+      variant: v,
+      variant_title: v.title,
+      image: prod.featured_image,
+      final_price: v.price,
+      original_price: v.compare_at_price,
+      final_line_price: v.price * qty,
+      original_line_price: v.compare_at_price * qty,
+      line_price: v.price * qty,
+      line_level_discount_allocations: [],
+      selling_plan_allocation: null,
+    };
+  });
+  const total = items.reduce((a, i) => a + i.final_line_price, 0);
+  const original = items.reduce((a, i) => a + i.original_line_price, 0);
+  return {
+    item_count: items.reduce((a, i) => a + i.quantity, 0),
+    items,
+    total_price: total,
+    items_subtotal_price: total,
+    original_total_price: original,
+    total_discount: original - total,
+    cart_level_discount_applications: [],
+    currency: { iso_code: 'INR' },
+    note: '',
+  };
+}
+
 // ---- filters --------------------------------------------------------------
 function money(v) {
   const n = (Number(v) || 0) / 100;
@@ -272,8 +315,7 @@ function globals(settings, locales) {
     },
     collections,
     all_products: Object.fromEntries(ALL.map(p => [p.handle, p])),
-    cart: { item_count: 2, items: [], total_price: 259800, items_subtotal_price: 259800,
-            original_total_price: 299800, total_discount: 40000, currency: { iso_code: 'INR' }, note: '' },
+    cart: buildCart(),
     customer: null, template: { name: 'index', suffix: '' }, request: { page_type: 'index', design_mode: false },
     canonical_url: 'http://localhost:4400/', page_title: 'BANISHQ', page_description: 'Wear Your Presence.',
     content_for_header: '', content_for_layout: '',
