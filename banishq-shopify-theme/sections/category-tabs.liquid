@@ -31,7 +31,7 @@
           
           <div class="tab-card__media">
             {%- if block.settings.image -%}
-              <img 
+              <img
                 src="{{ block.settings.image | image_url: width: 1000 }}"
                 alt="{{ block.settings.title | escape }}"
                 loading="lazy"
@@ -39,9 +39,13 @@
             {%- else -%}
               <div class="placeholder-image">{{ 'collection-2' | placeholder_svg_tag }}</div>
             {%- endif -%}
-            
+
             {%- if block.settings.badge != blank -%}
               <span class="tab-card__badge">{{ block.settings.badge }}</span>
+            {%- endif -%}
+
+            {%- if block.settings.collection != blank -%}
+              <span class="tab-card__count">{{ block.settings.collection.products_count }} products</span>
             {%- endif -%}
           </div>
 
@@ -141,6 +145,20 @@
   font-weight: 600;
 }
 
+.tab-card__count {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: rgba(0, 0, 0, 0.7);
+  color: var(--bq-bone);
+  padding: 6px 12px;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  font-family: var(--bq-font-mono);
+  backdrop-filter: blur(4px);
+}
+
 .tab-card__body {
   display: grid;
   gap: 8px;
@@ -203,6 +221,7 @@
         { "type": "image_picker", "id": "image", "label": "Square image (1:1 recommended)" },
         { "type": "text", "id": "title", "label": "Title", "default": "Men's" },
         { "type": "text", "id": "description", "label": "Description", "default": "Curated for the modern man" },
+        { "type": "collection", "id": "collection", "label": "Collection (shows product count)" },
         { "type": "text", "id": "badge", "label": "Badge (optional)", "default": "Shop Now" },
         { "type": "url", "id": "link", "label": "Link (subdomain or collection)" },
         { "type": "checkbox", "id": "open_new_tab", "label": "Open in new tab", "default": false }

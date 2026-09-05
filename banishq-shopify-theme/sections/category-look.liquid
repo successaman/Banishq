@@ -1,0 +1,312 @@
+{%- comment -%}
+  Shop the look — campaign image with interactive hotspots linking to products.
+  Category-specific edition with custom messaging and product cards.
+{%- endcomment -%}
+
+<section class="category-look" style="padding-block: clamp(50px, 7vw, 100px)">
+  <div class="page-width">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="eyebrow text-center">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+
+    <div class="section-head section-head--center" style="margin-bottom: 40px">
+      <div class="section-head__text">
+        <h2 class="section-head__title {% if settings.heading_style == 'serif' %}h-serif{% endif %} h2">
+          {{ section.settings.heading }}
+        </h2>
+        {%- if section.settings.text != blank -%}
+          <p class="section-head__sub">{{ section.settings.text }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="look-frame">
+      <div class="look-frame__media">
+        {%- if section.settings.image -%}
+          <img
+            src="{{ section.settings.image | image_url: width: 1200 }}"
+            alt="{{ section.settings.image.alt | escape }}"
+            loading="lazy"
+            width="800" height="900">
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+
+        {%- for block in section.blocks -%}
+          <button
+            class="look-hotspot"
+            data-hotspot="{{ forloop.index }}"
+            style="left: {{ block.settings.x }}%; top: {{ block.settings.y }}%"
+            type="button"
+            aria-label="Product {{ forloop.index }}"
+            {{ block.shopify_attributes }}></button>
+        {%- endfor -%}
+      </div>
+
+      <div class="look-frame__products">
+        <div class="look-products-list">
+          {%- for block in section.blocks -%}
+            <div class="look-product-card" data-product="{{ forloop.index }}">
+              {%- if block.settings.product -%}
+                {%- assign product = block.settings.product -%}
+
+                <div class="look-product-card__media">
+                  {%- if product.featured_image -%}
+                    <img
+                      src="{{ product.featured_image | image_url: width: 200 }}"
+                      alt="{{ product.featured_image.alt | escape }}"
+                      loading="lazy"
+                      width="150" height="150">
+                  {%- endif -%}
+                  <span class="look-product-card__number">{{ forloop.index }}</span>
+                </div>
+
+                <div class="look-product-card__details">
+                  <h4 class="look-product-card__title">{{ product.title | truncatewords: 5 }}</h4>
+                  {%- if product.selected_or_first_available_variant.price -%}
+                    <p class="look-product-card__price">
+                      {%- if product.compare_at_price > product.price -%}
+                        <del>₹{{ product.compare_at_price | money_without_currency | replace: '.00', '' }}</del>
+                      {%- endif -%}
+                      ₹{{ product.price | money_without_currency | replace: '.00', '' }}
+                    </p>
+                  {%- endif -%}
+                  <a href="{{ product.url }}" class="look-product-card__link">View</a>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {%- if section.settings.button_label != blank -%}
+          <a href="{{ section.settings.button_link }}" class="button button--full" style="margin-top: 24px">
+            {{ section.settings.button_label }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.look-frame {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 40px;
+  align-items: start;
+}
+
+.look-frame__media {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--bq-bone);
+}
+
+.look-frame__media img,
+.look-frame__media svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.look-hotspot {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--bq-burgundy);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s var(--bq-ease);
+  padding: 0;
+  display: grid;
+  place-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--bq-burgundy);
+  font-family: var(--bq-font-mono);
+  transform: translate(-50%, -50%);
+}
+
+.look-hotspot::before {
+  content: '';
+  width: 12px;
+  height: 12px;
+  background: var(--bq-burgundy);
+  border-radius: 50%;
+}
+
+.look-hotspot:hover {
+  width: 56px;
+  height: 56px;
+  background: rgba(123, 35, 48, 0.1);
+  box-shadow: 0 0 0 2px var(--bq-burgundy);
+}
+
+.look-frame__products {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.look-products-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.look-product-card {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--bq-line);
+  transition: all 0.2s var(--bq-ease);
+}
+
+.look-product-card:hover {
+  border-color: var(--bq-burgundy);
+  background: var(--bq-bone);
+}
+
+.look-product-card__media {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #ece8e0;
+}
+
+.look-product-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.look-product-card__number {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  background: var(--bq-burgundy);
+  color: var(--bq-bone);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 0.65rem;
+  font-weight: 600;
+  font-family: var(--bq-font-mono);
+}
+
+.look-product-card__details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
+}
+
+.look-product-card__title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.look-product-card__price {
+  font-family: var(--bq-font-mono);
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+.look-product-card__price del {
+  color: var(--bq-ink-soft);
+  margin-right: 8px;
+}
+
+.look-product-card__link {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--bq-burgundy);
+  text-decoration: none;
+  transition: color 0.2s var(--bq-ease);
+  width: fit-content;
+}
+
+.look-product-card__link:hover {
+  text-decoration: underline;
+}
+
+.button--full {
+  width: 100%;
+  text-align: center;
+  display: block;
+}
+
+@media (max-width: 749px) {
+  .look-frame {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .look-frame__media {
+    aspect-ratio: 4 / 5;
+  }
+
+  .look-products-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    max-height: none;
+  }
+
+  .look-product-card {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .look-hotspot {
+    width: 40px;
+    height: 40px;
+  }
+
+  .look-hotspot:hover {
+    width: 48px;
+    height: 48px;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Category shop the look",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The full look" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Complete the outfit" },
+    { "type": "textarea", "id": "text", "label": "Description", "default": "Tap any item to explore the full product and discover alternatives." },
+    { "type": "image_picker", "id": "image", "label": "Campaign image", "info": "3:4 aspect ratio recommended" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop the collection" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Product hotspot",
+      "limit": 12,
+      "settings": [
+        { "type": "range", "id": "x", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Horizontal position", "default": 50 },
+        { "type": "range", "id": "y", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Vertical position", "default": 50 },
+        { "type": "product", "id": "product", "label": "Product" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category shop the look"
+    }
+  ]
+}
+{% endschema %}
