@@ -1,6 +1,6 @@
 {
   "sections": {
-    "mens-homepage": {
+    "mens-landing": {
       "type": "homepage-mens",
       "settings": {
         "show_hero": true,
@@ -30,50 +30,6 @@
         "promo_color_2": "#111111"
       }
     },
-    "value-props": {
-      "type": "value-props",
-      "blocks": {
-        "v1": {
-          "type": "prop",
-          "settings": {
-            "icon": "truck",
-            "title": "Free shipping over ₹999",
-            "text": "Dispatched within 24 hours"
-          }
-        },
-        "v2": {
-          "type": "prop",
-          "settings": {
-            "icon": "return",
-            "title": "7-day easy returns",
-            "text": "No questions, no runaround"
-          }
-        },
-        "v3": {
-          "type": "prop",
-          "settings": {
-            "icon": "ruler",
-            "title": "True masculine fit",
-            "text": "Tested on real men"
-          }
-        },
-        "v4": {
-          "type": "prop",
-          "settings": {
-            "icon": "tag",
-            "title": "₹199 to ₹2,999",
-            "text": "Premium make, honest price"
-          }
-        }
-      },
-      "block_order": [
-        "v1",
-        "v2",
-        "v3",
-        "v4"
-      ],
-      "settings": {}
-    },
     "countdown": {
       "type": "category-countdown",
       "settings": {
@@ -84,7 +40,16 @@
         "button_link": "/collections/mens"
       }
     },
-    "mens-testimonials": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "show_hero": false,
+        "show_sort": true,
+        "columns": 4,
+        "per_page": 24
+      }
+    },
+    "testimonials": {
       "type": "category-testimonials",
       "blocks": {
         "t1": {
@@ -132,11 +97,49 @@
         "cta_button_link": "/collections/mens"
       }
     },
-    "mens-subcategories": {
-      "type": "category-chips",
-      "settings": {
-        "heading": "Shop by style"
-      }
+    "value-props": {
+      "type": "value-props",
+      "blocks": {
+        "v1": {
+          "type": "prop",
+          "settings": {
+            "icon": "truck",
+            "title": "Free shipping over ₹999",
+            "text": "Dispatched within 24 hours"
+          }
+        },
+        "v2": {
+          "type": "prop",
+          "settings": {
+            "icon": "return",
+            "title": "7-day easy returns",
+            "text": "No questions, no runaround"
+          }
+        },
+        "v3": {
+          "type": "prop",
+          "settings": {
+            "icon": "ruler",
+            "title": "True masculine fit",
+            "text": "Tested on real men"
+          }
+        },
+        "v4": {
+          "type": "prop",
+          "settings": {
+            "icon": "tag",
+            "title": "₹199 to ₹2,999",
+            "text": "Premium make, honest price"
+          }
+        }
+      },
+      "block_order": [
+        "v1",
+        "v2",
+        "v3",
+        "v4"
+      ],
+      "settings": {}
     },
     "newsletter": {
       "type": "newsletter",
@@ -149,10 +152,10 @@
     }
   },
   "order": [
-    "mens-homepage",
+    "mens-landing",
+    "main",
     "countdown",
-    "mens-testimonials",
-    "mens-subcategories",
+    "testimonials",
     "value-props",
     "newsletter"
   ]

@@ -513,9 +513,26 @@ textarea.field__input { min-height: 130px; resize: vertical; }
    that fills 78vh pushes every product below the fold — Taneira's runs about
    38vh on desktop for the same reason. --hero-h is read by both the slide and
    its content so the two can never disagree. */
-.hero { --hero-h: clamp(320px, 46vh, 520px); }
-.hero--medium { --hero-h: clamp(400px, 60vh, 660px); }
+.hero { --hero-h: clamp(280px, 40vh, 460px); }
+.hero--medium { --hero-h: clamp(380px, 56vh, 620px); }
 .hero--tall   { --hero-h: clamp(460px, 78vh, 860px); }
+
+/* Inset card banner. Sitting flush to the viewport edge, the hero reads as a
+   background the page happens to start with; pulled in and rounded, it reads
+   as the first card in the stack and matches everything below it. */
+.hero--card {
+  margin-inline: var(--bq-gutter);
+  border-radius: var(--bq-radius-lg);
+  overflow: hidden;
+}
+/* The slide already sits inside .page-width, which would indent the copy by a
+   second full gutter inside the card. Pull that back to a card's own padding. */
+.hero--card .page-width {
+  padding-inline: clamp(20px, 3.5vw, 44px);
+  max-width: none;
+}
+.hero--card .hero__nav--prev { left: 14px; }
+.hero--card .hero__nav--next { right: 14px; }
 
 .hero__slide {
   position: relative;
@@ -544,6 +561,25 @@ textarea.field__input { min-height: 130px; resize: vertical; }
 .hero--tall .hero__title { font-size: clamp(2.5rem, 7vw, 5.2rem); line-height: 0.98; margin-bottom: 18px; }
 .hero__text { font-size: clamp(0.95rem, 1.4vw, 1.1rem); max-width: 46ch; color: rgba(244, 241, 235, 0.86); margin-bottom: 30px; }
 .hero__buttons { display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* On a phone the two CTAs wrapped onto separate rows, and since the content
+   sets the banner's height that stacking was what kept it tall — not the
+   height setting. Trimmed to sit side by side. */
+@media (max-width: 749px) {
+  .hero__text { margin-bottom: 20px; }
+  .hero__buttons { flex-wrap: nowrap; gap: 10px; }
+  .hero__buttons .button {
+    flex: 1 1 0;
+    min-width: 0;
+    padding-inline: 10px;
+    padding-block: 13px;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    text-align: center;
+    justify-content: center;
+  }
+}
 .hero__nav {
   position: absolute; top: 50%; translate: 0 -50%;
   width: 40px; height: 40px; display: none; place-items: center; z-index: 3;

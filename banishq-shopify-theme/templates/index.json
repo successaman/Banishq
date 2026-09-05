@@ -31,7 +31,8 @@
       "settings": {
         "interval": 6,
         "alignment": "left",
-        "height": "compact"
+        "height": "compact",
+        "style": "card"
       }
     },
     "category-gateway": {
@@ -175,7 +176,7 @@
       "settings": {
         "eyebrow": "New in",
         "heading": "Your next rotation just arrived.",
-        "product_limit": 8,
+        "product_limit": 12,
         "columns": 4,
         "mobile_scroll": true
       }
@@ -205,7 +206,7 @@
       "settings": {
         "eyebrow": "Most reordered",
         "heading": "The ones people come back for",
-        "product_limit": 8,
+        "product_limit": 12,
         "columns": 4,
         "mobile_scroll": true
       }
@@ -531,6 +532,46 @@
         "heading": "Where you left off",
         "limit": 4
       }
+    },
+    "rail-mens": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Men's",
+        "heading": "Built for him",
+        "product_limit": 12,
+        "columns": 4,
+        "mobile_scroll": true
+      }
+    },
+    "rail-womens": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Women's",
+        "heading": "Made for her",
+        "product_limit": 12,
+        "columns": 4,
+        "mobile_scroll": true
+      }
+    },
+    "rail-unisex": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Unisex",
+        "heading": "For everyone",
+        "product_limit": 12,
+        "columns": 4,
+        "mobile_scroll": true
+      }
+    },
+    "rail-under-999": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Under ₹999",
+        "heading": "Everyday prices",
+        "product_limit": 12,
+        "columns": 4,
+        "mobile_scroll": true
+      }
     }
   },
   "order": [
@@ -538,10 +579,14 @@
     "category-gateway",
     "marquee",
     "new-in",
-    "collection-tabs",
+    "rail-mens",
     "editorial-split",
+    "rail-womens",
+    "rail-unisex",
     "drop-banner",
     "best-sellers",
+    "rail-under-999",
+    "collection-tabs",
     "value-props",
     "testimonials",
     "instagram",

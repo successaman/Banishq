@@ -66,6 +66,29 @@ At minimum: `drop-01`, `new-in`, `best-sellers`, `under-999`, plus one per
 category tile. Give each a **collection image** — it becomes the collection
 banner and the tile artwork.
 
+### 2b. Category landing pages (Men / Women / Unisex)
+
+`collection.mens.json`, `collection.womens.json` and `collection.unisex.json`
+are branded landing pages — campaign hero, a featured rail, an editorial block
+and a promo banner — sitting directly above the normal filterable product grid.
+
+They only appear once you attach them to a collection:
+
+1. **Products → Collections** → open the collection (e.g. *Men*).
+2. In the right-hand **Theme template** box, choose **collection.mens**.
+3. Save. `/collections/mens` now renders the branded page instead of the plain
+   grid, which is where the homepage category tiles already point.
+
+Repeat for Women (`collection.womens`) and Unisex (`collection.unisex`).
+
+Until you do this the links still work — they just land on the standard
+collection layout. Nothing breaks either way.
+
+> Note: these were originally written as `index-mens.json` and friends, which
+> Shopify can never route to. A store has exactly one homepage template, and
+> alternate templates exist only for collections, products, pages, blogs and
+> articles. Collection templates are the correct home for this.
+
 ### 3. Pages
 
 Create each page in **Content → Pages**, then pick its template in the

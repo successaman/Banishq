@@ -4,7 +4,7 @@
   Slides only rotate when more than one block is present.
 {%- endcomment -%}
 
-<section class="hero hero--{{ section.settings.height }}" data-hero data-interval="{{ section.settings.interval | times: 1000 }}">
+<section class="hero hero--{{ section.settings.height }}{% if section.settings.style == 'card' %} hero--card{% endif %}" data-hero data-interval="{{ section.settings.interval | times: 1000 }}">
   <div class="hero__slides">
     {%- for block in section.blocks -%}
       <div class="hero__slide{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
@@ -89,6 +89,16 @@
   "name": "Hero",
   "settings": [
     { "type": "range", "id": "interval", "min": 4, "max": 12, "step": 1, "unit": "s", "label": "Change slide every", "default": 6 },
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Banner style",
+      "options": [
+        { "value": "card", "label": "Inset card (rounded)" },
+        { "value": "full", "label": "Full-bleed (edge to edge)" }
+      ],
+      "default": "card"
+    },
     {
       "type": "select",
       "id": "height",

@@ -168,12 +168,21 @@
   --category-color: var(--bq-burgundy);
 }
 
+/* Matches the homepage hero: inset rounded card rather than full-bleed, so a
+   shopper crossing from the homepage to a category page sees the same shape. */
 .hc-hero {
   position: relative;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 21 / 9;
+  min-height: clamp(280px, 40vh, 460px);
   display: grid;
   place-items: center;
   overflow: hidden;
+  margin-inline: var(--bq-gutter);
+  border-radius: var(--bq-radius-lg);
+}
+.hc-hero .page-width {
+  padding-inline: clamp(20px, 3.5vw, 44px);
+  max-width: none;
 }
 
 .hc-hero__media {
@@ -293,7 +302,7 @@
 
 @media (max-width: 749px) {
   .hc-hero {
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 1 / 1;
   }
 
   .hc-hero__content {
