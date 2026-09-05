@@ -108,6 +108,20 @@ async function renderTemplate(templateName) {
   const settings = themeSettings();
   const g = S.globals(settings, locales);
 
+  // Page-type objects Shopify puts in scope for the matching template.
+  if (templateName.startsWith('product')) {
+    g.product = S.ALL[0];
+    g.template = { name: 'product', suffix: '' };
+    g.request.page_type = 'product';
+  } else if (templateName.startsWith('collection')) {
+    g.collection = g.collections.all;
+    g.template = { name: 'collection', suffix: '' };
+    g.request.page_type = 'collection';
+  } else if (templateName.startsWith('page')) {
+    g.page = { title: 'About BANISHQ', content: '<p>Placeholder page body.</p>', handle: 'about' };
+    g.template = { name: 'page', suffix: templateName.split('.')[1] || '' };
+  }
+
   const tplPath = path.join(THEME, 'templates', templateName + '.json');
   const tpl = JSON.parse(read(tplPath));
   const order = tpl.order || Object.keys(tpl.sections);

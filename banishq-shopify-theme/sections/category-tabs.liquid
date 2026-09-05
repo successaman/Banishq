@@ -72,12 +72,16 @@
 </section>
 
 <style>
+/* Mobile: a compact chooser that fits on one screen. Stacking three
+   full-bleed cards pushed this section past 1700px, which is three swipes
+   just to pick a department. Taneira keeps the same job to roughly one. */
 .tabs-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-  margin-top: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+  gap: 12px;
+  margin-top: 28px;
 }
+
 
 /* One row, however many categories the merchant added (2–4), so a third
    category never orphans onto a row of its own. Width scales with the count
@@ -212,6 +216,24 @@
 
 .tab-card:hover .tab-card__arrow {
   translate: 4px 0;
+}
+
+/* Mobile: strip the card back to image + label so every department fits on
+   one screen. Kept last so it wins over the desktop card rules above. */
+@media (max-width: 749px) {
+  .tab-card {
+    border: 0;
+    gap: 0;
+  }
+  .tab-card:hover { box-shadow: none; border: 0; }
+  .tab-card__media { border-radius: var(--bq-radius); aspect-ratio: 1 / 1; }
+  .tab-card__body { padding: 8px 2px 0; text-align: center; gap: 2px; }
+  .tab-card__title { font-size: 0.9rem; line-height: 1.2; }
+  /* Unreadable at this size, and the whole tile is already the link. */
+  .tab-card__description,
+  .tab-card__arrow,
+  .tab-card__badge,
+  .tab-card__count { display: none; }
 }
 </style>
 

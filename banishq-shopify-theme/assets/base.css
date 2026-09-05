@@ -675,13 +675,22 @@ textarea.field__input { min-height: 130px; resize: vertical; }
 .card__size[disabled] { opacity: 0.35; text-decoration: line-through; cursor: not-allowed; }
 @media (max-width: 749px) { .card__sizes { display: none; } }
 
-.card__body { padding-top: 13px; display: flex; flex-direction: column; gap: 4px; }
+/* flex:1 lets the body fill the stretched grid cell, so card__quick's
+   margin-top:auto can pin every Add to bag to the same baseline across a row
+   no matter how many lines the title or the saving line take. */
+.card__body { padding-top: 13px; display: flex; flex-direction: column; gap: 4px; flex: 1 1 auto; }
 .card__kicker { font-family: var(--bq-font-mono); font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bq-ink-mute); }
-.card__title { font-size: 0.92rem; font-weight: 600; line-height: 1.35; margin: 0; letter-spacing: 0; }
+.card__title {
+  font-size: 0.92rem; font-weight: 600; line-height: 1.35; margin: 0; letter-spacing: 0;
+  /* Two lines then ellipsis — a long product name must not shift the price
+     and button out of line with the card beside it. */
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 .card__title a::before { content: ''; position: absolute; inset: 0; z-index: 1; }
 .card__swatches { display: flex; gap: 5px; margin-top: 6px; }
 .swatch { width: 13px; height: 13px; border-radius: 50%; border: 1px solid var(--bq-line); }
-.card__quick { position: relative; z-index: 2; margin-top: 10px; }
+.card__quick { position: relative; z-index: 2; margin-top: auto; padding-top: 10px; }
 
 .price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; font-family: var(--bq-font-mono); font-size: 0.85rem; font-weight: 500; }
 .price__regular { letter-spacing: 0.02em; }
@@ -1439,4 +1448,60 @@ textarea.field__input { min-height: 130px; resize: vertical; }
 /* Focus rings follow the shape they sit on */
 :where(a, button, input, select, textarea, summary):focus-visible {
   border-radius: var(--bq-radius-sm);
+}
+
+/* ------------------------------------------------------------------
+   Mobile: pin Filter + Sort to the bottom of the viewport.
+   Inline at the top of the grid, the controls scroll away after the
+   first row, which on a clothing catalogue is where filtering actually
+   starts to matter. Taneira solves it the same way.
+   ------------------------------------------------------------------ */
+@media (max-width: 749px) {
+  .collection-toolbar {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 90;
+    margin: 0;
+    padding: 10px var(--bq-gutter);
+    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    background: color-mix(in srgb, var(--bq-page) 92%, transparent);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--bq-line);
+    border-bottom: 0;
+    justify-content: stretch;
+    gap: 0;
+  }
+
+  /* The count has no room next to two controls and is already in the header. */
+  .collection-toolbar__count { display: none; }
+
+  .collection-toolbar__actions {
+    flex: 1;
+    justify-content: stretch;
+    gap: 0;
+  }
+
+  /* Two equal halves, split by a hairline — Filter | Sort. */
+  .collection-toolbar__actions > * { flex: 1 1 0; min-width: 0; }
+  .collection-toolbar__actions > * + * { border-left: 1px solid var(--bq-line); }
+
+  .collection-toolbar [data-mobile-filter] {
+    width: 100%;
+    justify-content: center;
+    border: 0;
+    background: transparent;
+    min-height: 40px;
+  }
+
+  .collection-toolbar .select__select {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    text-align: center;
+    text-align-last: center;
+  }
+
+  /* Keep the last row of products clear of the bar. */
+  .template-collection .main-content,
+  .template-search .main-content { padding-bottom: 72px; }
 }

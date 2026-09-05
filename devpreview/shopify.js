@@ -31,20 +31,28 @@ function makeProduct(i) {
   const compare = onSale ? Math.round(price * 1.45) : price;
   const media = { src: img(i), alt: NAMES[i % NAMES.length], width: 800, height: 1000,
                   preview_image: { src: img(i) } };
-  const variant = { id: 1000 + i, price: price * 100, compare_at_price: compare * 100,
-                    available: i % 7 !== 5, title: 'M', sku: `BQ-${1000 + i}`,
-                    featured_media: media, options: ['M'] };
+  const SIZES = ['S', 'M', 'L', 'XL'];
+  const variants = SIZES.map((s, vi) => ({
+    id: 1000 + i * 10 + vi, price: price * 100, compare_at_price: compare * 100,
+    // one size out of stock on some products, so disabled chips are exercised
+    available: !(i % 4 === 1 && s === 'XL'),
+    title: s, sku: `BQ-${1000 + i}-${s}`, featured_media: media,
+    options: [s], option1: s, option2: null, option3: null,
+  }));
+  const variant = variants.find(v => v.available) || variants[0];
   return {
     id: 500 + i, title: NAMES[i % NAMES.length], handle: `product-${i}`, url: `/products/product-${i}`,
     featured_image: media, featured_media: media, media: [media, { ...media, src: img(i + 1) }],
     images: [media], price: price * 100, compare_at_price: compare * 100,
     price_min: price * 100, price_max: price * 100, available: i % 7 !== 5,
     vendor: 'BANISHQ', type: 'Apparel', tags: i % 4 === 0 ? ['new'] : [],
-    variants: [variant], first_available_variant: variant,
+    variants, first_available_variant: variant,
     selected_or_first_available_variant: variant, has_only_default_variant: false,
-    options_with_values: [{ name: 'Size', values: [
-      { name: 'S', available: true }, { name: 'M', available: true },
-      { name: 'L', available: true }, { name: 'XL', available: i % 5 !== 0 }] }],
+    // Shopify exposes option values as plain strings, plus selected_value,
+    // which is what the variant picker keys its `checked` state off.
+    options_with_values: [{ name: 'Size', position: 1, values: SIZES,
+                            selected_value: variant.title }],
+    options: ['Size'],
     description: '<p>Built for repeat wear. Heavier cotton, cleaner cuts.</p>',
     empty: false,
   };
@@ -56,7 +64,14 @@ function makeCollection(handle, title, n = 8) {
   return { id: handle, handle, title, url: `/collections/${handle}`, products,
            products_count: products.length, all_products_count: products.length,
            featured_image: { src: img(2, 900) }, image: { src: img(2, 900) },
-           description: '', empty: false };
+           description: '', empty: false,
+           filters: [], sort_by: 'best-selling', default_sort_by: 'best-selling',
+           sort_options: [
+             { name: 'Featured', value: 'manual' },
+             { name: 'Best selling', value: 'best-selling' },
+             { name: 'Price, low to high', value: 'price-ascending' },
+             { name: 'Price, high to low', value: 'price-descending' },
+           ] };
 }
 const collections = {
   all: makeCollection('all', 'All products', 12),
@@ -104,7 +119,9 @@ function registerFilters(engine) {
   def('t', function (key, ...args) {
     const opts = {};
     for (let i = 0; i < args.length; i += 2) opts[args[i]] = args[i + 1];
-    let s = this.context.environments.__locales;
+    // __locales now lives in globals, not environments — read through the
+    // context so it resolves from either.
+    let s = this.context.getSync(['__locales']) || this.context.environments.__locales;
     for (const part of String(key).split('.')) { if (!s) break; s = s[part]; }
     if (s && typeof s === 'object') s = s.other || s.one || Object.values(s)[0];
     if (typeof s !== 'string') return String(key).split('.').pop().replace(/_/g, ' ');
