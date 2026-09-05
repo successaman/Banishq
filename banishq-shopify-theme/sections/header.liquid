@@ -55,7 +55,7 @@
                         {%- if block.settings.image -%}
                           <img src="{{ block.settings.image | image_url: width: 480 }}" alt="{{ block.settings.heading | escape }}" width="480" height="600" loading="lazy">
                         {%- else -%}
-                          {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                          <img src="https://images.unsplash.com/photo-1594035795389-9363dd86b113?w=480&q=80&auto=format&fit=crop" alt="" width="480" height="600" loading="lazy">
                         {%- endif -%}
                         <span class="mega__promo-caption">{{ block.settings.heading }}</span>
                       </a>
@@ -140,6 +140,24 @@
         </a>
       </div>
     </div>
+
+    {%- if section.settings.mobile_search_bar -%}
+      {%- comment -%}
+        A always-visible search field on phones. Search is the main way people
+        find things in a clothing catalogue, and behind an icon it goes unused.
+        Submits as a normal GET to /search; the predictive panel upgrades it.
+      {%- endcomment -%}
+      <form action="{{ routes.search_url }}" method="get" role="search" class="header__msearch">
+        <label class="visually-hidden" for="HeaderMobileSearch">{{ 'general.search.placeholder' | t }}</label>
+        {% render 'icon', name: 'search' %}
+        <input
+          id="HeaderMobileSearch"
+          type="search"
+          name="q"
+          placeholder="{{ 'general.search.placeholder' | t }}"
+          autocomplete="off">
+      </form>
+    {%- endif -%}
   </div>
 </header>
 
@@ -240,6 +258,13 @@
       "type": "url",
       "id": "wishlist_url",
       "label": "Wishlist page"
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_search_bar",
+      "label": "Search bar on mobile",
+      "info": "Shows a search field under the logo on phones instead of hiding search behind the icon.",
+      "default": true
     },
     {
       "type": "text",

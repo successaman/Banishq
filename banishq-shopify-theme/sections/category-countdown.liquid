@@ -17,7 +17,8 @@
           <p class="countdown-card__text">{{ section.settings.text }}</p>
         {%- endif -%}
 
-        <div class="countdown-timer" data-target-date="{{ section.settings.target_date | date: '%Y-%m-%dT%H:%M:%SZ' }}">
+        {%- if section.settings.target_date != blank -%}
+        <div class="countdown-timer" data-countdown-timer data-target-date="{{ section.settings.target_date | date: '%Y-%m-%dT%H:%M:%SZ' }}">
           <div class="countdown-unit">
             <div class="countdown-value" data-unit="days">00</div>
             <div class="countdown-label">{{ 'sections.countdown.days' | t }}</div>
@@ -35,6 +36,7 @@
             <div class="countdown-label">{{ 'sections.countdown.seconds' | t }}</div>
           </div>
         </div>
+        {%- endif -%}
 
         {%- if section.settings.button_label != blank -%}
           <a href="{{ section.settings.button_link | default: routes.collections_url }}" class="button button--primary" style="margin-top: 28px">
@@ -164,35 +166,53 @@
 </style>
 
 <script>
-if (!customElements.get('countdown-timer')) {
-  customElements.define('countdown-timer', class extends HTMLElement {
-    connectedCallback() {
-      this.update();
-      setInterval(() => this.update(), 1000);
+(function () {
+  // This was written as a <countdown-timer> custom element while the markup is
+  // a div, so it never upgraded and the clock sat at 00:00:00:00. Plain
+  // initialiser now, keyed off the data attribute.
+  function tick(el) {
+    var target = new Date(el.dataset.targetDate).getTime();
+    if (isNaN(target)) { el.hidden = true; return false; }
+
+    var distance = target - Date.now();
+    if (distance <= 0) {
+      // Nothing useful to say once it has passed; hide rather than show zeros.
+      el.hidden = true;
+      el.setAttribute('data-expired', '');
+      return false;
     }
 
-    update() {
-      const targetDate = new Date(this.dataset.targetDate).getTime();
-      const now = new Date().getTime();
-      const distance = targetDate - now;
+    var d = Math.floor(distance / 86400000);
+    var h = Math.floor((distance % 86400000) / 3600000);
+    var m = Math.floor((distance % 3600000) / 60000);
+    var sec = Math.floor((distance % 60000) / 1000);
+    var set = function (unit, v) {
+      var node = el.querySelector('[data-unit="' + unit + '"]');
+      if (node) node.textContent = String(v).padStart(2, '0');
+    };
+    set('days', d); set('hours', h); set('minutes', m); set('seconds', sec);
+    return true;
+  }
 
-      if (distance < 0) {
-        this.setAttribute('data-expired', '');
-        return;
-      }
+  function init(root) {
+    var timers = (root || document).querySelectorAll('[data-countdown-timer]');
+    Array.prototype.forEach.call(timers, function (el) {
+      if (el.dataset.countdownReady) return;
+      el.dataset.countdownReady = '1';
+      if (!tick(el)) return;
+      var id = setInterval(function () {
+        if (!tick(el)) clearInterval(id);
+      }, 1000);
+    });
+  }
 
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      this.querySelector('[data-unit="days"]').textContent = String(days).padStart(2, '0');
-      this.querySelector('[data-unit="hours"]').textContent = String(hours).padStart(2, '0');
-      this.querySelector('[data-unit="minutes"]').textContent = String(minutes).padStart(2, '0');
-      this.querySelector('[data-unit="seconds"]').textContent = String(seconds).padStart(2, '0');
-    }
-  });
-}
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { init(); });
+  } else {
+    init();
+  }
+  document.addEventListener('shopify:section:load', function (e) { init(e.target); });
+})();
 </script>
 
 {% schema %}
@@ -202,7 +222,7 @@ if (!customElements.get('countdown-timer')) {
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Limited time" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Drop launches in" },
     { "type": "textarea", "id": "text", "label": "Text", "default": "Mark your calendar. Set your alarm. The new collection drops soon." },
-    { "type": "datetime", "id": "target_date", "label": "Countdown end date" },
+    { "type": "text", "id": "target_date", "label": "Countdown end date", "info": "Format: 2026-10-15 18:00. Leave blank to hide the clock — Shopify has no date picker for theme settings." },
     { "type": "image_picker", "id": "image", "label": "Hero image (optional)" },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Notify me" },
     { "type": "url", "id": "button_link", "label": "Button link" }

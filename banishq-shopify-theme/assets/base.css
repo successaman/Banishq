@@ -1590,3 +1590,38 @@ textarea.field__input { min-height: 130px; resize: vertical; }
   .rail__nav--prev { left: 4px; }
   .rail__nav--next { right: 4px; }
 }
+
+/* ------------------------------------------------------------------
+   Mobile search bar. Behind an icon, search goes largely unused on a
+   phone, and it is the main way people find a specific piece in a
+   clothing catalogue. Desktop keeps the icon and the full-width modal.
+   ------------------------------------------------------------------ */
+.header__msearch { display: none; }
+
+@media (max-width: 749px) {
+  .header__msearch {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 10px;
+    padding: 0 12px;
+    min-height: 40px;
+    background: var(--bq-surface);
+    border: 1px solid var(--bq-line);
+    border-radius: var(--bq-radius);
+  }
+  .header__msearch svg {
+    width: 17px; height: 17px; flex: none;
+    stroke: var(--bq-ink-mute); fill: none; stroke-width: 1.6;
+  }
+  .header__msearch input {
+    flex: 1; min-width: 0; height: 38px;
+    border: 0; background: none; font-size: 0.88rem; color: var(--bq-ink);
+  }
+  .header__msearch input::placeholder { color: var(--bq-ink-mute); }
+  .header__msearch input:focus { outline: none; }
+  .header__msearch:focus-within { border-color: var(--bq-black); }
+
+  /* The icon would open a modal that duplicates the field right below it. */
+  .header__actions [data-open="#SearchModal"] { display: none; }
+}

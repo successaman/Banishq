@@ -80,11 +80,25 @@
         </div>
 
         {%- if section.settings.featured_collection != blank -%}
-          {%- assign featured_products = section.settings.featured_collection.products | slice: 0, section.settings.featured_limit -%}
-          <div class="product-grid" style="--columns: {{ section.settings.featured_columns }}">
-            {%- for product in featured_products -%}
-              {%- render 'product-card', product: product, ratio: settings.card_image_ratio -%}
-            {%- endfor -%}
+          {%- assign is_rail = section.settings.featured_carousel -%}
+          <div class="rail{% if is_rail %} rail--carousel{% endif %}"{% if is_rail %} data-rail{% endif %}>
+            <ul class="product-grid{% if is_rail %} scroll-row{% endif %}"
+                style="--grid-desktop: {{ section.settings.featured_columns }}"
+                role="list"
+                {% if is_rail %}data-rail-track{% endif %}>
+              {%- for product in section.settings.featured_collection.products limit: section.settings.featured_limit -%}
+                <li>{% render 'product-card', card_product: product, index: forloop.index0 %}</li>
+              {%- endfor -%}
+            </ul>
+
+            {%- if is_rail -%}
+              <button type="button" class="rail__nav rail__nav--prev" data-rail-prev aria-label="{{ 'sections.rail.previous' | t }}">
+                {% render 'icon', name: 'chevron-right' %}
+              </button>
+              <button type="button" class="rail__nav rail__nav--next" data-rail-next aria-label="{{ 'sections.rail.next' | t }}">
+                {% render 'icon', name: 'chevron-right' %}
+              </button>
+            {%- endif -%}
           </div>
         {%- endif -%}
       </div>
@@ -334,6 +348,7 @@
     { "type": "collection", "id": "featured_collection", "label": "Collection" },
     { "type": "range", "id": "featured_limit", "min": 4, "max": 12, "step": 4, "label": "Products to show", "default": 8 },
     { "type": "range", "id": "featured_columns", "min": 2, "max": 4, "step": 1, "label": "Columns", "default": 4 },
+    { "type": "checkbox", "id": "featured_carousel", "label": "Show as swipe carousel", "info": "One row that scrolls sideways, with arrows on desktop. Off shows a wrapping grid.", "default": true },
     { "type": "text", "id": "featured_eyebrow", "label": "Eyebrow", "default": "The essentials" },
     { "type": "text", "id": "featured_heading", "label": "Heading", "default": "Built for repeat wear" },
     { "type": "textarea", "id": "featured_text", "label": "Description", "default": "Pieces that work for every body, every style, every day." },
