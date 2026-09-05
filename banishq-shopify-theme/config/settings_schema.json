@@ -126,9 +126,10 @@
           { "value": "0", "label": "Square (editorial)" },
           { "value": "2", "label": "Hairline" },
           { "value": "6", "label": "Soft" },
-          { "value": "12", "label": "Rounded (recommended)" }
+          { "value": "12", "label": "Rounded" },
+          { "value": "16", "label": "Extra rounded (recommended)" }
         ],
-        "default": "12"
+        "default": "16"
       },
       {
         "type": "checkbox",

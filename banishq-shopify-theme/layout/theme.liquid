@@ -46,7 +46,10 @@
         assign r_sm = 0
         assign r_lg = 0
       else
-        assign r_sm = r | divided_by: 3
+        # round explicitly: Shopify's Liquid floors integer division while
+        # other engines return a float, and a fractional px would differ
+        # between the theme editor preview and the live store.
+        assign r_sm = r | divided_by: 3.0 | round
         if r_sm < 3
           assign r_sm = 3
         endif
