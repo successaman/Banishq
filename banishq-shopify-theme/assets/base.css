@@ -509,10 +509,18 @@ textarea.field__input { min-height: 130px; resize: vertical; }
 /* ---------------------------------------------------------------- 11. Hero */
 .hero { position: relative; background: var(--bq-black); color: var(--bq-bone); }
 .hero__slides { position: relative; }
+/* Banner height is a merchant choice. Compact is the default because a hero
+   that fills 78vh pushes every product below the fold — Taneira's runs about
+   38vh on desktop for the same reason. --hero-h is read by both the slide and
+   its content so the two can never disagree. */
+.hero { --hero-h: clamp(320px, 46vh, 520px); }
+.hero--medium { --hero-h: clamp(400px, 60vh, 660px); }
+.hero--tall   { --hero-h: clamp(460px, 78vh, 860px); }
+
 .hero__slide {
   position: relative;
   display: none;
-  min-height: clamp(460px, 78vh, 860px);
+  min-height: var(--hero-h);
 }
 .hero__slide.is-active { display: block; animation: bqFade 0.7s var(--bq-ease); }
 @keyframes bqFade { from { opacity: 0; } to { opacity: 1; } }
@@ -527,15 +535,33 @@ textarea.field__input { min-height: 130px; resize: vertical; }
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: clamp(460px, 78vh, 860px);
-  padding-block: 56px;
+  min-height: var(--hero-h);
+  padding-block: clamp(30px, 4vw, 56px);
   max-width: 720px;
 }
 .hero__content--center { justify-content: center; margin-inline: auto; text-align: center; align-items: center; }
-.hero__title { font-family: var(--bq-font-display); font-size: clamp(2.5rem, 7vw, 5.2rem); line-height: 0.98; margin-bottom: 18px; }
+.hero__title { font-family: var(--bq-font-display); font-size: clamp(2.1rem, 5vw, 3.8rem); line-height: 1; margin-bottom: 14px; }
+.hero--tall .hero__title { font-size: clamp(2.5rem, 7vw, 5.2rem); line-height: 0.98; margin-bottom: 18px; }
 .hero__text { font-size: clamp(0.95rem, 1.4vw, 1.1rem); max-width: 46ch; color: rgba(244, 241, 235, 0.86); margin-bottom: 30px; }
 .hero__buttons { display: flex; flex-wrap: wrap; gap: 12px; }
-.hero__dots { position: absolute; left: 0; right: 0; bottom: 24px; display: flex; justify-content: center; gap: 9px; z-index: 3; }
+.hero__nav {
+  position: absolute; top: 50%; translate: 0 -50%;
+  width: 40px; height: 40px; display: none; place-items: center; z-index: 3;
+  border-radius: 50%;
+  background: rgba(244, 241, 235, 0.16);
+  border: 1px solid rgba(244, 241, 235, 0.34);
+  backdrop-filter: blur(6px);
+  transition: background 0.2s var(--bq-ease);
+}
+.hero__nav svg { width: 17px; height: 17px; stroke: var(--bq-bone); fill: none; stroke-width: 1.6; }
+.hero__nav--prev { left: clamp(10px, 2vw, 24px); }
+.hero__nav--prev svg { rotate: 180deg; }
+.hero__nav--next { right: clamp(10px, 2vw, 24px); }
+.hero__nav:hover { background: rgba(244, 241, 235, 0.3); }
+/* Pointer only — on a phone they sit on top of the headline. */
+@media (hover: hover) and (pointer: fine) { .hero__nav { display: grid; } }
+
+.hero__dots { position: absolute; left: 0; right: 0; bottom: 20px; display: flex; justify-content: center; gap: 9px; z-index: 3; }
 .hero__dot { width: 26px; height: 2px; background: rgba(244,241,235,0.35); transition: background 0.3s var(--bq-ease); }
 .hero__dot.is-active { background: var(--bq-bone); }
 

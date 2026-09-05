@@ -30,7 +30,8 @@
       ],
       "settings": {
         "interval": 6,
-        "alignment": "left"
+        "alignment": "left",
+        "height": "compact"
       }
     },
     "category-gateway": {

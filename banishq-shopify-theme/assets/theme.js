@@ -158,6 +158,12 @@
       dot.addEventListener('click', function () { stop(); go(n); start(); });
     });
 
+    var prev = hero.querySelector('[data-hero-prev]');
+    var next = hero.querySelector('[data-hero-next]');
+    function step(by) { stop(); go(index + by); start(); }
+    if (prev) prev.addEventListener('click', function () { step(-1); });
+    if (next) next.addEventListener('click', function () { step(1); });
+
     hero.addEventListener('mouseenter', stop);
     hero.addEventListener('mouseleave', start);
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) start();
