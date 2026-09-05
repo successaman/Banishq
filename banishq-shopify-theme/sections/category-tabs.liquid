@@ -24,7 +24,7 @@
     <div class="tabs-grid">
       {%- for block in section.blocks -%}
         <a 
-          href="{{ block.settings.link }}"
+          href="{{ block.settings.link | default: block.settings.collection.url | default: routes.collections_url }}"
           class="tab-card"
           {% if block.settings.open_new_tab %}target="_blank" rel="noopener"{% endif %}
           {{ block.shopify_attributes }}>

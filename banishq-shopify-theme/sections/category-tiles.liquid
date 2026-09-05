@@ -14,7 +14,7 @@
           {%- if section.settings.subheading != blank -%}<p class="section-head__sub">{{ section.settings.subheading }}</p>{%- endif -%}
         </div>
         {%- if section.settings.link_label != blank -%}
-          <a href="{{ section.settings.link }}" class="link-underline">{{ section.settings.link_label }} {% render 'icon', name: 'arrow-right' %}</a>
+          <a href="{{ section.settings.link | default: routes.collections_url }}" class="link-underline">{{ section.settings.link_label }} {% render 'icon', name: 'arrow-right' %}</a>
         {%- endif -%}
       </div>
     {%- endif -%}

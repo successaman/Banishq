@@ -51,7 +51,7 @@
                   {%- for block in section.blocks -%}
                     {%- if block.type == 'menu_promo' and block.settings.parent_handle == link.handle and promo_rendered == false -%}
                       {%- assign promo_rendered = true -%}
-                      <a href="{{ block.settings.link }}" class="mega__promo" {{ block.shopify_attributes }}>
+                      <a href="{{ block.settings.link | default: routes.collections_url }}" class="mega__promo" {{ block.shopify_attributes }}>
                         {%- if block.settings.image -%}
                           <img src="{{ block.settings.image | image_url: width: 480 }}" alt="{{ block.settings.heading | escape }}" width="480" height="600" loading="lazy">
                         {%- else -%}

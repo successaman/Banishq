@@ -9,7 +9,7 @@
     {%- if section.settings.text != blank -%}<div class="rte body-lg text-mute">{{ section.settings.text }}</div>{%- endif -%}
     {%- if section.settings.button_label != blank -%}
       <div style="margin-top: 28px">
-        <a href="{{ section.settings.button_link }}" class="button button--outline">{{ section.settings.button_label }}</a>
+        <a href="{{ section.settings.button_link | default: routes.collections_url }}" class="button button--outline">{{ section.settings.button_label }}</a>
       </div>
     {%- endif -%}
   </div>

@@ -37,7 +37,7 @@
         </div>
 
         {%- if section.settings.button_label != blank -%}
-          <a href="{{ section.settings.button_link }}" class="button button--primary" style="margin-top: 28px">
+          <a href="{{ section.settings.button_link | default: routes.collections_url }}" class="button button--primary" style="margin-top: 28px">
             {{ section.settings.button_label }}
           </a>
         {%- endif -%}

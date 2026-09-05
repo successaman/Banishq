@@ -25,7 +25,7 @@
     {%- if section.settings.text != blank -%}<div class="rte body-lg">{{ section.settings.text }}</div>{%- endif -%}
     {%- if section.settings.button_label != blank -%}
       <div style="margin-top: 28px">
-        <a href="{{ section.settings.button_link }}" class="button {% if section.settings.scheme == 'light' %}button--outline{% else %}button--bone{% endif %}">{{ section.settings.button_label }}</a>
+        <a href="{{ section.settings.button_link | default: routes.collections_url }}" class="button {% if section.settings.scheme == 'light' %}button--outline{% else %}button--bone{% endif %}">{{ section.settings.button_label }}</a>
       </div>
     {%- endif -%}
   </div>

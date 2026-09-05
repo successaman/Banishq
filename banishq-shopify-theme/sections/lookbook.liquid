@@ -8,14 +8,14 @@
           <h2 class="section-head__title {% if settings.heading_style == 'serif' %}h-serif{% endif %} h2">{{ section.settings.heading }}</h2>
         </div>
         {%- if section.settings.link_label != blank -%}
-          <a href="{{ section.settings.link }}" class="link-underline">{{ section.settings.link_label }} {% render 'icon', name: 'arrow-right' %}</a>
+          <a href="{{ section.settings.link | default: routes.collections_url }}" class="link-underline">{{ section.settings.link_label }} {% render 'icon', name: 'arrow-right' %}</a>
         {%- endif -%}
       </div>
     {%- endif -%}
 
     <div class="lookbook">
       {%- for block in section.blocks -%}
-        <a href="{{ block.settings.link }}" class="lookbook__item{% if block.settings.wide %} lookbook__item--wide{% endif %}" {{ block.shopify_attributes }}>
+        <a href="{{ block.settings.link | default: routes.collections_url }}" class="lookbook__item{% if block.settings.wide %} lookbook__item--wide{% endif %}" {{ block.shopify_attributes }}>
           {%- if block.settings.image -%}
             <img src="{{ block.settings.image | image_url: width: 1200 }}" alt="{{ block.settings.label | escape }}" loading="lazy">
           {%- else -%}

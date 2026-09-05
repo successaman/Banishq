@@ -11,7 +11,7 @@
         <h2 class="section-head__title {% if settings.heading_style == 'serif' %}h-serif{% endif %} h2">{{ section.settings.heading }}</h2>
       </div>
       {%- if section.settings.link_label != blank -%}
-        <a href="{{ section.settings.link }}" class="link-underline">{{ section.settings.link_label }} {% render 'icon', name: 'arrow-right' %}</a>
+        <a href="{{ section.settings.link | default: routes.collections_url }}" class="link-underline">{{ section.settings.link_label }} {% render 'icon', name: 'arrow-right' %}</a>
       {%- endif -%}
     </div>
 

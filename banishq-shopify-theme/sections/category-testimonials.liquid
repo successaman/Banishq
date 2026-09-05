@@ -51,7 +51,7 @@
           {{ section.settings.cta_text }}
         </p>
         {%- if section.settings.cta_button_label != blank -%}
-          <a href="{{ section.settings.cta_button_link }}" class="button button--ghost">
+          <a href="{{ section.settings.cta_button_link | default: routes.collections_url }}" class="button button--ghost">
             {{ section.settings.cta_button_label }}
           </a>
         {%- endif -%}

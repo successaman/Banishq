@@ -1371,3 +1371,72 @@ textarea.field__input { min-height: 130px; resize: vertical; }
 
 /* Recently viewed rail */
 .recent[hidden] { display: none; }
+
+/* ============================================================
+   Rounded surfaces — the Taneira-style soft edge.
+   Kept in one block so the whole store's roundness is tuned by
+   the three --bq-radius tokens at the top of this file, and so
+   later rules win over the sharp defaults above.
+   Full-bleed bands (hero, marquee, drop, page hero, newsletter,
+   footer) stay square on purpose — rounding edge-to-edge sections
+   reads as a mistake, not a style.
+   ============================================================ */
+
+/* Imagery + media surfaces */
+.tile,
+.lookbook__item,
+.look__img,
+.split__media,
+.split__media img,
+.mega__promo img,
+.ugc__item,
+.journal__media,
+.collection-hero__media,
+.quicklink img {
+  border-radius: var(--bq-radius);
+  overflow: hidden;
+}
+
+.quicklink img { border-radius: 50%; }
+
+/* Floating popovers round on every corner */
+.dropdown,
+.mega,
+.toast,
+.popup__card {
+  border-radius: var(--bq-radius-lg);
+  overflow: hidden;
+}
+
+/* Surfaces docked to a screen edge round only their inner corners —
+   rounding the docked edge leaves a sliver of page showing through. */
+.search-modal { border-radius: 0 0 var(--bq-radius-lg) var(--bq-radius-lg); }
+.cart-drawer  { border-radius: var(--bq-radius-lg) 0 0 var(--bq-radius-lg); }
+
+@media (max-width: 749px) {
+  .search-modal,
+  .cart-drawer { border-radius: 0; }
+}
+
+/* Content blocks */
+.store,
+.look__list > * {
+  border-radius: var(--bq-radius);
+}
+
+/* Value props sit in a 1px grid — round the outer shell, not each cell */
+.value-props { border-radius: var(--bq-radius); overflow: hidden; }
+.value-prop { border-radius: 0; }
+
+/* Controls */
+.chip,
+.hero__dot,
+.lookbook__tag,
+.ugc__tag {
+  border-radius: var(--bq-radius-sm);
+}
+
+/* Focus rings follow the shape they sit on */
+:where(a, button, input, select, textarea, summary):focus-visible {
+  border-radius: var(--bq-radius-sm);
+}

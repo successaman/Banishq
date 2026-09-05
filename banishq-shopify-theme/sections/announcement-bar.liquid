@@ -14,7 +14,7 @@
           {%- for block in section.blocks -%}
             <div class="announcement__slide{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
               {%- if block.settings.link != blank -%}
-                <a href="{{ block.settings.link }}">{{ block.settings.text }}</a>
+                <a href="{{ block.settings.link | default: routes.collections_url }}">{{ block.settings.text }}</a>
               {%- else -%}
                 {{ block.settings.text }}
               {%- endif -%}
@@ -24,10 +24,10 @@
 
         <div class="announcement__utils">
           {%- if section.settings.right_link_1_text != blank -%}
-            <a href="{{ section.settings.right_link_1 }}">{{ section.settings.right_link_1_text }}</a>
+            <a href="{{ section.settings.right_link_1 | default: routes.collections_url }}">{{ section.settings.right_link_1_text }}</a>
           {%- endif -%}
           {%- if section.settings.right_link_2_text != blank -%}
-            <a href="{{ section.settings.right_link_2 }}">{{ section.settings.right_link_2_text }}</a>
+            <a href="{{ section.settings.right_link_2 | default: routes.collections_url }}">{{ section.settings.right_link_2_text }}</a>
           {%- endif -%}
         </div>
       </div>

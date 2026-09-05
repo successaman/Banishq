@@ -18,7 +18,7 @@
           <h3>{{ block.settings.title }}</h3>
           <div class="rte">{{ block.settings.text }}</div>
           {%- if block.settings.link_label != blank -%}
-            <a href="{{ block.settings.link }}" class="link-underline" style="margin-top: 4px">{{ block.settings.link_label }}</a>
+            <a href="{{ block.settings.link | default: routes.collections_url }}" class="link-underline" style="margin-top: 4px">{{ block.settings.link_label }}</a>
           {%- endif -%}
         </div>
       {%- endfor -%}

@@ -84,7 +84,7 @@
         </div>
 
         {%- if section.settings.button_label != blank -%}
-          <a href="{{ section.settings.button_link }}" class="button button--full" style="margin-top: 24px">
+          <a href="{{ section.settings.button_link | default: routes.collections_url }}" class="button button--full" style="margin-top: 24px">
             {{ section.settings.button_label }}
           </a>
         {%- endif -%}
