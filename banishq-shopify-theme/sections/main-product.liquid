@@ -244,37 +244,6 @@
               {%- endif -%}
             </div>
 
-          {%- when 'delivery' -%}
-            <div
-              class="tcart__pin"
-              style="margin-bottom: 20px"
-              data-pincode
-              data-serviceable="{{ block.settings.serviceable_prefixes | escape }}"
-              data-days="{{ block.settings.delivery_days }}"
-              data-metro-days="{{ block.settings.metro_delivery_days }}"
-              data-metro="{{ block.settings.metro_prefixes | escape }}"
-              {{ block.shopify_attributes }}>
-              <div class="tcart__pin-label">
-                {{ 'cart.delivery.title' | t }}
-                <span>{{ 'cart.delivery.subtitle' | t }}</span>
-              </div>
-              <form class="tcart__pin-form" data-pincode-form>
-                <span class="tcart__pin-cc">IN</span>
-                <label class="visually-hidden" for="PdpPincode-{{ section.id }}">{{ 'cart.delivery.placeholder' | t }}</label>
-                <input
-                  id="PdpPincode-{{ section.id }}"
-                  class="tcart__pin-input"
-                  type="text"
-                  inputmode="numeric"
-                  pattern="[0-9]{6}"
-                  maxlength="6"
-                  placeholder="{{ 'cart.delivery.placeholder' | t }}"
-                  data-pincode-input>
-                <button type="submit" class="tcart__pin-submit">{{ 'cart.delivery.check' | t }}</button>
-              </form>
-              <p class="tcart__pin-result" data-pincode-result hidden></p>
-            </div>
-
           {%- when 'size_chart' -%}
             <details class="accordion" {{ block.shopify_attributes }}>
               <summary class="accordion__summary">{{ block.settings.heading }} {% render 'icon', name: 'plus' %}</summary>
@@ -425,23 +394,6 @@
           ]
         },
         { "type": "text", "id": "line_3", "label": "Line 3", "default": "Cut and stitched in India" }
-      ]
-    },
-    {
-      "type": "delivery",
-      "name": "Delivery estimate",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "textarea",
-          "id": "serviceable_prefixes",
-          "label": "Serviceable PIN prefixes",
-          "info": "Comma separated first 2 or 3 digits. Leave blank to accept every valid PIN.",
-          "default": "11,12,20,21,30,36,38,39,40,41,42,44,50,51,52,53,56,57,58,60,62,68,70,71,73,75,76,78,80"
-        },
-        { "type": "textarea", "id": "metro_prefixes", "label": "Metro PIN prefixes", "default": "11,40,56,60,70,50,38,41" },
-        { "type": "range", "id": "metro_delivery_days", "min": 1, "max": 7, "step": 1, "label": "Metro delivery days", "default": 3 },
-        { "type": "range", "id": "delivery_days", "min": 2, "max": 14, "step": 1, "label": "Rest of India delivery days", "default": 6 }
       ]
     },
     {
