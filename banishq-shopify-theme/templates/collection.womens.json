@@ -39,6 +39,7 @@
           "type": "chip",
           "settings": {
             "label": "Kurtas",
+            "collection": "womens",
             "link": "/collections/womens"
           }
         },
@@ -46,6 +47,7 @@
           "type": "chip",
           "settings": {
             "label": "Co-ords",
+            "collection": "womens",
             "link": "/collections/womens"
           }
         },
@@ -53,6 +55,7 @@
           "type": "chip",
           "settings": {
             "label": "Dresses",
+            "collection": "womens",
             "link": "/collections/womens"
           }
         },
@@ -60,6 +63,7 @@
           "type": "chip",
           "settings": {
             "label": "Tops",
+            "collection": "womens",
             "link": "/collections/womens"
           }
         },
@@ -67,6 +71,7 @@
           "type": "chip",
           "settings": {
             "label": "Bottoms",
+            "collection": "womens",
             "link": "/collections/womens"
           }
         },
@@ -74,7 +79,8 @@
           "type": "chip",
           "settings": {
             "label": "Under ₹999",
-            "link": "/collections/womens"
+            "collection": "under-999",
+            "link": "/collections/under-999"
           }
         }
       },
@@ -87,7 +93,9 @@
         "c6"
       ],
       "settings": {
-        "heading": "Shop by style"
+        "heading": "Shop by style",
+        "product_limit": 8,
+        "columns": 4
       }
     },
     "main": {

@@ -39,6 +39,7 @@
           "type": "chip",
           "settings": {
             "label": "Shirts",
+            "collection": "mens",
             "link": "/collections/mens"
           }
         },
@@ -46,6 +47,7 @@
           "type": "chip",
           "settings": {
             "label": "T-shirts",
+            "collection": "mens",
             "link": "/collections/mens"
           }
         },
@@ -53,6 +55,7 @@
           "type": "chip",
           "settings": {
             "label": "Cargos",
+            "collection": "mens",
             "link": "/collections/mens"
           }
         },
@@ -60,6 +63,7 @@
           "type": "chip",
           "settings": {
             "label": "Trousers",
+            "collection": "mens",
             "link": "/collections/mens"
           }
         },
@@ -67,6 +71,7 @@
           "type": "chip",
           "settings": {
             "label": "Overshirts",
+            "collection": "mens",
             "link": "/collections/mens"
           }
         },
@@ -74,7 +79,8 @@
           "type": "chip",
           "settings": {
             "label": "Under ₹999",
-            "link": "/collections/mens"
+            "collection": "under-999",
+            "link": "/collections/under-999"
           }
         }
       },
@@ -87,7 +93,9 @@
         "c6"
       ],
       "settings": {
-        "heading": "Shop by style"
+        "heading": "Shop by style",
+        "product_limit": 8,
+        "columns": 4
       }
     },
     "main": {

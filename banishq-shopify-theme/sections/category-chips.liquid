@@ -1,190 +1,186 @@
 {%- comment -%}
-  Related collections or subcategory chips. Quick navigation to related categories
-  within a gender-specific homepage. Linked collections with optional images.
+  Category rail. A single slidable line of small tiles; picking one swaps the
+  product grid underneath it rather than navigating away, so a shopper can move
+  between styles without losing their place.
+
+  Progressive: the tiles are real tab controls and every panel carries a link to
+  its collection. With JavaScript off the panels all render stacked (see the
+  noscript rule) instead of collapsing to one.
 {%- endcomment -%}
 
-<section class="category-chips" style="padding-block: clamp(40px, 5vw, 80px)">
+<section class="category-chips" style="padding-block: clamp(36px, 5vw, 72px)">
   <div class="page-width">
     {%- if section.settings.heading != blank -%}
       <h3 class="category-chips__heading">{{ section.settings.heading }}</h3>
     {%- endif -%}
 
-    <div class="chips-grid">
+    <div data-tabs>
+      <div class="rail rail--carousel" data-rail>
+        <div
+          class="chip-rail"
+          role="tablist"
+          aria-label="{{ section.settings.heading | escape }}"
+          data-rail-track>
+          {%- for block in section.blocks -%}
+            {%- assign coll = block.settings.collection -%}
+            <button
+              type="button"
+              class="chip-tile"
+              role="tab"
+              id="Chip-{{ section.id }}-{{ forloop.index0 }}"
+              aria-controls="ChipPanel-{{ section.id }}-{{ forloop.index0 }}"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+              tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+              {{ block.shopify_attributes }}>
+              <span class="chip-tile__media">
+                {%- if block.settings.image -%}
+                  <img src="{{ block.settings.image | image_url: width: 320 }}" alt="" width="160" height="160" loading="lazy">
+                {%- elsif coll.featured_image -%}
+                  <img src="{{ coll.featured_image | image_url: width: 320 }}" alt="" width="160" height="160" loading="lazy">
+                {%- else -%}
+                  <img
+                    src="{% cycle 'chip_fallback': 'https://images.unsplash.com/photo-1599725728598-dc7ed109ff89?w=320&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1613915617430-8ab0fd7c6baf?w=320&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1654005018306-7066fc118281?w=320&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1632149877166-f75d49000351?w=320&q=80&auto=format&fit=crop' %}"
+                    alt="" width="160" height="160" loading="lazy">
+                {%- endif -%}
+              </span>
+              <span class="chip-tile__label">{{ block.settings.label | default: coll.title }}</span>
+            </button>
+          {%- endfor -%}
+        </div>
+
+        <button type="button" class="rail__nav rail__nav--prev" data-rail-prev aria-label="{{ 'sections.rail.previous' | t }}">
+          {% render 'icon', name: 'chevron-right' %}
+        </button>
+        <button type="button" class="rail__nav rail__nav--next" data-rail-next aria-label="{{ 'sections.rail.next' | t }}">
+          {% render 'icon', name: 'chevron-right' %}
+        </button>
+      </div>
+
       {%- for block in section.blocks -%}
-        <a
-          href="{{ block.settings.link | default: block.settings.collection.url | default: routes.collections_url }}"
-          class="chip-card"
-          {{ block.shopify_attributes }}>
+        {%- assign coll = block.settings.collection -%}
+        <div
+          class="tabpanel chip-panel"
+          role="tabpanel"
+          id="ChipPanel-{{ section.id }}-{{ forloop.index0 }}"
+          aria-labelledby="Chip-{{ section.id }}-{{ forloop.index0 }}"
+          {% unless forloop.first %}hidden{% endunless %}>
 
-          {%- if block.settings.collection != blank -%}
-            {%- assign collection = block.settings.collection -%}
-
-            {%- if collection.featured_image -%}
-              <img
-                src="{{ collection.featured_image | image_url: width: 300 }}"
-                alt="{{ collection.title | escape }}"
-                loading="lazy"
-                width="200" height="200">
-            {%- else -%}
-              <img
-                class="chip-card__placeholder"
-                src="{% cycle 'chip_fallback': 'https://images.unsplash.com/photo-1599725728598-dc7ed109ff89?w=300&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1613915617430-8ab0fd7c6baf?w=300&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1635650805023-f2529440b5aa?w=300&q=80&auto=format&fit=crop' %}"
-                alt=""
-                loading="lazy"
-                width="200" height="200">
-            {%- endif -%}
-
-            <span class="chip-card__label">
-              {{ collection.title }}
-              <span class="chip-card__count">{{ collection.products_count }}</span>
-            </span>
-
+          {%- if coll.products.size > 0 -%}
+            <ul class="product-grid" style="--grid-desktop: {{ section.settings.columns }}" role="list">
+              {%- for product in coll.products limit: section.settings.product_limit -%}
+                <li>{% render 'product-card', card_product: product, index: forloop.index0 %}</li>
+              {%- endfor -%}
+            </ul>
+            <div class="text-center" style="margin-top: 28px">
+              <a href="{{ coll.url | default: block.settings.link | default: routes.collections_url }}" class="button button--outline">
+                {{ 'sections.featured_collection.view_all' | t }}
+              </a>
+            </div>
           {%- else -%}
-
-            {%- if block.settings.image -%}
-              <img
-                src="{{ block.settings.image | image_url: width: 300 }}"
-                alt="{{ block.settings.label | escape }}"
-                loading="lazy"
-                width="200" height="200">
-            {%- else -%}
-              <img
-                class="chip-card__placeholder"
-                src="{% cycle 'chip_fallback': 'https://images.unsplash.com/photo-1599725728598-dc7ed109ff89?w=300&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1613915617430-8ab0fd7c6baf?w=300&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1635650805023-f2529440b5aa?w=300&q=80&auto=format&fit=crop' %}"
-                alt=""
-                loading="lazy"
-                width="200" height="200">
-            {%- endif -%}
-
-            <span class="chip-card__label">{{ block.settings.label }}</span>
-
+            {%- comment -%}
+              No collection picked for this category yet. Send the shopper
+              somewhere real rather than showing an empty shelf.
+            {%- endcomment -%}
+            <p class="chip-panel__empty">
+              <a href="{{ block.settings.link | default: routes.collections_url }}" class="button button--outline">
+                {{ 'sections.featured_collection.view_all' | t }}
+              </a>
+            </p>
           {%- endif -%}
-        </a>
+        </div>
       {%- endfor -%}
     </div>
   </div>
 </section>
 
+<noscript>
+  <style>.chip-panel[hidden] { display: block !important; }</style>
+</noscript>
+
 <style>
 .category-chips__heading {
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--bq-ink-soft);
-  margin: 0 0 24px;
-  font-family: var(--bq-font-mono);
+  font-size: 0.9rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--bq-ink-soft);
+  margin: 0 0 18px; font-family: var(--bq-font-mono);
 }
 
-.chips-grid {
+/* One line, always. Four tiles visible on a phone, more as the screen grows,
+   and the rest reachable by swiping or with the arrows on a pointer device. */
+.chip-rail {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+.chip-rail::-webkit-scrollbar { display: none; }
+
+.chip-tile {
+  flex: 0 0 calc((100% - 30px) / 4);
+  scroll-snap-align: start;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 16px;
+  gap: 8px;
+  padding: 0;
+  background: none;
+  text-align: center;
+  cursor: pointer;
+  opacity: 0.62;
+  transition: opacity 0.2s var(--bq-ease);
 }
+@media (min-width: 750px) { .chip-tile { flex: 0 0 128px; gap: 10px; } }
 
-.chip-card {
-  position: relative;
+.chip-tile__media {
+  display: block;
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  text-decoration: none;
-  color: inherit;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--bq-line);
   border-radius: var(--bq-radius);
-  transition: all 0.3s var(--bq-ease);
-  background: var(--bq-bone);
-}
-
-.chip-card:hover {
-  border-color: var(--bq-burgundy);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.chip-card img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: scale 0.4s var(--bq-ease);
-}
-
-.chip-card:hover img {
-  scale: 1.08;
-}
-
-.chip-card__placeholder {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
   background: #ece8e0;
-  display: grid;
-  place-items: center;
-  object-fit: cover;
+  border: 2px solid transparent;
+  transition: border-color 0.2s var(--bq-ease);
 }
+.chip-tile__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-.chip-card__label {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.7) 80%);
-  color: var(--bq-bone);
-  padding: 16px 12px 12px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  z-index: 2;
+.chip-tile__label {
+  font-size: 0.76rem; font-weight: 600; line-height: 1.2;
+  color: var(--bq-ink);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
+@media (min-width: 750px) { .chip-tile__label { font-size: 0.82rem; } }
 
-.chip-card__count {
-  font-size: 0.75rem;
-  font-weight: 400;
-  opacity: 0.85;
-  font-family: var(--bq-font-mono);
-}
+.chip-tile:hover { opacity: 0.85; }
+.chip-tile[aria-selected="true"] { opacity: 1; }
+.chip-tile[aria-selected="true"] .chip-tile__media { border-color: var(--bq-black); }
 
-@media (max-width: 749px) {
-  .chips-grid {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 12px;
-  }
+.chip-panel { margin-top: clamp(22px, 3vw, 34px); }
+.chip-panel__empty { margin: 0; padding: 28px 0; text-align: center; }
 
-  .chip-card__label {
-    font-size: 0.8rem;
-    padding: 12px 8px 8px;
-  }
-}
+/* The rail arrows sit against the tiles, not the taller product grid below. */
+.category-chips .rail__nav { top: 46px; translate: 0 0; }
 </style>
 
 {% schema %}
 {
-  "name": "Category chips",
+  "name": "Category rail",
   "settings": [
-    { "type": "text", "id": "heading", "label": "Section heading", "default": "Related collections" }
+    { "type": "text", "id": "heading", "label": "Section heading", "default": "Shop by style" },
+    { "type": "range", "id": "product_limit", "min": 4, "max": 24, "step": 2, "label": "Products per category", "default": 8 },
+    { "type": "range", "id": "columns", "min": 2, "max": 5, "step": 1, "label": "Desktop columns", "default": 4 }
   ],
   "blocks": [
     {
       "type": "chip",
-      "name": "Collection chip",
+      "name": "Category",
       "limit": 12,
       "settings": [
-        { "type": "collection", "id": "collection", "label": "Collection (auto-shows count)" },
-        { "type": "image_picker", "id": "image", "label": "Or custom image" },
-        { "type": "text", "id": "label", "label": "Label (if no collection)" },
-        { "type": "url", "id": "link", "label": "Link (if no collection)" }
+        { "type": "collection", "id": "collection", "label": "Collection", "info": "Its products appear below when this category is picked." },
+        { "type": "image_picker", "id": "image", "label": "Tile image", "info": "Optional. Falls back to the collection image." },
+        { "type": "text", "id": "label", "label": "Label", "info": "Optional. Falls back to the collection title." },
+        { "type": "url", "id": "link", "label": "Link", "info": "Only used when no collection is picked." }
       ]
     }
   ],
-  "presets": [
-    {
-      "name": "Category chips"
-    }
-  ]
+  "presets": [{ "name": "Category rail" }]
 }
 {% endschema %}

@@ -39,6 +39,7 @@
           "type": "chip",
           "settings": {
             "label": "Tees",
+            "collection": "unisex",
             "link": "/collections/unisex"
           }
         },
@@ -46,6 +47,7 @@
           "type": "chip",
           "settings": {
             "label": "Co-ords",
+            "collection": "unisex",
             "link": "/collections/unisex"
           }
         },
@@ -53,6 +55,7 @@
           "type": "chip",
           "settings": {
             "label": "Outerwear",
+            "collection": "unisex",
             "link": "/collections/unisex"
           }
         },
@@ -60,6 +63,7 @@
           "type": "chip",
           "settings": {
             "label": "Sweats",
+            "collection": "unisex",
             "link": "/collections/unisex"
           }
         },
@@ -67,6 +71,7 @@
           "type": "chip",
           "settings": {
             "label": "Accessories",
+            "collection": "unisex",
             "link": "/collections/unisex"
           }
         },
@@ -74,7 +79,8 @@
           "type": "chip",
           "settings": {
             "label": "Under ₹999",
-            "link": "/collections/unisex"
+            "collection": "under-999",
+            "link": "/collections/under-999"
           }
         }
       },
@@ -87,7 +93,9 @@
         "c6"
       ],
       "settings": {
-        "heading": "Shop by style"
+        "heading": "Shop by style",
+        "product_limit": 8,
+        "columns": 4
       }
     },
     "main": {
