@@ -713,15 +713,22 @@ textarea.field__input { min-height: 130px; resize: vertical; }
 .card__wish.is-active svg { fill: var(--bq-burgundy); stroke: var(--bq-burgundy); }
 @media (hover: none) { .card__wish { opacity: 1; } }
 
-.card__sizes {
-  position: absolute; inset: auto 0 0 0; z-index: 2;
-  display: flex; flex-wrap: wrap; gap: 6px;
-  padding: 12px 10px;
-  background: rgba(244, 241, 235, 0.96);
-  translate: 0 100%;
-  transition: translate 0.3s var(--bq-ease);
+/* Sizes now sit under the card, revealed by its Add to bag button, rather
+   than sliding over the image on hover — that overlay was unreachable on a
+   phone, which left multi-variant products with no way to add at all. */
+.card__sizerow {
+  margin-top: 8px;
+  display: grid;
+  gap: 6px;
+  animation: bqFade 0.2s var(--bq-ease);
 }
-.card:hover .card__sizes { translate: 0 0; }
+.card__sizerow[hidden] { display: none; }
+.card__sizerow-label {
+  font-family: var(--bq-font-mono);
+  font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--bq-ink-mute);
+}
+.card__sizerow-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .card__size {
   min-width: 32px;
   padding: 5px 7px;
@@ -735,7 +742,6 @@ textarea.field__input { min-height: 130px; resize: vertical; }
 }
 .card__size:hover:not([disabled]) { background: var(--bq-black); color: var(--bq-bone); border-color: var(--bq-black); }
 .card__size[disabled] { opacity: 0.35; text-decoration: line-through; cursor: not-allowed; }
-@media (max-width: 749px) { .card__sizes { display: none; } }
 
 /* flex:1 lets the body fill the stretched grid cell, so card__quick's
    margin-top:auto can pin every Add to bag to the same baseline across a row

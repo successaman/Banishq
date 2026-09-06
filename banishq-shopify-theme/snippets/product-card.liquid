@@ -132,27 +132,6 @@
         {% render 'icon', name: 'heart' %}
       </button>
 
-      {%- if show_sizes and size_option_index != nil and card_product.available -%}
-        <div class="card__sizes">
-          {%- assign size_values = card_product.options_with_values[size_option_index].values -%}
-          {%- for value in size_values limit: 7 -%}
-            {%- liquid
-              assign found = nil
-              for variant in card_product.variants
-                if variant.options[size_option_index] == value and variant.available
-                  assign found = variant
-                  break
-                endif
-              endfor
-            -%}
-            {%- if found -%}
-              <button type="button" class="card__size" data-quick-variant="{{ found.id }}" aria-label="{{ 'products.product.add_size' | t: size: value }}">{{ value }}</button>
-            {%- else -%}
-              <span class="card__size" disabled aria-hidden="true">{{ value }}</span>
-            {%- endif -%}
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
     </div>
 
     <div class="card__body">
@@ -181,15 +160,71 @@
         </div>
       {%- endif -%}
 
-      {%- if settings.card_quick_add and card_product.available and card_product.variants.size == 1 -%}
+      {%- comment -%}
+        Every card carries a visible Add to bag. A single-variant product adds
+        straight away; anything with sizes reveals its size row, because a
+        garment cannot be added to a bag without one. Previously the sizes were
+        a hover overlay, which meant no add-to-cart path at all on a phone.
+      {%- endcomment -%}
+      {%- if settings.card_quick_add -%}
         <div class="card__quick">
-          <form data-product-form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="id" value="{{ card_product.variants.first.id }}">
-            <input type="hidden" name="quantity" value="1">
-            <button type="submit" class="button button--outline button--sm button--full">
+          {%- if card_product.available == false -%}
+            <button type="button" class="button button--outline button--sm button--full" disabled>
+              {{ 'products.product.sold_out' | t }}
+            </button>
+
+          {%- elsif card_product.variants.size == 1 -%}
+            <form data-product-form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="id" value="{{ card_product.variants.first.id }}">
+              <input type="hidden" name="quantity" value="1">
+              <button type="submit" class="button button--outline button--sm button--full">
+                {{ 'products.product.add_to_cart' | t }}
+              </button>
+            </form>
+
+          {%- else -%}
+            <button
+              type="button"
+              class="button button--outline button--sm button--full"
+              data-size-toggle
+              aria-expanded="false"
+              aria-controls="CardSizes-{{ card_product.id }}-{{ index }}">
               {{ 'products.product.add_to_cart' | t }}
             </button>
-          </form>
+
+            <div class="card__sizerow" id="CardSizes-{{ card_product.id }}-{{ index }}" hidden>
+              <span class="card__sizerow-label">{{ 'products.product.choose_variant' | t }}</span>
+              <div class="card__sizerow-chips">
+                {%- if size_option_index != nil -%}
+                  {%- assign size_values = card_product.options_with_values[size_option_index].values -%}
+                  {%- for value in size_values limit: 8 -%}
+                    {%- liquid
+                      assign found = nil
+                      for variant in card_product.variants
+                        if variant.options[size_option_index] == value and variant.available
+                          assign found = variant
+                          break
+                        endif
+                      endfor
+                    -%}
+                    {%- if found -%}
+                      <button type="button" class="card__size" data-quick-variant="{{ found.id }}" aria-label="{{ 'products.product.add_size' | t: size: value }}">{{ value }}</button>
+                    {%- else -%}
+                      <span class="card__size" disabled aria-hidden="true">{{ value }}</span>
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- else -%}
+                  {%- for variant in card_product.variants limit: 8 -%}
+                    {%- if variant.available -%}
+                      <button type="button" class="card__size" data-quick-variant="{{ variant.id }}">{{ variant.title }}</button>
+                    {%- else -%}
+                      <span class="card__size" disabled aria-hidden="true">{{ variant.title }}</span>
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endif -%}
         </div>
       {%- endif -%}
     </div>

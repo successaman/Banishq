@@ -337,6 +337,24 @@
   });
 
   // Size chip on product card = add that variant straight to the bag
+  /* ------------------------------------- card size reveal (Add to bag) */
+  /* Multi-variant cards show a size row instead of adding blind. Delegated so
+     it also covers cards swapped in by the category rail and filter fetches. */
+  document.addEventListener('click', function (e) {
+    var toggle = e.target.closest('[data-size-toggle]');
+    if (!toggle) return;
+    var card = toggle.closest('[data-product-card]');
+    var row = card && card.querySelector('.card__sizerow');
+    if (!row) return;
+    var open = row.hidden;
+    row.hidden = !open;
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) {
+      var first = row.querySelector('.card__size:not([disabled])');
+      if (first) first.focus();
+    }
+  });
+
   document.addEventListener('click', function (e) {
     var chip = e.target.closest('[data-quick-variant]');
     if (!chip) return;
@@ -345,6 +363,15 @@
     fd.append('id', chip.getAttribute('data-quick-variant'));
     fd.append('quantity', 1);
     addToCart(fd);
+
+    // Collapse the size row once the size has been chosen, so the card returns
+    // to rest rather than leaving an open picker behind the cart drawer.
+    var row = chip.closest('.card__sizerow');
+    if (row) {
+      row.hidden = true;
+      var toggle = row.parentElement.querySelector('[data-size-toggle]');
+      if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    }
   });
 
   /* ---------------------------------------------------- cart line changes */
