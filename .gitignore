@@ -1,3 +1,11 @@
+# Local preview harness (not part of the theme)
 devpreview/node_modules/
-devpreview/srv.log
 devpreview/package-lock.json
+devpreview/srv.log
+
+# Build artefact — regenerate with the zip command in the README
+banishq-theme.zip
+
+# OS noise
+.DS_Store
+Thumbs.db

@@ -3,7 +3,9 @@
 const fs = require('fs');
 const path = require('path');
 
-const THEME = path.join(__dirname, '..', 'banishq-shopify-theme');
+// The theme now sits at the repository root, which is what Shopify's GitHub
+// integration requires.
+const THEME = path.join(__dirname, '..');
 
 const PHOTOS = [
   'https://images.unsplash.com/photo-1599725728598-dc7ed109ff89',

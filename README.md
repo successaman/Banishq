@@ -14,29 +14,64 @@ Design Brief* (Udaan Craft Media). Wear Your Presence.
 
 ---
 
+## Repository layout
+
+The theme sits at the repository root — `assets/`, `config/`, `layout/`,
+`locales/`, `sections/`, `snippets/`, `templates/`. Shopify's GitHub
+integration requires exactly that, so the repo can be connected directly to a
+theme rather than only uploaded as a zip.
+
+Two folders are not part of the theme and Shopify ignores them:
+
+- `devpreview/` — a small local renderer for working on the theme without a
+  store. See **Previewing locally** below.
+- `mockup/` — the original static HTML mockups the design came from.
+
 ## Install
 
-**Option A — upload the zip**
+**Option A — connect the repository (recommended)**
 
-1. Zip the *contents* of `banishq-shopify-theme/` (the `assets`, `config`,
-   `layout`, `locales`, `sections`, `snippets`, `templates` folders must sit at
-   the root of the zip, not inside a wrapper folder).
-2. Shopify admin → **Online Store → Themes → Add theme → Upload zip file**.
-3. **Customize** to preview, then **Publish** when ready.
+Online Store → Themes → **Add theme → Connect from GitHub**, pick this repo and
+the `master` branch. Shopify then tracks the branch: every push updates the
+theme, and edits made in the theme editor commit back.
 
-`banishq-theme.zip` in the parent folder is already packaged this way.
+**Option B — upload a zip**
 
-**Option B — Shopify CLI (recommended for ongoing work)**
+Build one from the repository root:
+
+```bash
+zip -r banishq-theme.zip assets config layout locales sections snippets templates README.md
+```
+
+Then Online Store → **Themes → Add theme → Upload zip file**. The theme folders
+must sit at the root of the zip, not inside a wrapper folder — the command
+above does that.
+
+**Option C — Shopify CLI**
 
 ```bash
 npm install -g @shopify/cli @shopify/theme
-cd banishq-shopify-theme
 shopify theme dev --store your-store.myshopify.com
 ```
 
-`shopify theme dev` gives you hot reload; `shopify theme push` uploads.
+Hot reload against real products. `shopify theme push` uploads.
 
----
+## Previewing locally, without a store
+
+`devpreview/` renders the real theme files against mock products, so layout and
+behaviour can be checked with no Shopify account:
+
+```bash
+cd devpreview && npm install && node server.js
+```
+
+Then open <http://localhost:4400>. It reads the theme from disk per request, so
+editing a `.liquid` or `.css` file and reloading is enough; only changes to
+`server.js` or `shopify.js` need a restart. URLs route like a storefront —
+`/collections/<handle>`, `/products/<handle>`, `/pages/<handle>`.
+
+It is a stand-in, not Shopify. Every object it renders is invented, so it proves
+layout, styling and JavaScript wiring — not real data, and never checkout.
 
 ## Setup checklist
 
