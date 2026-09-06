@@ -7,37 +7,87 @@
         "hero_eyebrow": "For Him",
         "hero_heading": "Engineered for men.",
         "hero_text": "Cuts designed for the masculine form. Premium cotton, honest fit, ₹199 to ₹2,999.",
-        "hero_button_1_label": "Shop Men's",
-        "hero_button_2_label": "About fit",
-        "show_featured": true,
+        "hero_button_1_label": "Shop the edit",
+        "hero_button_2_label": "Size guide",
+        "show_featured": false,
         "featured_eyebrow": "Men's collection",
         "featured_heading": "Built for performance",
         "featured_text": "Our most-reordered styles, engineered for durability and comfort.",
         "featured_limit": 8,
         "featured_columns": 4,
-        "show_editorial": true,
+        "show_editorial": false,
         "editorial_eyebrow": "The fit",
         "editorial_heading": "True masculine tailoring",
         "editorial_text": "<p>We cut for broad shoulders, defined waists and a silhouette that reads confident at any angle. Every piece is tested on real men, in real conditions.</p>",
         "editorial_button_label": "Read the story",
         "editorial_reverse": false,
-        "show_promo": true,
+        "show_promo": false,
         "promo_eyebrow": "Limited run",
         "promo_heading": "New in: Lightweight shirts",
         "promo_text": "Perfect for layering. Perfect for the season. In three classic colours.",
         "promo_button_label": "Explore",
         "promo_color_1": "#7B2330",
-        "promo_color_2": "#111111"
+        "promo_color_2": "#111111",
+        "hero_button_1_link": "/collections/mens",
+        "hero_button_2_link": "/pages/size-guide"
       }
     },
-    "countdown": {
-      "type": "category-countdown",
+    "mens-categories": {
+      "type": "category-chips",
+      "blocks": {
+        "c1": {
+          "type": "chip",
+          "settings": {
+            "label": "Shirts",
+            "link": "/collections/mens"
+          }
+        },
+        "c2": {
+          "type": "chip",
+          "settings": {
+            "label": "T-shirts",
+            "link": "/collections/mens"
+          }
+        },
+        "c3": {
+          "type": "chip",
+          "settings": {
+            "label": "Cargos",
+            "link": "/collections/mens"
+          }
+        },
+        "c4": {
+          "type": "chip",
+          "settings": {
+            "label": "Trousers",
+            "link": "/collections/mens"
+          }
+        },
+        "c5": {
+          "type": "chip",
+          "settings": {
+            "label": "Overshirts",
+            "link": "/collections/mens"
+          }
+        },
+        "c6": {
+          "type": "chip",
+          "settings": {
+            "label": "Under ₹999",
+            "link": "/collections/mens"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6"
+      ],
       "settings": {
-        "eyebrow": "Limited time",
-        "heading": "New collection drops soon",
-        "text": "Mark your calendar. The next Men's drop is coming. Sign up to get early access.",
-        "button_label": "Notify me",
-        "button_link": "/collections/mens"
+        "heading": "Shop by style"
       }
     },
     "main": {
@@ -47,6 +97,28 @@
         "show_sort": true,
         "columns": 4,
         "per_page": 24
+      }
+    },
+    "mens-editorial": {
+      "type": "editorial-split",
+      "settings": {
+        "reverse": false,
+        "scheme": "light",
+        "eyebrow": "The fit",
+        "heading": "True masculine tailoring",
+        "text": "<p>Cut for broad shoulders and a defined waist, then tested on real men in real conditions. Sizes behave the same across every style, so once you know yours you never guess again.</p>",
+        "button_label": "Read the fit notes",
+        "button_link": "/pages/size-guide"
+      }
+    },
+    "mens-promo": {
+      "type": "drop-banner",
+      "settings": {
+        "eyebrow": "Limited run",
+        "heading": "New in: lightweight shirts",
+        "text": "Built for layering and for the season. Three classic colours, one honest price.",
+        "button_label": "Shop shirts",
+        "button_link": "/collections/mens"
       }
     },
     "testimonials": {
@@ -153,8 +225,10 @@
   },
   "order": [
     "mens-landing",
+    "mens-categories",
     "main",
-    "countdown",
+    "mens-editorial",
+    "mens-promo",
     "testimonials",
     "value-props",
     "newsletter"

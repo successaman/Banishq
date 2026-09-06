@@ -7,37 +7,87 @@
         "hero_eyebrow": "For Everyone",
         "hero_heading": "Wear Your Presence.",
         "hero_text": "Unisex essentials built for repeat wear. True fits, premium make, ₹199 to ₹2,999.",
-        "hero_button_1_label": "Shop Unisex",
-        "hero_button_2_label": "About the fit",
-        "show_featured": true,
+        "hero_button_1_label": "Shop the edit",
+        "hero_button_2_label": "Size guide",
+        "show_featured": false,
         "featured_eyebrow": "The essentials",
         "featured_heading": "Built for repeat wear",
         "featured_text": "Pieces that work for every body, every style, every day.",
         "featured_limit": 8,
         "featured_columns": 4,
-        "show_editorial": true,
+        "show_editorial": false,
         "editorial_eyebrow": "The philosophy",
         "editorial_heading": "One label, every wardrobe",
         "editorial_text": "<p>We don't make for a size or silhouette. We make for comfort, durability, and presence. Gender-neutral tailoring means clothes that work for everyone.</p>",
         "editorial_button_label": "Read our story",
         "editorial_reverse": false,
-        "show_promo": true,
+        "show_promo": false,
         "promo_eyebrow": "Now available",
         "promo_heading": "The new drop",
         "promo_text": "Twelve pieces. One rotation. Made for anyone, everyone, you.",
         "promo_button_label": "Explore",
         "promo_color_1": "#111111",
-        "promo_color_2": "#7B2330"
+        "promo_color_2": "#7B2330",
+        "hero_button_1_link": "/collections/unisex",
+        "hero_button_2_link": "/pages/size-guide"
       }
     },
-    "countdown": {
-      "type": "category-countdown",
+    "unisex-categories": {
+      "type": "category-chips",
+      "blocks": {
+        "c1": {
+          "type": "chip",
+          "settings": {
+            "label": "Tees",
+            "link": "/collections/unisex"
+          }
+        },
+        "c2": {
+          "type": "chip",
+          "settings": {
+            "label": "Co-ords",
+            "link": "/collections/unisex"
+          }
+        },
+        "c3": {
+          "type": "chip",
+          "settings": {
+            "label": "Outerwear",
+            "link": "/collections/unisex"
+          }
+        },
+        "c4": {
+          "type": "chip",
+          "settings": {
+            "label": "Sweats",
+            "link": "/collections/unisex"
+          }
+        },
+        "c5": {
+          "type": "chip",
+          "settings": {
+            "label": "Accessories",
+            "link": "/collections/unisex"
+          }
+        },
+        "c6": {
+          "type": "chip",
+          "settings": {
+            "label": "Under ₹999",
+            "link": "/collections/unisex"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6"
+      ],
       "settings": {
-        "eyebrow": "Limited time",
-        "heading": "The next drop is almost here",
-        "text": "Twelve pieces. One rotation. Made for anyone, everyone, you. Coming soon.",
-        "button_label": "Set reminder",
-        "button_link": "/collections/unisex"
+        "heading": "Shop by style"
       }
     },
     "main": {
@@ -47,6 +97,28 @@
         "show_sort": true,
         "columns": 4,
         "per_page": 24
+      }
+    },
+    "unisex-editorial": {
+      "type": "editorial-split",
+      "settings": {
+        "reverse": true,
+        "scheme": "light",
+        "eyebrow": "The philosophy",
+        "heading": "One label, every wardrobe",
+        "text": "<p>We do not cut for a silhouette, we cut for comfort, durability and presence. One size system, worn however you want to wear it.</p>",
+        "button_label": "Read our story",
+        "button_link": "/pages/size-guide"
+      }
+    },
+    "unisex-promo": {
+      "type": "drop-banner",
+      "settings": {
+        "eyebrow": "Now available",
+        "heading": "The new drop",
+        "text": "Twelve pieces, one rotation. Made for anyone, everyone, you.",
+        "button_label": "Shop the drop",
+        "button_link": "/collections/unisex"
       }
     },
     "testimonials": {
@@ -153,8 +225,10 @@
   },
   "order": [
     "unisex-landing",
+    "unisex-categories",
     "main",
-    "countdown",
+    "unisex-editorial",
+    "unisex-promo",
     "testimonials",
     "value-props",
     "newsletter"
