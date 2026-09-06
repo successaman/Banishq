@@ -124,53 +124,6 @@
         "show_mark": true
       }
     },
-    "category-tiles": {
-      "type": "category-tiles",
-      "blocks": {
-        "t1": {
-          "type": "tile",
-          "settings": {
-            "title": "Tees",
-            "meta": "From ₹199"
-          }
-        },
-        "t2": {
-          "type": "tile",
-          "settings": {
-            "title": "Shirts & Overshirts",
-            "meta": "From ₹899"
-          }
-        },
-        "t3": {
-          "type": "tile",
-          "settings": {
-            "title": "Cargos & Trousers",
-            "meta": "From ₹999"
-          }
-        },
-        "t4": {
-          "type": "tile",
-          "settings": {
-            "title": "Co-ords",
-            "meta": "From ₹1,499"
-          }
-        }
-      },
-      "block_order": [
-        "t1",
-        "t2",
-        "t3",
-        "t4"
-      ],
-      "settings": {
-        "eyebrow": "Shop by category",
-        "heading": "Start where you live",
-        "link_label": "View all",
-        "layout": "tiles",
-        "ratio": "portrait",
-        "columns": 4
-      }
-    },
     "new-in": {
       "type": "featured-collection",
       "settings": {
@@ -254,54 +207,6 @@
         "v4"
       ],
       "settings": {}
-    },
-    "lookbook": {
-      "type": "lookbook",
-      "blocks": {
-        "l1": {
-          "type": "image",
-          "settings": {
-            "wide": true,
-            "label": "Drop 01"
-          }
-        },
-        "l2": {
-          "type": "image",
-          "settings": {
-            "label": "Overshirts"
-          }
-        },
-        "l3": {
-          "type": "image",
-          "settings": {
-            "label": "Cargos"
-          }
-        },
-        "l4": {
-          "type": "image",
-          "settings": {
-            "label": "Co-ords"
-          }
-        },
-        "l5": {
-          "type": "image",
-          "settings": {
-            "label": "Tees"
-          }
-        }
-      },
-      "block_order": [
-        "l1",
-        "l2",
-        "l3",
-        "l4",
-        "l5"
-      ],
-      "settings": {
-        "eyebrow": "Campaign",
-        "heading": "Presence, in practice",
-        "link_label": "See the lookbook"
-      }
     },
     "testimonials": {
       "type": "testimonials",
@@ -387,51 +292,6 @@
         "columns": 4
       }
     },
-    "shop-the-look": {
-      "type": "shop-the-look",
-      "blocks": {
-        "h1": {
-          "type": "hotspot",
-          "settings": {
-            "x": 38,
-            "y": 32
-          }
-        },
-        "h2": {
-          "type": "hotspot",
-          "settings": {
-            "x": 44,
-            "y": 62
-          }
-        },
-        "h3": {
-          "type": "hotspot",
-          "settings": {
-            "x": 62,
-            "y": 44
-          }
-        }
-      },
-      "block_order": [
-        "h1",
-        "h2",
-        "h3"
-      ],
-      "settings": {
-        "eyebrow": "The full look",
-        "heading": "Everything in frame",
-        "link_label": "Shop Drop 01"
-      }
-    },
-    "journal": {
-      "type": "blog-posts",
-      "settings": {
-        "eyebrow": "Journal",
-        "heading": "Notes on fit, fabric and wearing things out",
-        "limit": 3,
-        "show_excerpt": true
-      }
-    },
     "instagram": {
       "type": "instagram-feed",
       "blocks": {
@@ -485,44 +345,6 @@
         "heading": "Worn in the wild",
         "text": "Tag us and you might end up here.",
         "button_label": "Follow along"
-      }
-    },
-    "press": {
-      "type": "press-logos",
-      "blocks": {
-        "l1": {
-          "type": "logo",
-          "settings": {
-            "name": "Publication"
-          }
-        },
-        "l2": {
-          "type": "logo",
-          "settings": {
-            "name": "Publication"
-          }
-        },
-        "l3": {
-          "type": "logo",
-          "settings": {
-            "name": "Publication"
-          }
-        },
-        "l4": {
-          "type": "logo",
-          "settings": {
-            "name": "Publication"
-          }
-        }
-      },
-      "block_order": [
-        "l1",
-        "l2",
-        "l3",
-        "l4"
-      ],
-      "settings": {
-        "heading": "As seen in"
       }
     },
     "recently-viewed": {
