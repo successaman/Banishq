@@ -12,7 +12,7 @@
     <div class="chips-grid">
       {%- for block in section.blocks -%}
         <a
-          href="{{ block.settings.collection_link | default: block.settings.link }}"
+          href="{{ block.settings.link | default: block.settings.collection.url | default: routes.collections_url }}"
           class="chip-card"
           {{ block.shopify_attributes }}>
 
@@ -78,7 +78,7 @@
 
 .chips-grid {
   display: grid;
-  grid-template-columns: repeat(auto-start, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 16px;
 }
 
@@ -151,7 +151,7 @@
 
 @media (max-width: 749px) {
   .chips-grid {
-    grid-template-columns: repeat(auto-start, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 12px;
   }
 

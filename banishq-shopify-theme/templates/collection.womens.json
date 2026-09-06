@@ -7,37 +7,87 @@
         "hero_eyebrow": "For Her",
         "hero_heading": "Designed for women.",
         "hero_text": "Silhouettes that flatter, fabrics that move, fits that actually work. ₹199 to ₹2,999.",
-        "hero_button_1_label": "Shop Women's",
-        "hero_button_2_label": "About fit",
-        "show_featured": true,
+        "hero_button_1_label": "Shop the edit",
+        "hero_button_2_label": "Size guide",
+        "show_featured": false,
         "featured_eyebrow": "Women's collection",
         "featured_heading": "Worn and loved",
         "featured_text": "Pieces that work harder, feel better, and look effortlessly right.",
         "featured_limit": 8,
         "featured_columns": 4,
-        "show_editorial": true,
+        "show_editorial": false,
         "editorial_eyebrow": "The fit",
         "editorial_heading": "Tailored for real bodies",
         "editorial_text": "<p>We cut for curves, length, and grace. Tested on real women, in real life. Every piece is made to feel like it was always yours.</p>",
         "editorial_button_label": "Read the story",
         "editorial_reverse": false,
-        "show_promo": true,
+        "show_promo": false,
         "promo_eyebrow": "This season",
         "promo_heading": "Co-ords season is here",
         "promo_text": "Mix and match. Easy, coordinated, effortless. From separates to sets.",
         "promo_button_label": "Explore",
         "promo_color_1": "#A7A39C",
-        "promo_color_2": "#7B2330"
+        "promo_color_2": "#7B2330",
+        "hero_button_1_link": "/collections/womens",
+        "hero_button_2_link": "/pages/size-guide"
       }
     },
-    "countdown": {
-      "type": "category-countdown",
+    "womens-categories": {
+      "type": "category-chips",
+      "blocks": {
+        "c1": {
+          "type": "chip",
+          "settings": {
+            "label": "Kurtas",
+            "link": "/collections/womens"
+          }
+        },
+        "c2": {
+          "type": "chip",
+          "settings": {
+            "label": "Co-ords",
+            "link": "/collections/womens"
+          }
+        },
+        "c3": {
+          "type": "chip",
+          "settings": {
+            "label": "Dresses",
+            "link": "/collections/womens"
+          }
+        },
+        "c4": {
+          "type": "chip",
+          "settings": {
+            "label": "Tops",
+            "link": "/collections/womens"
+          }
+        },
+        "c5": {
+          "type": "chip",
+          "settings": {
+            "label": "Bottoms",
+            "link": "/collections/womens"
+          }
+        },
+        "c6": {
+          "type": "chip",
+          "settings": {
+            "label": "Under ₹999",
+            "link": "/collections/womens"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6"
+      ],
       "settings": {
-        "eyebrow": "Limited time",
-        "heading": "Women's collection arriving soon",
-        "text": "Get ready. Our new Women's range drops in just days. Be first to shop.",
-        "button_label": "Get notified",
-        "button_link": "/collections/womens"
+        "heading": "Shop by style"
       }
     },
     "main": {
@@ -47,6 +97,28 @@
         "show_sort": true,
         "columns": 4,
         "per_page": 24
+      }
+    },
+    "womens-editorial": {
+      "type": "editorial-split",
+      "settings": {
+        "reverse": true,
+        "scheme": "light",
+        "eyebrow": "The fit",
+        "heading": "Tailored for real bodies",
+        "text": "<p>We cut for curves, length and grace — then test on real women, in real life. Sizes behave the same across every style, so once you know yours you never have to guess again.</p>",
+        "button_label": "Read the fit notes",
+        "button_link": "/pages/size-guide"
+      }
+    },
+    "womens-promo": {
+      "type": "drop-banner",
+      "settings": {
+        "eyebrow": "This season",
+        "heading": "Co-ords season is here",
+        "text": "Mix and match, or wear the set. Separates that behave like a wardrobe rather than an outfit.",
+        "button_label": "Shop co-ords",
+        "button_link": "/collections/womens"
       }
     },
     "testimonials": {
@@ -153,8 +225,10 @@
   },
   "order": [
     "womens-landing",
+    "womens-categories",
     "main",
-    "countdown",
+    "womens-editorial",
+    "womens-promo",
     "testimonials",
     "value-props",
     "newsletter"

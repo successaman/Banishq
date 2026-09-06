@@ -39,10 +39,14 @@ function sectionSchema(src) {
 
 // Shopify resolves reference-type settings (link_list, collection, product…)
 // into full objects before the section sees them. Mirror that.
-function resolveSetting(type, value, g) {
+function resolveSetting(type, value, g, isBlock) {
   if (value === undefined || value === null || value === '') {
-    if (type === 'collection') return g.collections.all;
-    return value;
+    // Shopify returns nil for an unset reference. Sections whose whole job is
+    // listing a collection get a stand-in so rails render something to look at,
+    // but block-level settings must stay empty — a chip with no collection is
+    // supposed to fall through to its own label.
+    if (type === 'collection' && !isBlock) return g.collections.all;
+    return undefined;
   }
   switch (type) {
     case 'link_list':  return g.linklists[value] || g.linklists['main-menu'];
@@ -55,13 +59,13 @@ function resolveSetting(type, value, g) {
   }
 }
 
-function applyTypes(defs, raw, g) {
+function applyTypes(defs, raw, g, isBlock) {
   const out = { ...raw };
   for (const s of defs || []) {
     if (!s.id) continue;
     const t = s.type;
     if (['link_list', 'collection', 'product', 'image_picker', 'blog', 'page'].includes(t)) {
-      out[s.id] = resolveSetting(t, raw[s.id], g);
+      out[s.id] = resolveSetting(t, raw[s.id], g, isBlock);
     }
   }
   return out;
@@ -73,7 +77,7 @@ function buildSection(id, conf, src, g) {
   let settings = {};
   for (const s of schema.settings || []) if (s.id) settings[s.id] = s.default;
   Object.assign(settings, conf.settings || {});
-  settings = applyTypes(schema.settings, settings, g);
+  settings = applyTypes(schema.settings, settings, g, false);
 
   const blockDefaults = {};
   const blockDefs = {};
@@ -97,7 +101,7 @@ function buildSection(id, conf, src, g) {
     const type = b.type || (schema.blocks?.[0]?.type ?? 'block');
     const merged = { ...(blockDefaults[type] || {}), ...(b.settings || {}) };
     return { id: key, type, shopify_attributes: '',
-             settings: applyTypes(blockDefs[type], merged, g) };
+             settings: applyTypes(blockDefs[type], merged, g, true) };
   });
 
   return { id, type: conf.type, settings, blocks, blocks_count: blocks.length, index: 0, index0: 0 };
