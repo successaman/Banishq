@@ -107,6 +107,8 @@ function buildSection(id, conf, src, g) {
   return { id, type: conf.type, settings, blocks, blocks_count: blocks.length, index: 0, index0: 0 };
 }
 
+let currentHandle = null;
+
 async function renderTemplate(templateName) {
   const eng = engine();
   const settings = themeSettings();
@@ -114,11 +116,11 @@ async function renderTemplate(templateName) {
 
   // Page-type objects Shopify puts in scope for the matching template.
   if (templateName.startsWith('product')) {
-    g.product = S.ALL[0];
+    g.product = g.all_products[currentHandle] || S.ALL[0];
     g.template = { name: 'product', suffix: '' };
     g.request.page_type = 'product';
   } else if (templateName.startsWith('collection')) {
-    g.collection = g.collections.all;
+    g.collection = g.collections[currentHandle] || g.collections.all;
     g.template = { name: 'collection', suffix: '' };
     g.request.page_type = 'collection';
   } else if (templateName.startsWith('page')) {
@@ -195,9 +197,37 @@ http.createServer(async (req, res) => {
       }
       res.writeHead(404); return res.end('no asset');
     }
-    let name = 'index';
-    if (url !== '/' && url !== '') name = url.replace(/^\//, '').replace(/\/$/, '');
-    if (!fs.existsSync(path.join(THEME, 'templates', name + '.json'))) name = 'index';
+    // Route real storefront URLs the way Shopify does, so links in the theme
+    // can actually be clicked through. Without this /collections/mens fell
+    // back to index.json and every category tile looked like it did nothing.
+    const has = n => fs.existsSync(path.join(THEME, "templates", n + ".json"));
+    const seg = url.split("/").filter(Boolean);
+    let name = "index";
+    currentHandle = null;
+
+    if (seg.length === 0) {
+      name = "index";
+    } else if (seg[0] === "collections" && seg[1]) {
+      currentHandle = seg[1];
+      name = has("collection." + seg[1]) ? "collection." + seg[1] : "collection";
+    } else if (seg[0] === "collections") {
+      name = "list-collections";
+    } else if (seg[0] === "products" && seg[1]) {
+      currentHandle = seg[1];
+      name = "product";
+    } else if (seg[0] === "pages" && seg[1]) {
+      currentHandle = seg[1];
+      name = has("page." + seg[1]) ? "page." + seg[1] : "page";
+    } else if (seg[0] === "blogs") {
+      name = seg[2] ? "article" : "blog";
+    } else if (has(seg.join("."))) {
+      name = seg.join(".");
+    } else if (has(seg[0])) {
+      name = seg[0];
+    } else {
+      name = "404";
+    }
+    if (!has(name)) name = "index";
     const html = await renderTemplate(name);
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
     res.end(html);
