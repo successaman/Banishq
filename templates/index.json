@@ -74,7 +74,7 @@
             "description": "Engineered for men",
             "collection": "mens",
             "badge": "Shop",
-            "link": "/collections/mens",
+            "link": "shopify://collections/mens",
             "open_new_tab": false
           }
         },
