@@ -86,7 +86,7 @@
             "description": "Gender-neutral styles",
             "collection": "summer-suit",
             "badge": "Shop",
-            "link": "/collections/unisex",
+            "link": "shopify://collections/summer-suit",
             "open_new_tab": false
           }
         }
