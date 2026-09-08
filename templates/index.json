@@ -60,7 +60,7 @@
             "image": "shopify://shop_images/images.jpg",
             "title": "Women's",
             "description": "Designed for women",
-            "collection": "",
+            "collection": "elegant-saree",
             "badge": "Shop",
             "link": "/collections/womens",
             "open_new_tab": false
@@ -72,7 +72,7 @@
             "image": "shopify://shop_images/images_d58642b8-90c7-41be-ba57-9683828678b8.jpg",
             "title": "Men's",
             "description": "Engineered for men",
-            "collection": "",
+            "collection": "mens",
             "badge": "Shop",
             "link": "/collections/mens",
             "open_new_tab": false
@@ -84,7 +84,7 @@
             "image": "shopify://shop_images/360_F_886601972_jwnPAowBTxz67EWmbPHmMfreYrSquW70.jpg",
             "title": "Unisex",
             "description": "Gender-neutral styles",
-            "collection": "",
+            "collection": "summer-suit",
             "badge": "Shop",
             "link": "/collections/unisex",
             "open_new_tab": false
