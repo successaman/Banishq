@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "womens-landing": {
@@ -8,28 +17,32 @@
         "hero_heading": "Designed for women.",
         "hero_text": "Silhouettes that flatter, fabrics that move, fits that actually work. ₹199 to ₹2,999.",
         "hero_button_1_label": "Shop the edit",
+        "hero_button_1_link": "/collections/womens",
         "hero_button_2_label": "Size guide",
+        "hero_button_2_link": "/pages/size-guide",
         "show_featured": false,
+        "featured_collection": "",
+        "featured_limit": 8,
+        "featured_columns": 4,
+        "featured_carousel": true,
         "featured_eyebrow": "Women's collection",
         "featured_heading": "Worn and loved",
         "featured_text": "Pieces that work harder, feel better, and look effortlessly right.",
-        "featured_limit": 8,
-        "featured_columns": 4,
         "show_editorial": false,
+        "editorial_reverse": false,
         "editorial_eyebrow": "The fit",
         "editorial_heading": "Tailored for real bodies",
         "editorial_text": "<p>We cut for curves, length, and grace. Tested on real women, in real life. Every piece is made to feel like it was always yours.</p>",
         "editorial_button_label": "Read the story",
-        "editorial_reverse": false,
+        "editorial_button_link": "",
         "show_promo": false,
+        "promo_color_1": "#a7a39c",
+        "promo_color_2": "#7b2330",
         "promo_eyebrow": "This season",
         "promo_heading": "Co-ords season is here",
         "promo_text": "Mix and match. Easy, coordinated, effortless. From separates to sets.",
         "promo_button_label": "Explore",
-        "promo_color_1": "#A7A39C",
-        "promo_color_2": "#7B2330",
-        "hero_button_1_link": "/collections/womens",
-        "hero_button_2_link": "/pages/size-guide"
+        "promo_button_link": ""
       }
     },
     "womens-categories": {
@@ -38,48 +51,48 @@
         "c1": {
           "type": "chip",
           "settings": {
-            "label": "Kurtas",
             "collection": "womens",
+            "label": "Kurtas",
             "link": "/collections/womens"
           }
         },
         "c2": {
           "type": "chip",
           "settings": {
-            "label": "Co-ords",
             "collection": "womens",
+            "label": "Co-ords",
             "link": "/collections/womens"
           }
         },
         "c3": {
           "type": "chip",
           "settings": {
-            "label": "Dresses",
             "collection": "womens",
+            "label": "Dresses",
             "link": "/collections/womens"
           }
         },
         "c4": {
           "type": "chip",
           "settings": {
-            "label": "Tops",
             "collection": "womens",
+            "label": "Tops",
             "link": "/collections/womens"
           }
         },
         "c5": {
           "type": "chip",
           "settings": {
-            "label": "Bottoms",
             "collection": "womens",
+            "label": "Bottoms",
             "link": "/collections/womens"
           }
         },
         "c6": {
           "type": "chip",
           "settings": {
-            "label": "Under ₹999",
             "collection": "under-999",
+            "label": "Under ₹999",
             "link": "/collections/under-999"
           }
         }
@@ -104,7 +117,8 @@
         "show_hero": false,
         "show_sort": true,
         "columns": 4,
-        "per_page": 24
+        "per_page": 24,
+        "seo_text": ""
       }
     },
     "womens-editorial": {
@@ -125,6 +139,7 @@
         "eyebrow": "This season",
         "heading": "Co-ords season is here",
         "text": "Mix and match, or wear the set. Separates that behave like a wardrobe rather than an outfit.",
+        "countdown_to": "",
         "button_label": "Shop co-ords",
         "button_link": "/collections/womens"
       }

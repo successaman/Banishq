@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -6,21 +15,27 @@
         "slide-1": {
           "type": "slide",
           "settings": {
+            "overlay": 50,
             "eyebrow": "Drop 01 · SS26",
             "heading": "Wear Your Presence.",
             "text": "Unisex essentials built for repeat wear. Premium make, honest pricing — ₹199 to ₹2,999.",
             "button_1_label": "Shop Drop 01",
-            "button_2_label": "New in"
+            "button_1_link": "",
+            "button_2_label": "New in",
+            "button_2_link": ""
           }
         },
         "slide-2": {
           "type": "slide",
           "settings": {
+            "overlay": 50,
             "eyebrow": "The Everyday Edit",
             "heading": "Built for repeat wear.",
             "text": "Heavier cotton, cleaner cuts, sizes that behave the same across every style.",
             "button_1_label": "Shop essentials",
-            "button_2_label": "Read the story"
+            "button_1_link": "",
+            "button_2_label": "Read the story",
+            "button_2_link": ""
           }
         }
       },
@@ -30,30 +45,34 @@
       ],
       "settings": {
         "interval": 6,
-        "alignment": "left",
+        "style": "card",
         "height": "compact",
-        "style": "card"
+        "alignment": "left"
       }
     },
     "category-gateway": {
       "type": "category-tabs",
       "blocks": {
-        "mens": {
-          "type": "category",
-          "settings": {
-            "title": "Men's",
-            "description": "Engineered for men",
-            "badge": "Shop",
-            "link": "/collections/mens"
-          }
-        },
         "womens": {
           "type": "category",
           "settings": {
             "title": "Women's",
             "description": "Designed for women",
+            "collection": "",
             "badge": "Shop",
-            "link": "/collections/womens"
+            "link": "/collections/womens",
+            "open_new_tab": false
+          }
+        },
+        "mens": {
+          "type": "category",
+          "settings": {
+            "title": "Men's",
+            "description": "Engineered for men",
+            "collection": "",
+            "badge": "Shop",
+            "link": "/collections/mens",
+            "open_new_tab": false
           }
         },
         "unisex": {
@@ -61,14 +80,16 @@
           "settings": {
             "title": "Unisex",
             "description": "Gender-neutral styles",
+            "collection": "",
             "badge": "Shop",
-            "link": "/collections/unisex"
+            "link": "/collections/unisex",
+            "open_new_tab": false
           }
         }
       },
       "block_order": [
-        "mens",
         "womens",
+        "mens",
         "unisex"
       ],
       "settings": {
@@ -127,8 +148,22 @@
     "new-in": {
       "type": "featured-collection",
       "settings": {
+        "collection": "",
         "eyebrow": "New in",
         "heading": "Your next rotation just arrived.",
+        "subheading": "",
+        "product_limit": 12,
+        "columns": 4,
+        "mobile_scroll": true
+      }
+    },
+    "rail-mens": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "",
+        "eyebrow": "Men's",
+        "heading": "Built for him",
+        "subheading": "",
         "product_limit": 12,
         "columns": 4,
         "mobile_scroll": true
@@ -142,7 +177,32 @@
         "eyebrow": "The label",
         "heading": "Premium make. Honest price.",
         "text": "<p>We manufacture what we sell. No middle layer, no marked-up story — just considered cuts, heavier fabric and a price that stays between ₹199 and ₹2,999.</p>",
-        "button_label": "Read our story"
+        "button_label": "Read our story",
+        "button_link": ""
+      }
+    },
+    "rail-womens": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "",
+        "eyebrow": "Women's",
+        "heading": "Made for her",
+        "subheading": "",
+        "product_limit": 12,
+        "columns": 4,
+        "mobile_scroll": true
+      }
+    },
+    "rail-unisex": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "",
+        "eyebrow": "Unisex",
+        "heading": "For everyone",
+        "subheading": "",
+        "product_limit": 12,
+        "columns": 4,
+        "mobile_scroll": true
       }
     },
     "drop-banner": {
@@ -151,17 +211,70 @@
         "eyebrow": "Drop 01 · SS26",
         "heading": "The Everyday Edit",
         "text": "Twelve pieces. One rotation. Made to be worn until they are yours.",
-        "button_label": "Shop Drop 01"
+        "countdown_to": "",
+        "button_label": "Shop Drop 01",
+        "button_link": ""
       }
     },
     "best-sellers": {
       "type": "featured-collection",
       "settings": {
+        "collection": "",
         "eyebrow": "Most reordered",
         "heading": "The ones people come back for",
+        "subheading": "",
         "product_limit": 12,
         "columns": 4,
         "mobile_scroll": true
+      }
+    },
+    "rail-under-999": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "",
+        "eyebrow": "Under ₹999",
+        "heading": "Everyday prices",
+        "subheading": "",
+        "product_limit": 12,
+        "columns": 4,
+        "mobile_scroll": true
+      }
+    },
+    "collection-tabs": {
+      "type": "collection-tabs",
+      "blocks": {
+        "t1": {
+          "type": "tab",
+          "settings": {
+            "label": "Men",
+            "collection": ""
+          }
+        },
+        "t2": {
+          "type": "tab",
+          "settings": {
+            "label": "Women",
+            "collection": ""
+          }
+        },
+        "t3": {
+          "type": "tab",
+          "settings": {
+            "label": "Unisex",
+            "collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3"
+      ],
+      "settings": {
+        "eyebrow": "Shop the drop",
+        "heading": "One label, every wardrobe",
+        "product_limit": 8,
+        "columns": 4
       }
     },
     "value-props": {
@@ -249,86 +362,49 @@
         "heading": "What people say after week three"
       }
     },
-    "newsletter": {
-      "type": "newsletter",
-      "settings": {
-        "eyebrow": "Drop alerts",
-        "heading": "Know before the rest of the feed.",
-        "text": "New drops, restocks and early access. Roughly twice a month — never more.",
-        "note": "Unsubscribe any time. We do not sell your data."
-      }
-    },
-    "collection-tabs": {
-      "type": "collection-tabs",
-      "blocks": {
-        "t1": {
-          "type": "tab",
-          "settings": {
-            "label": "Men"
-          }
-        },
-        "t2": {
-          "type": "tab",
-          "settings": {
-            "label": "Women"
-          }
-        },
-        "t3": {
-          "type": "tab",
-          "settings": {
-            "label": "Unisex"
-          }
-        }
-      },
-      "block_order": [
-        "t1",
-        "t2",
-        "t3"
-      ],
-      "settings": {
-        "eyebrow": "Shop the drop",
-        "heading": "One label, every wardrobe",
-        "product_limit": 8,
-        "columns": 4
-      }
-    },
     "instagram": {
       "type": "instagram-feed",
       "blocks": {
         "p1": {
           "type": "post",
           "settings": {
-            "caption": "@banishq"
+            "caption": "@banishq",
+            "link": ""
           }
         },
         "p2": {
           "type": "post",
           "settings": {
-            "caption": "@banishq"
+            "caption": "@banishq",
+            "link": ""
           }
         },
         "p3": {
           "type": "post",
           "settings": {
-            "caption": "@banishq"
+            "caption": "@banishq",
+            "link": ""
           }
         },
         "p4": {
           "type": "post",
           "settings": {
-            "caption": "@banishq"
+            "caption": "@banishq",
+            "link": ""
           }
         },
         "p5": {
           "type": "post",
           "settings": {
-            "caption": "@banishq"
+            "caption": "@banishq",
+            "link": ""
           }
         },
         "p6": {
           "type": "post",
           "settings": {
-            "caption": "@banishq"
+            "caption": "@banishq",
+            "link": ""
           }
         }
       },
@@ -355,44 +431,13 @@
         "limit": 4
       }
     },
-    "rail-mens": {
-      "type": "featured-collection",
+    "newsletter": {
+      "type": "newsletter",
       "settings": {
-        "eyebrow": "Men's",
-        "heading": "Built for him",
-        "product_limit": 12,
-        "columns": 4,
-        "mobile_scroll": true
-      }
-    },
-    "rail-womens": {
-      "type": "featured-collection",
-      "settings": {
-        "eyebrow": "Women's",
-        "heading": "Made for her",
-        "product_limit": 12,
-        "columns": 4,
-        "mobile_scroll": true
-      }
-    },
-    "rail-unisex": {
-      "type": "featured-collection",
-      "settings": {
-        "eyebrow": "Unisex",
-        "heading": "For everyone",
-        "product_limit": 12,
-        "columns": 4,
-        "mobile_scroll": true
-      }
-    },
-    "rail-under-999": {
-      "type": "featured-collection",
-      "settings": {
-        "eyebrow": "Under ₹999",
-        "heading": "Everyday prices",
-        "product_limit": 12,
-        "columns": 4,
-        "mobile_scroll": true
+        "eyebrow": "Drop alerts",
+        "heading": "Know before the rest of the feed.",
+        "text": "New drops, restocks and early access. Roughly twice a month — never more.",
+        "note": "Unsubscribe any time. We do not sell your data."
       }
     }
   },
