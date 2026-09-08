@@ -15,6 +15,7 @@
         "slide-1": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/images_498210ff-7651-4902-8d94-66d6065ee974.jpg",
             "overlay": 50,
             "eyebrow": "Drop 01 · SS26",
             "heading": "Wear Your Presence.",
@@ -56,6 +57,7 @@
         "womens": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/images.jpg",
             "title": "Women's",
             "description": "Designed for women",
             "collection": "",
@@ -67,6 +69,7 @@
         "mens": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/images_d58642b8-90c7-41be-ba57-9683828678b8.jpg",
             "title": "Men's",
             "description": "Engineered for men",
             "collection": "",
@@ -78,6 +81,7 @@
         "unisex": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/360_F_886601972_jwnPAowBTxz67EWmbPHmMfreYrSquW70.jpg",
             "title": "Unisex",
             "description": "Gender-neutral styles",
             "collection": "",
@@ -148,7 +152,7 @@
     "new-in": {
       "type": "featured-collection",
       "settings": {
-        "collection": "",
+        "collection": "frontpage",
         "eyebrow": "New in",
         "heading": "Your next rotation just arrived.",
         "subheading": "",
