@@ -62,7 +62,7 @@
             "description": "Designed for women",
             "collection": "elegant-saree",
             "badge": "Shop",
-            "link": "/collections/womens",
+            "link": "shopify://collections/elegant-saree",
             "open_new_tab": false
           }
         },
